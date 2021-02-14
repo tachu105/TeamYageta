@@ -50,9 +50,12 @@ public class Player : MonoBehaviour
     {
         //移動//
 
-        moveDirection.x = Input.GetAxis("Horizontal");
+        Vector3 forward = Camera.main.transform.TransformDirection(Vector3.forward);
+        Vector3 right = Camera.main.transform.TransformDirection(Vector3.right);
+
+        moveDirection = Input.GetAxis("Horizontal") * right + Input.GetAxis("Vertical") * forward;
         moveDirection.y = 0.0f;
-        moveDirection.z = Input.GetAxis("Vertical");
+        
 
 
         if (Input.GetKey(KeyCode.LeftControl))      //走る
@@ -69,6 +72,7 @@ public class Player : MonoBehaviour
 
         moveDirection.y += Physics.gravity.y*fallSpeed; //重力計算
         controller.Move(moveDirection * Time.deltaTime); //Playerを動かす処理
+        
 
 
 
@@ -137,10 +141,11 @@ public class Player : MonoBehaviour
     //moveX//
     void moveX(float dirX, bool isRun)
     {
-        moveDirection.x = dirX;
+        Vector3 right = Camera.main.transform.TransformDirection(Vector3.right);
+        moveDirection = dirX * right;
         if (isRun)
         {
-            moveDirection *= runSpeed;      //早く動く
+            moveDirection *= runSpeed;      //速く動く
         }
         moveDirection *= walkSpeed;     //通常速度
         controller.Move(moveDirection * Time.deltaTime); //Playerを動かす処理
@@ -150,7 +155,8 @@ public class Player : MonoBehaviour
     //moveZ//
     void moveZ(float dirY, bool isRun)
     {
-        moveDirection.z = dirY;
+        Vector3 forward = Camera.main.transform.TransformDirection(Vector3.forward);
+        moveDirection = dirY * forward;
         if (isRun)
         {
             moveDirection *= runSpeed;      //速く動く
