@@ -11,7 +11,7 @@ public class Player : MonoBehaviour
 
 
    
-
+    //アングル操作に使用するもの//
     public Vector3 cameraDir = Vector3.zero;
     public Vector3 playerDir = Vector3.zero;
     public Vector2 angle = Vector2.zero;
@@ -28,7 +28,7 @@ public class Player : MonoBehaviour
     public Transform Muzzle;        // 弾丸発射点
 
 
-    //ジャンプに使用するもの
+    //ジャンプに使用するもの//
     private CharacterController controller;
     private Vector3 moveDirection;
     public float jumpPower = 15f;
@@ -50,20 +50,19 @@ public class Player : MonoBehaviour
     {
         //移動//
 
-       
         moveDirection.x = Input.GetAxis("Horizontal");
         moveDirection.y = 0.0f;
         moveDirection.z = Input.GetAxis("Vertical");
 
 
-        if (Input.GetKey(KeyCode.LeftControl))
+        if (Input.GetKey(KeyCode.LeftControl))      //走る
         {
             moveDirection *= runSpeed;
         }
             moveDirection *= walkSpeed;
         
 
-        if (Input.GetKey(KeyCode.Space))
+        if (Input.GetKey(KeyCode.Space))        //ジャンプ
         {
             moveDirection.y += jumpPower;
         }
@@ -78,14 +77,15 @@ public class Player : MonoBehaviour
 
 
         //向き//
-        if (Input.GetKeyDown(KeyCode.P)) cameraReverse *= -1;
 
+        if (Input.GetKeyDown(KeyCode.P)) cameraReverse *= -1;       //カメラ上下反転
 
         Vector2 angle = new Vector2(Input.GetAxis("Mouse X")*yAngleSpeed, Input.GetAxis("Mouse Y")*xAngleSpeed);
 
         cameraDir += new Vector3(cameraReverse*angle.y, angle.x, 0);
         playerDir += new Vector3(cameraReverse*angle.y, angle.x, 0);
 
+        //アングル制限//
         if (xAngUpLimit >= cameraDir.x) cameraDir.x = xAngUpLimit;
         if (cameraDir.x >= xAngDownLimit) cameraDir.x = xAngDownLimit;
         if (xAngUpLimit >= playerDir.x) playerDir.x = xAngUpLimit;
@@ -212,9 +212,9 @@ public class Player : MonoBehaviour
 
 
     //射撃//
-    void pressRT(bool isPreRT)
+    void pressRT()
     {
-        if (isPreRT && isFirePer)
+        if (isFirePer)
         {
             GameObject bullets = Instantiate(Bullet) as GameObject;
             bullets.transform.position = Muzzle.position;       // 弾丸の出現位置を調整
