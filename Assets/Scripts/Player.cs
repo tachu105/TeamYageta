@@ -4,9 +4,14 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    //射撃に使うもの//
     public float rechargeTime = 1f;     //連射間隔
-
     bool isFirePer = true;
+    bool isRemainBullets = true;
+    public int fullBullets = 100;       //弾数
+    int remainBullets;
+    
+    public float reloadingTime = 3f;        //リロード所要時間
 
 
 
@@ -42,6 +47,7 @@ public class Player : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        remainBullets = fullBullets;
         controller = GetComponent<CharacterController>();
     }
 
@@ -102,14 +108,22 @@ public class Player : MonoBehaviour
 
         //射撃//
 
-        if (Input.GetMouseButton(0)&& isFirePer)
+        if (Input.GetMouseButton(0)&& isFirePer && isRemainBullets)
         {
             GameObject bullets = Instantiate(Bullet) as GameObject;
             // 弾丸の位置を調整
             bullets.transform.position = Muzzle.position;
             
+            remainBullets--;
+            
             isFirePer = false;
             StartCoroutine(ReCharge());
+
+            if (remainBullets == 0)
+            {
+                isRemainBullets = false;
+                StartCoroutine(Reload());
+            }
         }
         
 
@@ -128,6 +142,27 @@ public class Player : MonoBehaviour
             {
                 time = 0f;
                 isFirePer = true;
+                break;
+            }
+
+            yield return new WaitForEndOfFrame();
+        }
+    }
+
+
+    //リロードを行う関数//
+    float timeReload=0f;
+    IEnumerator Reload()
+    {
+        while (true)
+        {
+            timeReload += Time.deltaTime;
+            if (timeReload > reloadingTime)
+            {
+                timeReload = 0f;
+                isRemainBullets = true;
+                remainBullets = fullBullets;
+
                 break;
             }
 
@@ -225,8 +260,16 @@ public class Player : MonoBehaviour
             GameObject bullets = Instantiate(Bullet) as GameObject;
             bullets.transform.position = Muzzle.position;       // 弾丸の出現位置を調整
 
+            remainBullets--;
+
             isFirePer = false;
             StartCoroutine(ReCharge());
+
+            if (remainBullets == 0)
+            {
+                isRemainBullets = false;
+                StartCoroutine(Reload());
+            }
         }
         
     }

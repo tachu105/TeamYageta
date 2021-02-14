@@ -467,6 +467,10 @@ PrefabInstance:
       propertyPath: yAngleSpeed
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6087841902833301020, guid: cb703608896ec27459057361de7d7c04, type: 3}
+      propertyPath: fullBullets
+      value: 20
+      objectReference: {fileID: 0}
     - target: {fileID: 6087841902833301023, guid: cb703608896ec27459057361de7d7c04, type: 3}
       propertyPath: m_Name
       value: Player
