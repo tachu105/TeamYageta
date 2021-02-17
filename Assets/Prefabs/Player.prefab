@@ -313,7 +313,7 @@ MonoBehaviour:
   Muzzle: {fileID: 1251113884625157589}
   rechargeTime: 0.1
   reloadingTime: 3
-  fullBullets: 10
+  fullBullets: 100
   cameraDir: {x: 0, y: 0, z: 0}
   playerDir: {x: 0, y: 0, z: 0}
   angle: {x: 0, y: 0}
@@ -324,6 +324,6 @@ MonoBehaviour:
   jumpPower: 15
   fallSpeed: 0.5
   walkSpeed: 6
-  runSpeed: 8
-  slideSpeed: 10
+  runSpeed: 7
+  slideSpeed: 9
   slideTime: 0.5

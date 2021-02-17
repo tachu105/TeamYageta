@@ -16,9 +16,9 @@ public class PlayerScripts : MonoBehaviour
 
    
     //アングル操作に使用するもの//
-    public Vector3 cameraDir = Vector3.zero;        //カメラ向き
-    public Vector3 playerDir = Vector3.zero;        //プレイヤー向き
-    public Vector2 angle = Vector2.zero;        //コントローラー情報格納変数
+    Vector3 cameraDir = Vector3.zero;        //カメラ向き
+    Vector3 playerDir = Vector3.zero;        //プレイヤー向き
+    Vector2 angle = Vector2.zero;        //コントローラー情報格納変数
     public float xAngUpLimit = -75f;        //上振り向き限界角
     public float xAngDownLimit = 65f;       //下振り向き限界角
     public float xAngleSpeed = 1.0f;        //縦振り向き感度
@@ -31,10 +31,10 @@ public class PlayerScripts : MonoBehaviour
     private Vector3 moveDirection;      //移動方向変数
     public float jumpPower = 15f;       //ジャンプ力（上昇速度）
     public float fallSpeed = 0.5f;      //落下速度
-    public float walkSpeed = 6f;        //歩き速度
-    public float runSpeed = 8f;         //走り速度
-    public float slideSpeed = 10f;      //スライディング速度
-    public float slideTime = 0.5f;      //スライディング時間
+    public float walkSpeed = 4f;        //歩き速度
+    public float runSpeed = 5f;         //走り速度
+    public float slideSpeed = 7f;      //スライディング速度
+    public float slideTime = 0.3f;      //スライディング時間
     float timerSlide;
     bool isSlide;
 
@@ -65,7 +65,11 @@ public class PlayerScripts : MonoBehaviour
         {
             moveDirection *= runSpeed;
         }
+        else
+        {
             moveDirection *= walkSpeed;
+        }
+            
         
 
         if (Input.GetKey(KeyCode.Space))        //ジャンプ
@@ -75,7 +79,7 @@ public class PlayerScripts : MonoBehaviour
 
 
 
-        if (Input.GetKeyDown(KeyCode.LeftControl) && !isSlide)
+        if (Input.GetKeyDown(KeyCode.LeftControl) && !isSlide)      //スライディング
         { //タイマー開始
             isSlide = true;
         }
@@ -85,13 +89,14 @@ public class PlayerScripts : MonoBehaviour
             isSlide = false;
             timerSlide = 0.0f;
         }
-        if (controller.isGrounded)
-        {
+        //if (controller.isGrounded)
+        //{
             if (isSlide)
             { //タイマーチェック
-                moveDirection *= slideSpeed;
+                moveDirection.x *= slideSpeed;
+                moveDirection.z *= slideSpeed;
             }
-        }
+        //}
         
         moveDirection.y += Physics.gravity.y*fallSpeed; //重力計算
         controller.Move(moveDirection * Time.deltaTime); //Playerを動かす処理
@@ -125,7 +130,7 @@ public class PlayerScripts : MonoBehaviour
 
         //射撃//
 
-        if (Input.GetMouseButton(0)&& isFirePer && isRemainBullets)
+        if (Input.GetMouseButton(0)&& isFirePer && isRemainBullets)     //射撃
         {
             GameObject bullets = Instantiate(Bullet) as GameObject;
             // 弾丸の位置を調整
@@ -142,7 +147,13 @@ public class PlayerScripts : MonoBehaviour
                 StartCoroutine(Reload());
             }
         }
-        
+
+
+        if (Input.GetKeyDown(KeyCode.R))        //手動リロード
+        {
+            isRemainBullets = false;
+            StartCoroutine(Reload());
+        }
 
     }
 
@@ -207,9 +218,12 @@ public class PlayerScripts : MonoBehaviour
         moveDirection = dirX * right;
         if (isRun)
         {
-            moveDirection *= runSpeed;      //速く動く
+            moveDirection *= runSpeed;      //走る
         }
-        moveDirection *= walkSpeed;     //通常速度
+        else
+        {
+            moveDirection *= walkSpeed;     //歩く
+        }
         controller.Move(moveDirection * Time.deltaTime); //Playerを動かす処理
     }
 
@@ -221,9 +235,12 @@ public class PlayerScripts : MonoBehaviour
         moveDirection = dirY * forward;
         if (isRun)
         {
-            moveDirection *= runSpeed;      //速く動く
+            moveDirection *= runSpeed;      //走る
         }
-        moveDirection *= walkSpeed;     //通常速度
+        else
+        {
+            moveDirection *= walkSpeed;     //歩く
+        }
 
         controller.Move(moveDirection * Time.deltaTime); //Playerを動かす処理
     }
@@ -324,6 +341,14 @@ public class PlayerScripts : MonoBehaviour
             }
         }
         
+    }
+
+    
+    //手動リロード//
+    void selfReload()
+    {
+        isRemainBullets = false;
+        StartCoroutine(Reload());
     }
 
 
