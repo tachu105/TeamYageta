@@ -81,6 +81,7 @@ public class PlayerScripts : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.LeftControl) && !isSlide)      //スライディング
         { //タイマー開始
+            
             isSlide = true;
         }
         if (isSlide) timerSlide += Time.deltaTime;       //タイマー加算
@@ -278,13 +279,12 @@ public class PlayerScripts : MonoBehaviour
             isSlide = false;
             timerSlide = 0.0f;
         }
-        if (controller.isGrounded)
-        {
+        
             if (isSlide)
             { //タイマーチェック
                 moveDirection *= slideSpeed;
             }
-        }
+        
 
         controller.Move(moveDirection * Time.deltaTime); //Playerを動かす処理
     }
