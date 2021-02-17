@@ -32,8 +32,8 @@ public class PlayerScripts : MonoBehaviour
     public float jumpPower = 15f;       //ジャンプ力（上昇速度）
     public float fallSpeed = 0.5f;      //落下速度
     public float walkSpeed = 4f;        //歩き速度
-    public float runSpeed = 5f;         //走り速度
-    public float slideSpeed = 7f;      //スライディング速度
+    public float runSpeed = 10f;         //走り速度
+    public float slideSpeed = 20f;      //スライディング速度
     public float slideTime = 0.3f;      //スライディング時間
     float timerSlide;
     bool isSlide;
@@ -92,11 +92,12 @@ public class PlayerScripts : MonoBehaviour
         }
         //if (controller.isGrounded)
         //{
-            if (isSlide)
-            { //タイマーチェック
-                moveDirection.x *= slideSpeed;
-                moveDirection.z *= slideSpeed;
-            }
+        if (isSlide)
+        { //タイマーチェック
+            moveDirection = Input.GetAxis("Horizontal") * right + Input.GetAxis("Vertical") * forward;
+            moveDirection.x *= slideSpeed;
+            moveDirection.z *= slideSpeed;
+        }
         //}
         
         moveDirection.y += Physics.gravity.y*fallSpeed; //重力計算
@@ -269,6 +270,8 @@ public class PlayerScripts : MonoBehaviour
     //スライディング//
     void sliding()      //GetKeyDownで動作
     {
+        Vector3 forward = Camera.main.transform.TransformDirection(Vector3.forward);
+        Vector3 right = Camera.main.transform.TransformDirection(Vector3.right);
         if (!isSlide)
         { //タイマー開始
             isSlide = true;
@@ -279,12 +282,14 @@ public class PlayerScripts : MonoBehaviour
             isSlide = false;
             timerSlide = 0.0f;
         }
-        
-            if (isSlide)
-            { //タイマーチェック
-                moveDirection *= slideSpeed;
-            }
-        
+
+        if (isSlide)
+        { //タイマーチェック
+            moveDirection = Input.GetAxis("Horizontal") * right + Input.GetAxis("Vertical") * forward;
+            moveDirection.x *= slideSpeed;
+            moveDirection.z *= slideSpeed;
+        }
+
 
         controller.Move(moveDirection * Time.deltaTime); //Playerを動かす処理
     }
