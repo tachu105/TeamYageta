@@ -114,16 +114,12 @@ public class PlayerScripts : MonoBehaviour
 
         Vector2 angle = new Vector2(Input.GetAxis("Mouse X")*yAngleSpeed, Input.GetAxis("Mouse Y")*xAngleSpeed);
 
-        cameraDir += new Vector3(cameraReverse*angle.y, angle.x, 0);
         playerDir += new Vector3(cameraReverse*angle.y, angle.x, 0);
 
         //アングル制限//
-        if (xAngUpLimit >= cameraDir.x) cameraDir.x = xAngUpLimit;
-        if (cameraDir.x >= xAngDownLimit) cameraDir.x = xAngDownLimit;
         if (xAngUpLimit >= playerDir.x) playerDir.x = xAngUpLimit;
         if (playerDir.x >= xAngDownLimit) playerDir.x = xAngDownLimit;
 
-        Camera.main.transform.rotation = Quaternion.Euler(cameraDir);
         this.transform.rotation = Quaternion.Euler(playerDir);
 
 
@@ -157,6 +153,19 @@ public class PlayerScripts : MonoBehaviour
 
     }
 
+
+    private void LateUpdate()       //カメラ操作
+    {
+        Vector2 angle = new Vector2(Input.GetAxis("Mouse X") * yAngleSpeed, Input.GetAxis("Mouse Y") * xAngleSpeed);
+        cameraDir += new Vector3(cameraReverse * angle.y, angle.x, 0);
+        
+        //アングル制限//
+        if (xAngUpLimit >= cameraDir.x) cameraDir.x = xAngUpLimit;
+        if (cameraDir.x >= xAngDownLimit) cameraDir.x = xAngDownLimit;
+        
+        Camera.main.transform.rotation = Quaternion.Euler(cameraDir);
+        
+    }
 
 
 
