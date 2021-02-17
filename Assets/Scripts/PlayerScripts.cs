@@ -2,44 +2,41 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player : MonoBehaviour
+public class PlayerScripts : MonoBehaviour
 {
     //射撃に使うもの//
-    public float rechargeTime = 1f;     //連射間隔
     bool isFirePer = true;
-    bool isRemainBullets = true;
-    public int fullBullets = 100;       //弾数
-    int remainBullets;
-    
+    public bool isRemainBullets = true;
+    public int remainBullets;       //残弾数
+    public GameObject Bullet;       // bullet prefab
+    public Transform Muzzle;        // 弾丸発射点
+    public float rechargeTime = 0.1f;     //連射間隔
     public float reloadingTime = 3f;        //リロード所要時間
-
-
+    public int fullBullets = 100;       //弾数
 
    
     //アングル操作に使用するもの//
-    public Vector3 cameraDir = Vector3.zero;
-    public Vector3 playerDir = Vector3.zero;
-    public Vector2 angle = Vector2.zero;
-    public float xAngUpLimit = -75f;
-    public float xAngDownLimit = 65f;
-    public float xAngleSpeed = 1.0f;
-    public float yAngleSpeed = 1.0f;
-    int cameraReverse = -1;
-
-    
-    public GameObject Bullet;       // bullet prefab
+    public Vector3 cameraDir = Vector3.zero;        //カメラ向き
+    public Vector3 playerDir = Vector3.zero;        //プレイヤー向き
+    public Vector2 angle = Vector2.zero;        //コントローラー情報格納変数
+    public float xAngUpLimit = -75f;        //上振り向き限界角
+    public float xAngDownLimit = 65f;       //下振り向き限界角
+    public float xAngleSpeed = 1.0f;        //縦振り向き感度
+    public float yAngleSpeed = 1.0f;        //横振り向き感度
+    int cameraReverse = -1;                 //上下カメラ操作反転
 
 
-    public Transform Muzzle;        // 弾丸発射点
-
-
-    //ジャンプに使用するもの//
+    //移動に使用するもの//
     private CharacterController controller;
-    private Vector3 moveDirection;
-    public float jumpPower = 15f;
-    public float walkSpeed = 6f;
-    public float fallSpeed = 0.5f;
-    public float runSpeed = 10f;
+    private Vector3 moveDirection;      //移動方向変数
+    public float jumpPower = 15f;       //ジャンプ力（上昇速度）
+    public float fallSpeed = 0.5f;      //落下速度
+    public float walkSpeed = 6f;        //歩き速度
+    public float runSpeed = 8f;         //走り速度
+    public float slideSpeed = 10f;      //スライディング速度
+    public float slideTime = 0.5f;      //スライディング時間
+    float timerSlide;
+    bool isSlide;
 
 
 
@@ -64,7 +61,7 @@ public class Player : MonoBehaviour
         
 
 
-        if (Input.GetKey(KeyCode.LeftControl))      //走る
+        if (Input.GetKey(KeyCode.LeftShift))      //走る
         {
             moveDirection *= runSpeed;
         }
@@ -76,6 +73,26 @@ public class Player : MonoBehaviour
             moveDirection.y += jumpPower;
         }
 
+
+
+        if (Input.GetKeyDown(KeyCode.LeftControl) && !isSlide)
+        { //タイマー開始
+            isSlide = true;
+        }
+        if (isSlide) timerSlide += Time.deltaTime;       //タイマー加算
+        if (isSlide && timerSlide > slideTime)
+        { //タイマー終了
+            isSlide = false;
+            timerSlide = 0.0f;
+        }
+        if (controller.isGrounded)
+        {
+            if (isSlide)
+            { //タイマーチェック
+                moveDirection *= slideSpeed;
+            }
+        }
+        
         moveDirection.y += Physics.gravity.y*fallSpeed; //重力計算
         controller.Move(moveDirection * Time.deltaTime); //Playerを動かす処理
         
@@ -131,16 +148,21 @@ public class Player : MonoBehaviour
 
 
 
+
+
+
+
+
     //連射間隔調整関数//
-    float time=0f;
+    float timerRecharge=0f;
     IEnumerator ReCharge()
     {
         while (true)
         {
-            time += Time.deltaTime;
-            if (time > rechargeTime)
+            timerRecharge += Time.deltaTime;
+            if (timerRecharge > rechargeTime)
             {
-                time = 0f;
+                timerRecharge = 0f;
                 isFirePer = true;
                 break;
             }
@@ -151,15 +173,15 @@ public class Player : MonoBehaviour
 
 
     //リロードを行う関数//
-    float timeReload=0f;
+    float timerReload=0f;
     IEnumerator Reload()
     {
         while (true)
         {
-            timeReload += Time.deltaTime;
-            if (timeReload > reloadingTime)
+            timerReload += Time.deltaTime;
+            if (timerReload > reloadingTime)
             {
-                timeReload = 0f;
+                timerReload = 0f;
                 isRemainBullets = true;
                 remainBullets = fullBullets;
 
@@ -169,6 +191,11 @@ public class Player : MonoBehaviour
             yield return new WaitForEndOfFrame();
         }
     }
+
+
+
+
+
 
 
 
@@ -212,8 +239,33 @@ public class Player : MonoBehaviour
     }
 
 
+    //スライディング//
+    void sliding()      //GetKeyDownで動作
+    {
+        if (!isSlide)
+        { //タイマー開始
+            isSlide = true;
+        }
+        if (isSlide) timerSlide += Time.deltaTime;       //タイマー加算
+        if (isSlide && timerSlide > slideTime)
+        { //タイマー終了
+            isSlide = false;
+            timerSlide = 0.0f;
+        }
+        if (controller.isGrounded)
+        {
+            if (isSlide)
+            { //タイマーチェック
+                moveDirection *= slideSpeed;
+            }
+        }
+
+        controller.Move(moveDirection * Time.deltaTime); //Playerを動かす処理
+    }
+
+
     //カメラ上下反転関数//
-    int cameraRev(int cameraReverse)
+    int cameraRev(int cameraReverse)        //GetKeyDownで動作
     {
         return cameraReverse * -1;      //上下カメラ反転　cameraReverse が　-1のとき順，1のとき逆
     }
@@ -273,4 +325,7 @@ public class Player : MonoBehaviour
         }
         
     }
+
+
+    
 }
