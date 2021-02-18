@@ -65,65 +65,19 @@ public class Player : MonoBehaviour
         
         //向き//
         if (Input.GetKeyDown(KeyCode.P)) cameraReverse *= -1;       //カメラ上下反転
-
-        Vector2 angle = new Vector2(Input.GetAxis("Mouse X")*yAngleSpeed, Input.GetAxis("Mouse Y")*xAngleSpeed);
-
-        playerDir += new Vector3(cameraReverse*angle.y, angle.x, 0);
-
-        //アングル制限//
-        if (xAngUpLimit >= playerDir.x) playerDir.x = xAngUpLimit;
-        if (playerDir.x >= xAngDownLimit) playerDir.x = xAngDownLimit;
-
-        this.transform.rotation = Quaternion.Euler(playerDir);
-
-
+        angleHorizontal(Input.GetAxis("Mouse X"));
+        angleVartical(Input.GetAxis("Mouse Y"), cameraReverse);
 
         //射撃//
+        if (Input.GetMouseButton(0)) pressRT();     //射撃
 
-        if (Input.GetMouseButton(0)&& isFirePer && isRemainBullets)     //射撃
-        {
-            GameObject bullets = Instantiate(Bullet) as GameObject;
-            // 弾丸の位置を調整
-            bullets.transform.position = Muzzle.position;
-            
-            remainBullets--;
-            
-            isFirePer = false;
-            StartCoroutine(ReCharge());
-
-            if (remainBullets == 0)
-            {
-                isRemainBullets = false;
-                StartCoroutine(Reload());
-            }
-        }
-
-
-        if (Input.GetKeyDown(KeyCode.R))        //手動リロード
-        {
-            isRemainBullets = false;
-            StartCoroutine(Reload());
-        }
-
-    }
-
-    private void LateUpdate()       //カメラ操作
-    {
-        Vector2 angle = new Vector2(Input.GetAxis("Mouse X") * yAngleSpeed, Input.GetAxis("Mouse Y") * xAngleSpeed);
-        cameraDir += new Vector3(cameraReverse * angle.y, angle.x, 0);
-        
-        //アングル制限//
-        if (xAngUpLimit >= cameraDir.x) cameraDir.x = xAngUpLimit;
-        if (cameraDir.x >= xAngDownLimit) cameraDir.x = xAngDownLimit;
-        
-        Camera.main.transform.rotation = Quaternion.Euler(cameraDir);
-        
+        if (Input.GetKeyDown(KeyCode.R)) selfReload();       //手動リロード
     }
 
     //連射間隔調整関数//
-    float timerRecharge=0f;
     IEnumerator ReCharge()
     {
+        float timerRecharge = 0f;
         while (true)
         {
             timerRecharge += Time.deltaTime;
@@ -133,15 +87,14 @@ public class Player : MonoBehaviour
                 isFirePer = true;
                 break;
             }
-
             yield return new WaitForEndOfFrame();
         }
     }
 
     //リロードを行う関数//
-    float timerReload=0f;
     IEnumerator Reload()
     {
+        float timerReload = 0f;
         while (true)
         {
             timerReload += Time.deltaTime;
@@ -150,10 +103,8 @@ public class Player : MonoBehaviour
                 timerReload = 0f;
                 isRemainBullets = true;
                 remainBullets = fullBullets;
-
                 break;
             }
-
             yield return new WaitForEndOfFrame();
         }
     }
@@ -212,7 +163,7 @@ public class Player : MonoBehaviour
 
 
     //angle上下//
-    void angleX(float angX,int cameraReverse)
+    void angleVartical(float angX,int cameraReverse)
     {
         angle.x = angX*xAngleSpeed;
 
@@ -230,7 +181,7 @@ public class Player : MonoBehaviour
 
 
     //angle左右//
-    void angleY(float angY)
+    void angleHorizontal(float angY)
     {
         angle.y = angY*yAngleSpeed;
 
@@ -245,30 +196,29 @@ public class Player : MonoBehaviour
     //射撃//
     void pressRT()
     {
-        if (isFirePer)
+        if (!isRemainBullets) selfReload();
+        else
         {
+            if (!isFirePer) return;
+
             GameObject bullets = Instantiate(Bullet) as GameObject;
-            bullets.transform.position = Muzzle.position;       // 弾丸の出現位置を調整
+            // 弾丸の位置を調整
+            bullets.transform.position = Muzzle.position;
 
             remainBullets--;
 
             isFirePer = false;
             StartCoroutine(ReCharge());
 
-            if (remainBullets == 0)
-            {
-                isRemainBullets = false;
-                StartCoroutine(Reload());
-            }
+            if (remainBullets <= 0f) isRemainBullets = false;
         }
-        
+
     }
 
     
     //手動リロード//
     void selfReload()
     {
-        isRemainBullets = false;
         StartCoroutine(Reload());
     }
 
