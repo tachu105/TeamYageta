@@ -7,45 +7,44 @@ public class Player : MonoBehaviour
     //射撃に使うもの//
     bool isFirePer = true;
     public bool isRemainBullets = true;
-    public int remainBullets;       //残弾数
+    public int remainBullets = 100;       //残弾数
     public GameObject Bullet;       // bullet prefab
     public Transform Muzzle;        // 弾丸発射点
     public float rechargeTime = 0.1f;     //連射間隔
     public float reloadingTime = 3f;        //リロード所要時間
-    public int fullBullets = 100;       //弾数
+    [HideInInspector] public int fullBullets;       //弾数
 
    
     //アングル操作に使用するもの//
-    Vector3 cameraDir = Vector3.zero;        //カメラ向き
-    Vector3 playerDir = Vector3.zero;        //プレイヤー向き
-    Vector2 angle = Vector2.zero;        //コントローラー情報格納変数
-    public float xAngUpLimit = -75f;        //上振り向き限界角
-    public float xAngDownLimit = 65f;       //下振り向き限界角
-    private  float xAngleSpeed = 1.0f;        //縦振り向き感度
-    public float yAngleSpeed = 1.0f;        //横振り向き感度
-    int cameraReverse = -1;                 //上下カメラ操作反転
+    private Vector3 cameraDir = Vector3.zero;        //カメラ向き
+    private Vector3 playerDir = Vector3.zero;        //プレイヤー向き
+    private Vector2 angle = Vector2.zero;            //コントローラー情報格納変数
+    private const float xAngUpLimit = -75f;        //上振り向き限界角
+    private const float xAngDownLimit = 65f;       //下振り向き限界角
+    [SerializeField] private float xAngleSpeed = 1.0f;        //縦振り向き感度
+    [SerializeField] private float yAngleSpeed = 1.0f;        //横振り向き感度
+    private int cameraReverse = -1;                 //上下カメラ操作反転
 
 
     //移動に使用するもの//
     private CharacterController controller;
     private Vector3 moveDirection;      //移動方向変数
-    public float jumpPower = 15f;       //ジャンプ力（上昇速度）
-    public float fallSpeed = 0.5f;      //落下速度
-    public float walkSpeed = 4f;        //歩き速度
-    public float runSpeed = 10f;         //走り速度
-    public float slideSpeed = 20f;      //スライディング速度
-    public float slideTime = 0.3f;      //スライディング時間
-    float timerSlide;
-    bool isSlide;
+    [SerializeField] private float jumpPower = 5f;       //ジャンプ力（上昇速度）
+    [SerializeField] private float walkSpeed = 4f;        //歩き速度
+    [SerializeField] private float runSpeed = 10f;         //走り速度
+    [SerializeField] private float slideSpeed = 20f;      //スライディング速度
+    [SerializeField] private float slideTime = 0.3f;      //スライディング時間
+    private bool isSlide;
 
     //物理演算
-    private float gravity = 9.8f;
+    private const float GRAVITY = 9.8f;
+    private const float RUBBING = 0.1f;     //摩擦
 
 
     // Start is called before the first frame update
     void Start()
     {
-        remainBullets = fullBullets;
+        fullBullets = remainBullets;
         controller = GetComponent<CharacterController>();
     }
 
@@ -59,37 +58,12 @@ public class Player : MonoBehaviour
         //ジャンプ
         if (Input.GetKey(KeyCode.Space)) jump();
 
-        if (Input.GetKeyDown(KeyCode.LeftControl) && !isSlide)      //スライディング
-        { //タイマー開始
-            
-            isSlide = true;
-        }
-        if (isSlide) timerSlide += Time.deltaTime;       //タイマー加算
-        if (isSlide && timerSlide > slideTime)
-        { //タイマー終了
-            isSlide = false;
-            timerSlide = 0.0f;
-        }
-        //if (controller.isGrounded)
-        //{
-        if (isSlide)
-        { //タイマーチェック
-            //moveDirection = Input.GetAxis("Horizontal") * right + Input.GetAxis("Vertical") * forward;
-            moveDirection.x *= slideSpeed;
-            moveDirection.z *= slideSpeed;
-        }
-        //}
+        if (Input.GetKeyDown(KeyCode.LeftControl)) StartCoroutine(SlideCoroutine());
 
-        moveDirection.y -= gravity * Time.deltaTime;
+        moveDirection.y -= GRAVITY * Time.deltaTime;
         controller.Move(moveDirection * Time.deltaTime); //Playerを動かす処理
         
-
-
-
-
-
         //向き//
-
         if (Input.GetKeyDown(KeyCode.P)) cameraReverse *= -1;       //カメラ上下反転
 
         Vector2 angle = new Vector2(Input.GetAxis("Mouse X")*yAngleSpeed, Input.GetAxis("Mouse Y")*xAngleSpeed);
@@ -133,7 +107,6 @@ public class Player : MonoBehaviour
 
     }
 
-
     private void LateUpdate()       //カメラ操作
     {
         Vector2 angle = new Vector2(Input.GetAxis("Mouse X") * yAngleSpeed, Input.GetAxis("Mouse Y") * xAngleSpeed);
@@ -146,12 +119,6 @@ public class Player : MonoBehaviour
         Camera.main.transform.rotation = Quaternion.Euler(cameraDir);
         
     }
-
-
-
-
-
-
 
     //連射間隔調整関数//
     float timerRecharge=0f;
@@ -170,7 +137,6 @@ public class Player : MonoBehaviour
             yield return new WaitForEndOfFrame();
         }
     }
-
 
     //リロードを行う関数//
     float timerReload=0f;
@@ -192,33 +158,23 @@ public class Player : MonoBehaviour
         }
     }
 
-
-
-
-
-
-
-
-
     //moveX//
     void moveX(float dirX, bool isRun)
     {
-        Vector3 right = Camera.main.transform.TransformDirection(Vector3.right);
-        Vector3 moveVal = dirX * right;
+        if (isSlide) return;
+        float moveVal = dirX;
         moveVal *= isRun ? runSpeed : walkSpeed;    
-        controller.Move(moveVal * Time.deltaTime); //Playerを動かす処理
+        controller.Move(moveVal * Camera.main.transform.right * Time.deltaTime); //Playerを動かす処理
     }
-
 
     //moveZ//
     void moveZ(float dirY, bool isRun)
     {
-        Vector3 forward = Camera.main.transform.TransformDirection(Vector3.forward);
-        Vector3 moveVal = dirY * forward;
+        if (isSlide) return;
+        float moveVal = dirY;
         moveVal *= isRun ? runSpeed : walkSpeed;
-        controller.Move(moveVal * Time.deltaTime); //Playerを動かす処理
+        controller.Move(moveVal * Camera.main.transform.forward * Time.deltaTime); //Playerを動かす処理
     }
-
 
     //jump//
     void jump()
@@ -228,30 +184,21 @@ public class Player : MonoBehaviour
 
 
     //スライディング//
-    void sliding()      //GetKeyDownで動作
+    IEnumerator SlideCoroutine()      //GetKeyDownで動作
     {
-        Vector3 forward = Camera.main.transform.TransformDirection(Vector3.forward);
-        Vector3 right = Camera.main.transform.TransformDirection(Vector3.right);
-        if (!isSlide)
-        { //タイマー開始
-            isSlide = true;
+        if (isSlide) yield break;
+        
+        isSlide = true;
+        float time = 0f;
+        float moveVal = slideSpeed;
+        while (time < slideTime && moveVal > 0f)
+        {
+            controller.Move(moveVal * Camera.main.transform.forward * Time.deltaTime); //Playerを動かす処理
+            moveVal -= RUBBING;
+            time += Time.deltaTime;
+            yield return new WaitForEndOfFrame();
         }
-        if (isSlide) timerSlide += Time.deltaTime;       //タイマー加算
-        if (isSlide && timerSlide > slideTime)
-        { //タイマー終了
-            isSlide = false;
-            timerSlide = 0.0f;
-        }
-
-        if (isSlide)
-        { //タイマーチェック
-            moveDirection = Input.GetAxis("Horizontal") * right + Input.GetAxis("Vertical") * forward;
-            moveDirection.x *= slideSpeed;
-            moveDirection.z *= slideSpeed;
-        }
-
-
-        controller.Move(moveDirection * Time.deltaTime); //Playerを動かす処理
+        isSlide = false;
     }
 
 

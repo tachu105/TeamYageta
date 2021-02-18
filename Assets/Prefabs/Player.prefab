@@ -315,12 +315,9 @@ MonoBehaviour:
   rechargeTime: 0.1
   reloadingTime: 3
   fullBullets: 100
-  xAngUpLimit: -75
-  xAngDownLimit: 65
   xAngleSpeed: 1
   yAngleSpeed: 1
-  jumpPower: 15
-  fallSpeed: 0.7
+  jumpPower: 5
   walkSpeed: 4
   runSpeed: 10
   slideSpeed: 7
