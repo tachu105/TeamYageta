@@ -4,73 +4,217 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    //射撃に使うもの//
+    bool isFirePer = true;
+    public bool isRemainBullets = true;
+    public int remainBullets = 100;       //残弾数
+    public GameObject Bullet;       // bullet prefab
+    public Transform Muzzle;        // 弾丸発射点
+    public float rechargeTime = 0.1f;     //連射間隔
+    public float reloadingTime = 3f;        //リロード所要時間
+    [HideInInspector] public int fullBullets;       //弾数
 
-    Vector3 cameraDir = Vector3.zero;
-    Vector3 playerDir = Vector3.zero;
+   
+    //アングル操作に使用するもの//
+    private Vector3 cameraDir = Vector3.zero;        //カメラ向き
+    private Vector3 playerDir = Vector3.zero;        //プレイヤー向き
+    private Vector2 angle = Vector2.zero;            //コントローラー情報格納変数
+    private const float xAngUpLimit = -75f;        //上振り向き限界角
+    private const float xAngDownLimit = 65f;       //下振り向き限界角
+    [SerializeField] private float xAngleSpeed = 1.0f;        //縦振り向き感度
+    [SerializeField] private float yAngleSpeed = 1.0f;        //横振り向き感度
+    private int cameraReverse = -1;                 //上下カメラ操作反転
+
+
+    //移動に使用するもの//
+    private CharacterController controller;
+    private Vector3 moveDirection;      //移動方向変数
+    [SerializeField] private float jumpPower = 5f;       //ジャンプ力（上昇速度）
+    [SerializeField] private float walkSpeed = 4f;        //歩き速度
+    [SerializeField] private float runSpeed = 10f;         //走り速度
+    [SerializeField] private float slideSpeed = 20f;      //スライディング速度
+    [SerializeField] private float slideTime = 0.3f;      //スライディング時間
+    private bool isSlide;
+
+    //物理演算
+    private const float GRAVITY = 9.8f;
+    private const float RUBBING = 0.1f;     //摩擦
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        fullBullets = remainBullets;
+        controller = GetComponent<CharacterController>();
     }
 
     // Update is called once per frame
     void Update()
     {
         //移動//
+        moveX(Input.GetAxis("Horizontal"), Input.GetKey(KeyCode.LeftShift));
+        moveZ(Input.GetAxis("Vertical"), Input.GetKey(KeyCode.LeftShift));
+            
+        //ジャンプ
+        if (Input.GetKey(KeyCode.Space)) jump();
 
-        //左に移動
-        if (Input.GetKey(KeyCode.A))
-        {
-            this.transform.Translate(-0.1f, 0.0f, 0.0f);
-        }
-        // 右に移動
-        if (Input.GetKey(KeyCode.D))
-        {
-            this.transform.Translate(0.1f, 0.0f, 0.0f);
-        }
-        // 前に移動
-        if (Input.GetKey(KeyCode.W))
-        {
-            this.transform.Translate(0.0f, 0.0f, -0.1f);
-        }
-        // 後ろに移動
-        if (Input.GetKey(KeyCode.S))
-        {
-            this.transform.Translate(0.0f, 0.0f, 0.1f);
-        }
-        //上に移動
-        if (Input.GetKey(KeyCode.Space))
-        {
-            this.transform.Translate(0.0f, 0.1f, 0.0f);
-        }
-        //下に移動
-        if (Input.GetKey(KeyCode.LeftShift))
-        {
-            this.transform.Translate(0.0f, -0.1f, 0.0f);
-        }
+        if (Input.GetKeyDown(KeyCode.LeftControl)) StartCoroutine(SlideCoroutine());
 
-
-
-
-
+        moveDirection.y -= GRAVITY * Time.deltaTime;
+        controller.Move(moveDirection * Time.deltaTime); //Playerを動かす処理
+        
         //向き//
-        
-        Vector2 angle = new Vector3(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y"));
-        Debug.Log(angle);
+        if (Input.GetKeyDown(KeyCode.P)) cameraReverse *= -1;       //カメラ上下反転
+        angleHorizontal(Input.GetAxis("Mouse X"));
+        angleVartical(Input.GetAxis("Mouse Y"), cameraReverse);
 
-        cameraDir += new Vector3(-angle.y, angle.x, 0);
-        Camera.main.transform.rotation=Quaternion.Euler(cameraDir);
+        //射撃//
+        if (Input.GetMouseButton(0)) pressRT();     //射撃
 
-        playerDir += new Vector3(-angle.y, angle.x, 0);
-        this.transform.rotation = Quaternion.Euler(playerDir);
-        
-        //上を向く
-        /*if (Input.mousePosition.y)
+        if (Input.GetKeyDown(KeyCode.R)) selfReload();       //手動リロード
+    }
+
+    //連射間隔調整関数//
+    IEnumerator ReCharge()
+    {
+        float timerRecharge = 0f;
+        while (true)
         {
-            this.transform.Rotate(angle.x);
-            this.transform.rotation = Quaternion.Euler(angle);
-        }*/
+            timerRecharge += Time.deltaTime;
+            if (timerRecharge > rechargeTime)
+            {
+                timerRecharge = 0f;
+                isFirePer = true;
+                break;
+            }
+            yield return new WaitForEndOfFrame();
+        }
+    }
+
+    //リロードを行う関数//
+    IEnumerator Reload()
+    {
+        float timerReload = 0f;
+        while (true)
+        {
+            timerReload += Time.deltaTime;
+            if (timerReload > reloadingTime)
+            {
+                timerReload = 0f;
+                isRemainBullets = true;
+                remainBullets = fullBullets;
+                break;
+            }
+            yield return new WaitForEndOfFrame();
+        }
+    }
+
+    //moveX//
+    void moveX(float dirX, bool isRun)
+    {
+        if (isSlide) return;
+        float moveVal = dirX;
+        moveVal *= isRun ? runSpeed : walkSpeed;    
+        controller.Move(moveVal * Camera.main.transform.right * Time.deltaTime); //Playerを動かす処理
+    }
+
+    //moveZ//
+    void moveZ(float dirY, bool isRun)
+    {
+        if (isSlide) return;
+        float moveVal = dirY;
+        moveVal *= isRun ? runSpeed : walkSpeed;
+        controller.Move(moveVal * Camera.main.transform.forward * Time.deltaTime); //Playerを動かす処理
+    }
+
+    //jump//
+    void jump()
+    {
+        moveDirection.y = jumpPower;
+    }
+
+
+    //スライディング//
+    IEnumerator SlideCoroutine()      //GetKeyDownで動作
+    {
+        if (isSlide) yield break;
         
+        isSlide = true;
+        float time = 0f;
+        float moveVal = slideSpeed;
+        while (time < slideTime && moveVal > 0f)
+        {
+            controller.Move(moveVal * Camera.main.transform.forward * Time.deltaTime); //Playerを動かす処理
+            moveVal -= RUBBING;
+            time += Time.deltaTime;
+            yield return new WaitForEndOfFrame();
+        }
+        isSlide = false;
+    }
+
+
+    //カメラ上下反転関数//
+    int cameraRev(int cameraReverse)        //GetKeyDownで動作
+    {
+        return cameraReverse * -1;      //上下カメラ反転　cameraReverse が　-1のとき順，1のとき逆
+    }
+
+    //angle上下//
+    void angleVartical(float angX,int cameraReverse)
+    {
+        angle.x = angX*xAngleSpeed;
+
+        cameraDir += new Vector3(cameraReverse*angle.x, 0, 0);
+        playerDir += new Vector3(cameraReverse*angle.x, 0, 0);
+
+        if (xAngUpLimit >= cameraDir.x) cameraDir.x = xAngUpLimit;
+        if (cameraDir.x >= xAngDownLimit) cameraDir.x = xAngDownLimit;
+        if (xAngUpLimit >= playerDir.x) playerDir.x = xAngUpLimit;
+        if (playerDir.x >= xAngDownLimit) playerDir.x = xAngDownLimit;
+
+        Camera.main.transform.rotation = Quaternion.Euler(cameraDir);
+        this.transform.rotation = Quaternion.Euler(playerDir);
+    }
+
+
+    //angle左右//
+    void angleHorizontal(float angY)
+    {
+        angle.y = angY*yAngleSpeed;
+
+        cameraDir += new Vector3(0, angle.y, 0);
+        Camera.main.transform.rotation = Quaternion.Euler(cameraDir);       //カメラ向き
+
+        playerDir += new Vector3(0, angle.y, 0);
+        this.transform.rotation = Quaternion.Euler(playerDir);      //プレイヤー向き
+    }
+
+
+    //射撃//
+    void pressRT()
+    {
+        if (!isRemainBullets) selfReload();
+        else
+        {
+            if (!isFirePer) return;
+
+            GameObject bullets = Instantiate(Bullet) as GameObject;
+            // 弾丸の位置を調整
+            bullets.transform.position = Muzzle.position;
+
+            remainBullets--;
+
+            isFirePer = false;
+            StartCoroutine(ReCharge());
+
+            if (remainBullets <= 0f) isRemainBullets = false;
+        }
+
+    }
+
+    
+    //手動リロード//
+    void selfReload()
+    {
+        StartCoroutine(Reload());
     }
 }
