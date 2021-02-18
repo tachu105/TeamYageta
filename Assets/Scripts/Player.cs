@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player : MonoBehaviour
+public class Player : MonoBehaviour, InputInterface
 {
     //射撃に使うもの//
     bool isFirePer = true;
@@ -14,7 +14,7 @@ public class Player : MonoBehaviour
     public float reloadingTime = 3f;        //リロード所要時間
     [HideInInspector] public int fullBullets;       //弾数
 
-   
+
     //アングル操作に使用するもの//
     private Vector3 cameraDir = Vector3.zero;        //カメラ向き
     private Vector3 playerDir = Vector3.zero;        //プレイヤー向き
@@ -40,9 +40,12 @@ public class Player : MonoBehaviour
     private const float GRAVITY = 9.8f;
     private const float RUBBING = 0.1f;     //摩擦
 
+    private InputController inputController;
+
     // Start is called before the first frame update
     void Start()
     {
+        inputController = GetComponent<InputController>();
         fullBullets = remainBullets;
         controller = GetComponent<CharacterController>();
     }
@@ -50,27 +53,8 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //移動//
-        moveX(Input.GetAxis("Horizontal"), Input.GetKey(KeyCode.LeftShift));
-        moveZ(Input.GetAxis("Vertical"), Input.GetKey(KeyCode.LeftShift));
-            
-        //ジャンプ
-        if (Input.GetKey(KeyCode.Space)) jump();
-
-        if (Input.GetKeyDown(KeyCode.LeftControl)) StartCoroutine(SlideCoroutine());
-
         moveDirection.y -= GRAVITY * Time.deltaTime;
         controller.Move(moveDirection * Time.deltaTime); //Playerを動かす処理
-        
-        //向き//
-        if (Input.GetKeyDown(KeyCode.P)) cameraReverse *= -1;       //カメラ上下反転
-        angleHorizontal(Input.GetAxis("Mouse X"));
-        angleVartical(Input.GetAxis("Mouse Y"), cameraReverse);
-
-        //射撃//
-        if (Input.GetMouseButton(0)) pressRT();     //射撃
-
-        if (Input.GetKeyDown(KeyCode.R)) selfReload();       //手動リロード
     }
 
     //連射間隔調整関数//
@@ -113,7 +97,7 @@ public class Player : MonoBehaviour
     {
         if (isSlide) return;
         float moveVal = dirX;
-        moveVal *= isRun ? runSpeed : walkSpeed;    
+        moveVal *= isRun ? runSpeed : walkSpeed;
         controller.Move(moveVal * Camera.main.transform.right * Time.deltaTime); //Playerを動かす処理
     }
 
@@ -137,7 +121,7 @@ public class Player : MonoBehaviour
     IEnumerator SlideCoroutine()      //GetKeyDownで動作
     {
         if (isSlide) yield break;
-        
+
         isSlide = true;
         float time = 0f;
         float moveVal = slideSpeed;
@@ -159,12 +143,12 @@ public class Player : MonoBehaviour
     }
 
     //angle上下//
-    void angleVartical(float angX,int cameraReverse)
+    void angleVartical(float angX, int cameraReverse)
     {
-        angle.x = angX*xAngleSpeed;
+        angle.x = angX * xAngleSpeed;
 
-        cameraDir += new Vector3(cameraReverse*angle.x, 0, 0);
-        playerDir += new Vector3(cameraReverse*angle.x, 0, 0);
+        cameraDir += new Vector3(cameraReverse * angle.x, 0, 0);
+        playerDir += new Vector3(cameraReverse * angle.x, 0, 0);
 
         if (xAngUpLimit >= cameraDir.x) cameraDir.x = xAngUpLimit;
         if (cameraDir.x >= xAngDownLimit) cameraDir.x = xAngDownLimit;
@@ -179,7 +163,7 @@ public class Player : MonoBehaviour
     //angle左右//
     void angleHorizontal(float angY)
     {
-        angle.y = angY*yAngleSpeed;
+        angle.y = angY * yAngleSpeed;
 
         cameraDir += new Vector3(0, angle.y, 0);
         Camera.main.transform.rotation = Quaternion.Euler(cameraDir);       //カメラ向き
@@ -190,7 +174,7 @@ public class Player : MonoBehaviour
 
 
     //射撃//
-    void pressRT()
+    void Shoot()
     {
         if (!isRemainBullets) selfReload();
         else
@@ -211,10 +195,129 @@ public class Player : MonoBehaviour
 
     }
 
-    
+
     //手動リロード//
     void selfReload()
     {
         StartCoroutine(Reload());
     }
+
+    /// <summary>
+    /// Lスティック上下入力
+    /// </summary>
+    /// <param name="val">入力値 -1 ~ +1 </param>
+    public void LstickVertical(float val)
+    {
+        moveZ(val, inputController.L);
+    }
+
+    /// <summary>
+    /// Lスティック左右入力
+    /// </summary>
+    /// <param name="val">入力値 -1 ~ +1 </param>
+    public void LstickHorizontal(float val)
+    {
+        moveX(val, inputController.L);
+    }
+
+    /// <summary>
+    /// Rスティック左右入力
+    /// </summary>
+    /// <param name="val">入力値　-1 ~ +1</param>
+    public void RstickHorizontal(float val)
+    {
+        angleHorizontal(val);
+    }
+
+    /// <summary>
+    /// Rスティック上下入力　
+    /// </summary>
+    /// <param name="val">入力値　-1 ~ +1</param>
+    public void RstickVertical(float val)
+    {
+
+        angleVartical(val, cameraReverse);
+    }
+
+    /// <summary>
+    /// Aボタン
+    /// </summary>
+    public void PressA()
+    {
+
+    }
+
+    /// <summary>
+    /// Bボタン
+    /// </summary>
+    public void PressB()
+    {
+        //ジャンプ
+        jump();
+    }
+
+    /// <summary>
+    /// Xボタン
+    /// </summary>
+    public void PressX()
+    {
+        selfReload();       //手動リロード
+    }
+
+    /// <summary>
+    /// Yボタン
+    /// </summary>
+    public void PressY()
+    {
+        cameraReverse *= -1;
+    }
+
+    /// <summary>
+    /// RT入力
+    /// </summary>
+    public void PressRT()
+    {
+        Shoot();
+    }
+
+    /// <summary>
+    /// LT入力
+    /// </summary>
+    public void PressLT()
+    {
+
+    }
+
+    /// <summary>
+    /// RB入力
+    /// </summary>
+    public void PressRB()
+    {
+
+    }
+
+    /// <summary>
+    /// LB入力
+    /// </summary>
+    public void PressLB()
+    {
+        StartCoroutine(SlideCoroutine());
+    }
+
+    /// <summary>
+    /// Lスティック押し込み
+    /// </summary>
+    public void PressL()
+    {
+
+    }
+
+    /// <summary>
+    /// Rスティック押し込み
+    /// </summary>
+    public void PressR()
+    {
+
+    }
+
 }
