@@ -40,7 +40,6 @@ public class Player : MonoBehaviour
     private const float GRAVITY = 9.8f;
     private const float RUBBING = 0.1f;     //摩擦
 
-
     // Start is called before the first frame update
     void Start()
     {
@@ -159,9 +158,6 @@ public class Player : MonoBehaviour
         return cameraReverse * -1;      //上下カメラ反転　cameraReverse が　-1のとき順，1のとき逆
     }
 
-
-
-
     //angle上下//
     void angleVartical(float angX,int cameraReverse)
     {
@@ -221,7 +217,4 @@ public class Player : MonoBehaviour
     {
         StartCoroutine(Reload());
     }
-
-
-    
 }
