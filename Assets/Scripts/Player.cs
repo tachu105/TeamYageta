@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerScripts : MonoBehaviour
+public class Player : MonoBehaviour
 {
     //射撃に使うもの//
     bool isFirePer = true;

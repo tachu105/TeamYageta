@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class　BulletScripts : MonoBehaviour
+public class　Bullet : MonoBehaviour
 {
     // 弾丸の速度
     public float speed = 10;

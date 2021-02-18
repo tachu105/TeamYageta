@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class RemainBulletsUIScripts : MonoBehaviour
+public class RemainBulletsUI : MonoBehaviour
 {
 
     GameObject Player;
-    PlayerScripts scripts;
+    Player scripts;
     public Text remainBulletsText;
 
 
@@ -15,7 +15,7 @@ public class RemainBulletsUIScripts : MonoBehaviour
     void Start()
     {
         Player = GameObject.Find("Player");
-        scripts = Player.GetComponent<PlayerScripts>();
+        scripts = Player.GetComponent<Player>();
     }
 
     // Update is called once per frame
