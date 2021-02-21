@@ -8,7 +8,8 @@ public class　Bullet : MonoBehaviour
     public float damage = 10f;
     public float speed = 10f;
     public Vector3 dir = Vector3.zero;
-
+    [SerializeField] private GameObject HitEffect;
+    [SerializeField] private GameObject breakEffect;
 
     private void Start()
     {
@@ -32,8 +33,12 @@ public class　Bullet : MonoBehaviour
                 HitArea hitArea = collision.gameObject.GetComponent<HitArea>();
                 Enemy enemy = hitArea.enemy;
                 enemy.Damage(this, hitArea);
+                Instantiate(HitEffect, this.transform.position, Quaternion.identity);
+                Destroy(this.gameObject);
                 break;
             default:
+                Instantiate(breakEffect, this.transform.position, Quaternion.identity);
+                Destroy(this.gameObject);
                 break;
         }
 
