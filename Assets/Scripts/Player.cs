@@ -181,9 +181,10 @@ public class Player : MonoBehaviour, InputInterface
         {
             if (!isFirePer) return;
 
-            GameObject bullets = Instantiate(Bullet) as GameObject;
+            Bullet bullet = Instantiate(Bullet).GetComponent<Bullet>();
             // 弾丸の位置を調整
-            bullets.transform.position = Muzzle.position;
+            bullet.transform.position = Muzzle.position;
+            bullet.dir = Camera.main.transform.forward;
 
             remainBullets--;
 

@@ -21,7 +21,7 @@ public abstract class Enemy : MonoBehaviour
     /// 被ダメージ処理
     /// </summary>
     /// <param name="damage">ダメージ量</param>
-    public abstract void Damage(int damage);
+    public abstract void Damage(Bullet bullet, HitArea area);
 
     /// <summary>
     /// 死亡時の動作

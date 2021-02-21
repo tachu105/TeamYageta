@@ -5,16 +5,15 @@ using UnityEngine;
 public class　Bullet : MonoBehaviour
 {
     // 弾丸の速度
-    public float speed = 10;
-    public Vector3 dir;
+    public float damage = 10f;
+    public float speed = 10f;
+    public Vector3 dir = Vector3.zero;
 
 
-    // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
-        dir = GameObject.Find("Player").transform.forward;
+        if (dir == Vector3.zero) dir = this.transform.forward;
     }
-
     // Update is called once per frame
     void Update()
     {
@@ -22,5 +21,21 @@ public class　Bullet : MonoBehaviour
         Destroy(this.gameObject, 5f);
     }
 
-    
+    //着弾時処理
+    private void OnCollisionEnter(Collision collision)
+    {
+        switch (collision.gameObject.tag)
+        {
+            case "Player":
+                break;
+            case "Enemy":
+                HitArea hitArea = collision.gameObject.GetComponent<HitArea>();
+                Enemy enemy = hitArea.enemy;
+                enemy.Damage(this, hitArea);
+                break;
+            default:
+                break;
+        }
+
+    }
 }
