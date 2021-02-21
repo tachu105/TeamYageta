@@ -11,7 +11,7 @@ public class TurretEnemy : Enemy
     // Start is called before the first frame update
     void Start()
     {
-        
+        if (hp <= 0) hp = 100;
     }
 
     // Update is called once per frame
@@ -28,9 +28,10 @@ public class TurretEnemy : Enemy
 
     }
 
-    public override void Damage(int damage)
+    public override void Damage(Bullet bullet, HitArea area)
     {
-
+        hp -= (int)(bullet.damage * area.damageRate);
+        if (hp <= 0) Dead();
     }
 
     public override void Dead()
