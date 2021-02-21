@@ -7,6 +7,7 @@ public class TurretEnemy : Enemy
     [SerializeField] private float turnSpeed = 10; //振り向き速度
     [SerializeField] private GameObject gun;
     [SerializeField] private GameObject turretBase;
+    [SerializeField] private GameObject destroyEffect;
 
     // Start is called before the first frame update
     void Start()
@@ -36,7 +37,8 @@ public class TurretEnemy : Enemy
 
     public override void Dead()
     {
-
+        Instantiate(destroyEffect, transform.position, transform.rotation);
+        Destroy(this.gameObject);
     }
 
     private void LookAtTarget(Vector3 targetPosition)
