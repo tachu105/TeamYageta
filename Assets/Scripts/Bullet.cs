@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class　Bullet : MonoBehaviour
 {
@@ -9,6 +10,7 @@ public class　Bullet : MonoBehaviour
     public float speed = 10f;
     public Vector3 dir = Vector3.zero;
     [SerializeField] private float range = 20f;
+    [SerializeField] private string[] throughTags;
     [SerializeField] private GameObject HitEffect;
     [SerializeField] private GameObject breakEffect;
     private float totalLength = 0f;
@@ -19,7 +21,7 @@ public class　Bullet : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        float moveVal = speed * Time.deltaTime
+        float moveVal = speed * Time.deltaTime;
         this.transform.Translate(dir * moveVal);
         totalLength += moveVal;
         if (totalLength > range) Destroy(this.gameObject);
@@ -28,6 +30,8 @@ public class　Bullet : MonoBehaviour
     //着弾時処理
     private void OnCollisionEnter(Collision collision)
     {
+        if (throughTags.Contains<string>(collision.gameObject.tag)) return;
+
         switch (collision.gameObject.tag)
         {
             case "Player":
@@ -40,6 +44,7 @@ public class　Bullet : MonoBehaviour
                 Destroy(this.gameObject);
                 break;
             default:
+                //Debug.Log("Hit on " + collision.gameObject.name);
                 Instantiate(breakEffect, this.transform.position, Quaternion.identity);
                 Destroy(this.gameObject);
                 break;
