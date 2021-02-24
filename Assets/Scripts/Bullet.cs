@@ -8,18 +8,21 @@ public class　Bullet : MonoBehaviour
     public float damage = 10f;
     public float speed = 10f;
     public Vector3 dir = Vector3.zero;
+    [SerializeField] private float range = 20f;
     [SerializeField] private GameObject HitEffect;
     [SerializeField] private GameObject breakEffect;
+    private float totalLength = 0f;
 
     private void Start()
     {
-        if (dir == Vector3.zero) dir = this.transform.forward;
     }
     // Update is called once per frame
     void Update()
     {
-        this.transform.Translate(dir * speed*Time.deltaTime);
-        Destroy(this.gameObject, 5f);
+        float moveVal = speed * Time.deltaTime
+        this.transform.Translate(dir * moveVal);
+        totalLength += moveVal;
+        if (totalLength > range) Destroy(this.gameObject);
     }
 
     //着弾時処理
