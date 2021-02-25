@@ -21,6 +21,7 @@ public class　Bullet : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (dir == Vector3.zero) return;
         float moveVal = speed * Time.deltaTime;
         this.transform.Translate(dir * moveVal);
         totalLength += moveVal;
