@@ -1,5 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityStandardAssets.CrossPlatformInput;
+using UnityStandardAssets.Utility;
 using UnityEngine;
 
 public class Player : MonoBehaviour, InputInterface
@@ -9,10 +11,12 @@ public class Player : MonoBehaviour, InputInterface
     public bool isRemainBullets = true;
     public int remainBullets = 100;       //残弾数
     public GameObject Bullet;       // bullet prefab
-    public Transform Muzzle;        // 弾丸発射点
+    //public Transform Muzzle;        // 弾丸発射点
+    private Vector3 Muzzle;
     public float rechargeTime = 0.1f;     //連射間隔
     public float reloadingTime = 3f;        //リロード所要時間
     [HideInInspector] public int fullBullets;       //弾数
+    
 
 
     //アングル操作に使用するもの//
@@ -29,16 +33,29 @@ public class Player : MonoBehaviour, InputInterface
     //移動に使用するもの//
     private CharacterController controller;
     private Vector3 moveDirection;      //移動方向変数
-    [SerializeField] private float jumpPower = 5f;       //ジャンプ力（上昇速度）
+    [SerializeField] private float jumpPower = 10f;       //ジャンプ力（上昇速度）
+    [SerializeField] private int jumpCount = 2;         //ジャンプ回数
     [SerializeField] private float walkSpeed = 4f;        //歩き速度
-    [SerializeField] private float runSpeed = 10f;         //走り速度
-    [SerializeField] private float slideSpeed = 20f;      //スライディング速度
-    [SerializeField] private float slideTime = 0.3f;      //スライディング時間
+    [SerializeField] private float runSpeed = 7f;         //走り速度
+    [SerializeField] private float slideSpeed = 18f;      //スライディング速度
+    [SerializeField] private float slideTime = 0.6f;      //スライディング時間
     private bool isSlide;
+    private bool isPressBBefore;
+    private bool isPressBNow = false;
+    private bool isPressLBBefore;
+    private bool isPressLBNow = false;
 
     //物理演算
     private const float GRAVITY = 9.8f;
     private const float RUBBING = 0.1f;     //摩擦
+
+
+    //揺れ
+    [SerializeField] private CurveControlledBob m_HandBob = new CurveControlledBob();
+    [SerializeField] private float m_StepInterval=1.3f;
+    private float bobSpeed;
+    
+   
 
     private InputController inputController;
 
@@ -48,6 +65,7 @@ public class Player : MonoBehaviour, InputInterface
         inputController = GetComponent<InputController>();
         fullBullets = remainBullets;
         controller = GetComponent<CharacterController>();
+        m_HandBob.Setup(Camera.main, m_StepInterval);
     }
 
     // Update is called once per frame
@@ -55,6 +73,43 @@ public class Player : MonoBehaviour, InputInterface
     {
         moveDirection.y -= GRAVITY * Time.deltaTime;
         controller.Move(moveDirection * Time.deltaTime); //Playerを動かす処理
+
+        //ジャンプ回数制限
+        if (this.transform.position.y < 0.56f)
+            jumpCounter = 0;
+        isPressBBefore = isPressBNow;
+        isPressBNow = inputController.B;
+        if (!isPressBBefore && isPressBNow)
+            jumpCounter++;
+
+        //スラーディング制限
+        isPressLBBefore = isPressLBNow;
+        isPressLBNow = inputController.LB;
+
+        //スコープ
+        Muzzle = inputController.LT ? GameObject.Find("Muzzle2").transform.position : GameObject.Find("Muzzle1").transform.position;
+    }
+
+
+    public float R_V;
+    public float R_H;
+    void LateUpdate()
+    {
+        bool isUsePad = inputController.isUsePad;
+        if (isUsePad)
+        {
+            R_V = -Input.GetAxis("R Stick Vertical");
+            if (R_V != 0) RstickVertical(R_V);
+            R_H = Input.GetAxis("R Stick Horizontal");
+            if (R_H != 0) RstickHorizontal(R_H);
+        }
+        else
+        {
+            R_V = Input.GetAxis("Mouse Y");
+            if (R_V != 0) RstickVertical(R_V);
+            R_H = Input.GetAxis("Mouse X");
+            if (R_H != 0) RstickHorizontal(R_H);
+        }
     }
 
     //連射間隔調整関数//
@@ -99,6 +154,12 @@ public class Player : MonoBehaviour, InputInterface
         float moveVal = dirX;
         moveVal *= isRun ? runSpeed : walkSpeed;
         controller.Move(moveVal * Camera.main.transform.right * Time.deltaTime); //Playerを動かす処理
+
+        bobSpeed = isRun ? runSpeed*0.7f : walkSpeed;
+        if (this.transform.position.y < 1 && !inputController.RT)
+        {
+            Camera.main.transform.localPosition = m_HandBob.DoHeadBob(bobSpeed);
+        }
     }
 
     //moveZ//
@@ -108,12 +169,24 @@ public class Player : MonoBehaviour, InputInterface
         float moveVal = dirY;
         moveVal *= isRun ? runSpeed : walkSpeed;
         controller.Move(moveVal * Camera.main.transform.forward * Time.deltaTime); //Playerを動かす処理
+
+        bobSpeed = isRun ? runSpeed*0.7f : walkSpeed;
+        if (this.transform.position.y<1 && inputController.L_H == 0 && !inputController.RT)
+        {
+            Camera.main.transform.localPosition = m_HandBob.DoHeadBob(bobSpeed);
+        }
     }
 
     //jump//
-    void jump()
+    private int jumpCounter=0;
+    IEnumerator Jump()
     {
-        moveDirection.y = jumpPower;
+        if (jumpCounter > jumpCount) yield break;
+
+        
+            moveDirection.y = jumpPower;
+            yield return new WaitForEndOfFrame();
+      
     }
 
 
@@ -183,7 +256,7 @@ public class Player : MonoBehaviour, InputInterface
 
             GameObject bullets = Instantiate(Bullet) as GameObject;
             // 弾丸の位置を調整
-            bullets.transform.position = Muzzle.position;
+            bullets.transform.position = Muzzle;
 
             remainBullets--;
 
@@ -191,6 +264,8 @@ public class Player : MonoBehaviour, InputInterface
             StartCoroutine(ReCharge());
 
             if (remainBullets <= 0f) isRemainBullets = false;
+
+            
         }
 
     }
@@ -199,6 +274,7 @@ public class Player : MonoBehaviour, InputInterface
     //手動リロード//
     void selfReload()
     {
+        isRemainBullets = false;
         StartCoroutine(Reload());
     }
 
@@ -227,6 +303,7 @@ public class Player : MonoBehaviour, InputInterface
     public void RstickHorizontal(float val)
     {
         angleHorizontal(val);
+
     }
 
     /// <summary>
@@ -252,8 +329,9 @@ public class Player : MonoBehaviour, InputInterface
     /// </summary>
     public void PressB()
     {
-        //ジャンプ
-        jump();
+        if (!isPressBBefore && isPressBNow)
+            //ジャンプ
+            StartCoroutine(Jump());
     }
 
     /// <summary>
@@ -285,7 +363,7 @@ public class Player : MonoBehaviour, InputInterface
     /// </summary>
     public void PressLT()
     {
-
+        
     }
 
     /// <summary>
@@ -301,7 +379,8 @@ public class Player : MonoBehaviour, InputInterface
     /// </summary>
     public void PressLB()
     {
-        StartCoroutine(SlideCoroutine());
+        if (!isPressLBBefore && isPressLBNow)
+            StartCoroutine(SlideCoroutine());
     }
 
     /// <summary>
@@ -317,7 +396,7 @@ public class Player : MonoBehaviour, InputInterface
     /// </summary>
     public void PressR()
     {
-
+        
     }
 
 }

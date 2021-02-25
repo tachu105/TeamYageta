@@ -105,13 +105,13 @@ public class InputController : MonoBehaviour
     [SerializeField] private string keyLeft = "a";
     [SerializeField] private string keyRight = "d";
     [SerializeField] private string keyA = "z";
-    [SerializeField] private string keyB = "x";
-    [SerializeField] private string keyX = "c";
-    [SerializeField] private string keyY = "v";
-    [SerializeField] private string keyRT = "l";
-    [SerializeField] private string keyLT = "k";
+    [SerializeField] private string keyB = "space";
+    [SerializeField] private string keyX = "r";
+    [SerializeField] private string keyY = "p";
+    [SerializeField] private string keyRT = "0";
+    [SerializeField] private string keyLT = "1";
     [SerializeField] private string keyRB = "o";
-    [SerializeField] private string keyLB = "i";
+    [SerializeField] private string keyLB = "left ctrl";
     [SerializeField] private string keyL = "left shift";
     [SerializeField] private string keyR = "right shift";
 
@@ -127,19 +127,37 @@ public class InputController : MonoBehaviour
     {
         if (isUsePad) checkPadInput();
         else checkKeybordInput();
+        
     }
+
+    /*
+    void LateUpdate()
+    {
+        if (isUsePad)
+        {
+            R_V = -Input.GetAxis("R Stick Vertical");
+            if (R_V != 0) player.RstickVertical(R_V);
+            R_H = Input.GetAxis("R Stick Horizontal");
+            if (R_H != 0) player.RstickHorizontal(R_H);
+        }
+        else
+        {
+            R_V = Input.GetAxis("Mouse Y");
+            if (R_V != 0) player.RstickVertical(R_V);
+            R_H = Input.GetAxis("Mouse X");
+            if (R_H != 0) player.RstickHorizontal(R_H);
+        }
+    }*/
 
 
     void checkPadInput()
     {
+        
         L_V = Input.GetAxis("L Stick Vertical");
         if (L_V != 0) player.LstickVertical(L_V);
         L_H = Input.GetAxis("L Stick Horizontal");
         if (L_H != 0) player.LstickHorizontal(L_H);
-        R_V = -Input.GetAxis("R Stick Vertical");
-        if (R_V != 0) player.RstickVertical(R_V);
-        R_H = Input.GetAxis("R Stick Horizontal");
-        if (R_H != 0) player.RstickHorizontal(R_H);
+        
 
         A = Input.GetButtonDown("A button");
         if (A) player.PressA();
@@ -176,6 +194,8 @@ public class InputController : MonoBehaviour
 
     void checkKeybordInput()
     {
+        
+
         if (GetInput(keyUp) && GetInput(keyDown)) L_V = 0f;
         else if (GetInput(keyUp)) L_V = 1f;
         else if (GetInput(keyDown)) L_V = -1f;
@@ -187,10 +207,7 @@ public class InputController : MonoBehaviour
         else L_H = 0f;
         if (L_H != 0) player.LstickHorizontal(L_H);
 
-        R_V = Input.GetAxis("Mouse Y");
-        if (R_V != 0) player.RstickVertical(R_V);
-        R_H = Input.GetAxis("Mouse X");
-        if (R_H != 0) player.RstickHorizontal(R_H);
+        
 
         A = GetInput(keyA);
         if (A) player.PressA();
@@ -213,6 +230,9 @@ public class InputController : MonoBehaviour
         if (R) player.PressR();
         L = GetInput(keyL);
         if (L) player.PressL();
+
+        
+
     }
 
     bool GetInput(string str)
