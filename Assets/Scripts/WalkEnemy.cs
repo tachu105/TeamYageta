@@ -18,12 +18,14 @@ public class WalkEnemy : Enemy
     private const float ATTACK_ANGLE = 30f;
     private const float BULLET_CHARGE_TIME = 3f;
     private const float BULLET_SIZE = 0.5f;
+    private const float JUMP_CHARGE_TIME = 3f;
 
     Animator animator;
     AudioSource ASource;
 
     private bool isWalking = false;
     private bool isRanning = false;
+    private bool isJumping = false;
     private Vector3 playerPos;
     private Vector3 direction;
 
@@ -40,12 +42,15 @@ public class WalkEnemy : Enemy
     // Update is called once per frame
     void Update()
     {
+        if (isSleeping) return;
+
         if (searchArea.IsDetected())
         {
             playerPos = searchArea.currentTartget.transform.position;
             LookAtTarget(playerPos);
             float distance = (playerPos - transform.position).sqrMagnitude;
-            if (distance > Mathf.Pow(10f, 2f))
+            if (isJumping) Move(playerPos);
+            else if (distance > Mathf.Pow(10f, 2f))
             {
                 if (totalAngle < ATTACK_ANGLE) StartRun();
                 else StartWalk();
@@ -68,7 +73,15 @@ public class WalkEnemy : Enemy
         if (isAction || isSleeping) return;
         if (totalAngle < ATTACK_ANGLE)
         {
-            StartCoroutine(ShootBullet());
+            switch(Random.Range(0, 2))
+            {
+                case 0:
+                    StartCoroutine(ShootBullet());
+                    break;
+                case 1:
+                    Jump();
+                    break;
+            }
         }
     }
 
@@ -92,7 +105,6 @@ public class WalkEnemy : Enemy
         animator.SetBool("isRunning", false);
         isWalking = true;
         animator.SetBool("isWalking", true);
-        animator.speed = 0.5f;
     }
 
     private void StartRun()
@@ -101,7 +113,6 @@ public class WalkEnemy : Enemy
         animator.SetBool("isWalking", false);
         isRanning = true;
         animator.SetBool("isRunning", true);
-        animator.speed = 0.5f;
     }
 
     private void StopMove()
@@ -117,6 +128,7 @@ public class WalkEnemy : Enemy
         float speed;
         if (isWalking) speed = walkSpeed;
         else if (isRanning) speed = walkSpeed * 2f;
+        else if (isJumping) speed = walkSpeed * 4f;
         else return;
 
         //左右回転
@@ -133,7 +145,16 @@ public class WalkEnemy : Enemy
 
     private void Jump()
     {
-        animator.SetTrigger("Jump");
+        isAction = true;
+        StartCoroutine(JumpCoroutine());
+    }
+
+    void EndOfRunJump()
+    {
+        isAction = false;
+        isJumping = false;
+        StopMove();
+        Sleep(5f);
     }
 
     private void LookAtTarget(Vector3 targetPosition)
@@ -201,7 +222,25 @@ public class WalkEnemy : Enemy
             yield return new WaitForEndOfFrame();
         }
         isAction = false;
-        Sleep(10f);
+        Sleep(3f);
         yield return null;
+    }
+
+    private IEnumerator JumpCoroutine()
+    {
+        float time = 0f;
+        Vector3 rot = body.transform.localEulerAngles;
+        while (time < JUMP_CHARGE_TIME)
+        {
+            float spinVal = Mathf.Lerp(0f, 360f*3f, time / JUMP_CHARGE_TIME);
+            body.transform.localEulerAngles = rot + (Vector3.right * spinVal);
+            time += Time.deltaTime;
+            yield return new WaitForEndOfFrame();
+        }
+        isJumping = true;
+        animator.SetTrigger("Jump");
+        yield return new WaitForEndOfFrame();
+        yield return new WaitForSeconds(animator.GetCurrentAnimatorStateInfo(0).length);
+        EndOfRunJump();
     }
 }
