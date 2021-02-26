@@ -14,6 +14,7 @@ public class　Bullet : MonoBehaviour
     [SerializeField] private GameObject HitEffect;
     [SerializeField] private GameObject breakEffect;
     private float totalLength = 0f;
+    public GameObject parent;
 
     private void Start()
     {
@@ -43,6 +44,10 @@ public class　Bullet : MonoBehaviour
                 enemy.Damage(this, hitArea);
                 Instantiate(HitEffect, this.transform.position, Quaternion.identity);
                 Destroy(this.gameObject);
+                break;
+            case "Bullet":
+                Bullet otherBullet = collision.gameObject.GetComponent<Bullet>();
+                if (!otherBullet.parent|| otherBullet.parent == this.parent) return;
                 break;
             default:
                 //Debug.Log("Hit on " + collision.gameObject.name);

@@ -6,8 +6,10 @@ public class WalkEnemy : Enemy
 {
     [SerializeField] private float walkSpeed = 1; //歩行速度
     [SerializeField] private float turnSpeed = 20;
+    [SerializeField] private int shootCount = 10;
     [SerializeField] private GameObject body;
     [SerializeField] private GameObject neck;
+    [SerializeField] private Transform[] ports;
     [SerializeField] private GameObject destroyEffect;
     private bool isAction = false;
 
@@ -162,20 +164,44 @@ public class WalkEnemy : Enemy
 
     private IEnumerator ShootBullet()
     {
-        /*isAction = true;
-        Bullet bullet = Instantiate(bulletPrefab, port.position, Quaternion.identity).GetComponent<Bullet>();
-        float time = 0f;
-        while (time < BULLET_CHARGE_TIME)
+        isAction = true;
+        int count = 0;
+
+        Bullet[] bullets = new Bullet[ports.Length];
+        float[] time = new float[ports.Length];
+        for (int i = 0; i < time.Length; i++) time[i] = i * (BULLET_CHARGE_TIME / ports.Length);
+
+        while (count < shootCount)
         {
-            float scale = Mathf.Lerp(0f, BULLET_SIZE, time / BULLET_CHARGE_TIME);
-            bullet.transform.localScale = Vector3.one * scale;
-            bullet.transform.position = port.position;
-            time += Time.deltaTime;
+            for (int i = 0; i < time.Length; i++)
+            {
+                if (time[i] == 0 && count + ports.Length <= shootCount)
+                {
+                    bullets[i] = Instantiate(bulletPrefab, ports[i].position, Quaternion.identity).GetComponent<Bullet>();
+                    bullets[i].parent = this.gameObject;
+                }
+                if (bullets[i])
+                {
+                    float scale = Mathf.Lerp(0f, BULLET_SIZE, time[i] / BULLET_CHARGE_TIME);
+                    bullets[i].transform.localScale = Vector3.one * scale;
+                    bullets[i].transform.position = ports[i].position;
+                }
+                time[i] += Time.deltaTime;
+                if (time[i] > BULLET_CHARGE_TIME)
+                {
+                    if (bullets[i])
+                    {
+                        bullets[i].dir = ports[i].forward;
+                        bullets[i] = null;
+                        count++;
+                    }
+                    time[i] = 0f;
+                }
+            }
             yield return new WaitForEndOfFrame();
         }
-        bullet.dir = port.forward;
         isAction = false;
-        Sleep(5f);*/
+        Sleep(10f);
         yield return null;
     }
 }

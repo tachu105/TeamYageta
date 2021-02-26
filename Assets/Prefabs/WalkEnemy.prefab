@@ -317,7 +317,7 @@ GameObject:
   - component: {fileID: 38343918657312816}
   m_Layer: 0
   m_Name: SmallCanon02_R
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -347,7 +347,7 @@ GameObject:
   - component: {fileID: 38343918657312818}
   m_Layer: 0
   m_Name: SmallCanon02_L
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -377,7 +377,7 @@ GameObject:
   - component: {fileID: 38343918657312820}
   m_Layer: 0
   m_Name: SmallCanon01_R
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -407,7 +407,7 @@ GameObject:
   - component: {fileID: 38343918657312822}
   m_Layer: 0
   m_Name: SmallCanon01_L
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -842,10 +842,16 @@ MonoBehaviour:
   searchArea: {fileID: 38343918119374553}
   walkSpeed: 1
   turnSpeed: 20
+  shootCount: 10
   body: {fileID: 38343918657078358}
   neck: {fileID: 512795471709245140}
+  ports:
+  - {fileID: 1121218487515703672}
+  - {fileID: 1524432518607716404}
+  - {fileID: 501641070224075958}
+  - {fileID: 5930690758557933548}
   destroyEffect: {fileID: 5996993421067913070, guid: 12e96b4a327337f48b8dccd3abfa55dd, type: 3}
-  bulletPrefab: {fileID: 0}
+  bulletPrefab: {fileID: 7092534336731595077, guid: ded2e2ee6ed5fa84190677425de52b31, type: 3}
   AudioExplosion: {fileID: 0}
 --- !u!114 &38343918657176299
 MonoBehaviour:
@@ -1166,7 +1172,7 @@ GameObject:
   - component: {fileID: 38343918657312854}
   m_Layer: 0
   m_Name: Mortar
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1318,7 +1324,7 @@ GameObject:
   - component: {fileID: 38343918657312864}
   m_Layer: 0
   m_Name: BigCanon01Stretcher_R
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1348,7 +1354,7 @@ GameObject:
   - component: {fileID: 38343918657312866}
   m_Layer: 0
   m_Name: BigCanon01Stretcher_L
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1378,7 +1384,7 @@ GameObject:
   - component: {fileID: 38343918657312868}
   m_Layer: 0
   m_Name: BigCanon01_R
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1408,7 +1414,7 @@ GameObject:
   - component: {fileID: 38343918657312870}
   m_Layer: 0
   m_Name: BigCanon01_L
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1438,7 +1444,7 @@ GameObject:
   - component: {fileID: 38343918657312872}
   m_Layer: 0
   m_Name: BigCanon02Stretcher_R
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1468,7 +1474,7 @@ GameObject:
   - component: {fileID: 38343918657312874}
   m_Layer: 0
   m_Name: BigCanon02Stretcher_L
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1498,7 +1504,7 @@ GameObject:
   - component: {fileID: 38343918657312876}
   m_Layer: 0
   m_Name: BigCanon02_R
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1528,7 +1534,7 @@ GameObject:
   - component: {fileID: 38343918657312878}
   m_Layer: 0
   m_Name: BigCanon02_L
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1687,6 +1693,10 @@ Transform:
   - {fileID: 38343918657312816}
   - {fileID: 8708306268997877740}
   - {fileID: 841357937931987450}
+  - {fileID: 1121218487515703672}
+  - {fileID: 1524432518607716404}
+  - {fileID: 501641070224075958}
+  - {fileID: 5930690758557933548}
   m_Father: {fileID: 8351939667957197133}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: -180, z: 0}
@@ -2398,6 +2408,66 @@ MonoBehaviour:
   enemy: {fileID: 38343918657176296}
   hitObjectTag:
   - Player
+--- !u!1 &5504990608250970862
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1524432518607716404}
+  m_Layer: 0
+  m_Name: Port2
+  m_TagString: Enemy
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1524432518607716404
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5504990608250970862}
+  m_LocalRotation: {x: 0.00000013411042, y: 0.000000006678036, z: 0.7071069, w: 0.7071067}
+  m_LocalPosition: {x: -0.0151, y: -0.0092, z: 0.037}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 38343918657312886}
+  m_RootOrder: 16
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &5543116370196057217
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 501641070224075958}
+  m_Layer: 0
+  m_Name: Port3
+  m_TagString: Enemy
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &501641070224075958
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5543116370196057217}
+  m_LocalRotation: {x: 0.00000013411042, y: 0.000000006678036, z: 0.7071069, w: 0.7071067}
+  m_LocalPosition: {x: -0.0121, y: -0.0131, z: 0.031}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 38343918657312886}
+  m_RootOrder: 17
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6448440817466670839
 GameObject:
   m_ObjectHideFlags: 0
@@ -2459,3 +2529,63 @@ MonoBehaviour:
   enemy: {fileID: 38343918657176296}
   hitObjectTag:
   - Player
+--- !u!1 &6973691206241732980
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1121218487515703672}
+  m_Layer: 0
+  m_Name: Port1
+  m_TagString: Enemy
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1121218487515703672
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6973691206241732980}
+  m_LocalRotation: {x: 0.00000013411042, y: 0.000000006678036, z: 0.7071069, w: 0.7071067}
+  m_LocalPosition: {x: -0.0151, y: 0.0099, z: 0.037}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 38343918657312886}
+  m_RootOrder: 15
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &9190878930763570400
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5930690758557933548}
+  m_Layer: 0
+  m_Name: Port4
+  m_TagString: Enemy
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5930690758557933548
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9190878930763570400}
+  m_LocalRotation: {x: 0.00000013411042, y: 0.000000006678036, z: 0.7071069, w: 0.7071067}
+  m_LocalPosition: {x: -0.0121, y: 0.0129, z: 0.031}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 38343918657312886}
+  m_RootOrder: 18
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

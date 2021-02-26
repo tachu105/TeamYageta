@@ -108,7 +108,7 @@ GameObject:
   - component: {fileID: 7429264167341987176}
   m_Layer: 0
   m_Name: EnemyBullet1
-  m_TagString: Untagged
+  m_TagString: Bullet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -211,6 +211,7 @@ MonoBehaviour:
   - Enemy
   HitEffect: {fileID: 8159951742097746246, guid: 9da16012318b80240ab06a3fa1ce88b1, type: 3}
   breakEffect: {fileID: 5728165896972286338, guid: e9ccef8d4804858409af57f35922c3c0, type: 3}
+  parent: {fileID: 0}
 --- !u!54 &7429264167341987176
 Rigidbody:
   m_ObjectHideFlags: 0

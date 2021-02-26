@@ -86,6 +86,7 @@ public class TurretEnemy : Enemy
     {
         isAction = true;
         Bullet bullet = Instantiate(bulletPrefab, port.position, Quaternion.identity).GetComponent<Bullet>();
+        bullet.parent = this.gameObject;
         float time = 0f;
         while(time < BULLET_CHARGE_TIME)
         {
