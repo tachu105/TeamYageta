@@ -23,6 +23,7 @@ public class WalkEnemy : Enemy
     Animator animator;
     AudioSource ASource;
 
+    private bool isActive = false;
     private bool isWalking = false;
     private bool isRanning = false;
     private bool isJumping = false;
@@ -46,6 +47,12 @@ public class WalkEnemy : Enemy
 
         if (searchArea.IsDetected())
         {
+            if (!isActive)
+            {
+                isActive = true;
+                animator.SetBool("isActive", true);
+                Sleep(5f);
+            }
             playerPos = searchArea.currentTartget.transform.position;
             LookAtTarget(playerPos);
             float distance = (playerPos - transform.position).sqrMagnitude;
