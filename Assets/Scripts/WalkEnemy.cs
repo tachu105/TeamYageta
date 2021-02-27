@@ -14,6 +14,7 @@ public class WalkEnemy : Enemy
     private bool isAction = false;
 
     [SerializeField] private GameObject bulletPrefab;
+    [SerializeField] private GameObject jumpBarrage;
     private float totalAngle = 360f;
     private const float ATTACK_ANGLE = 30f;
     private const float BULLET_CHARGE_TIME = 3f;
@@ -161,6 +162,9 @@ public class WalkEnemy : Enemy
         isAction = false;
         isJumping = false;
         StopMove();
+        Barrage barrage = Instantiate(jumpBarrage, this.transform.position + Vector3.up, Quaternion.identity).GetComponent<Barrage>();
+        barrage.parent = this.gameObject;
+        barrage.Shoot();
         Sleep(5f);
     }
 
@@ -229,6 +233,7 @@ public class WalkEnemy : Enemy
             yield return new WaitForEndOfFrame();
         }
         isAction = false;
+        StopMove();
         Sleep(3f);
         yield return null;
     }
@@ -247,7 +252,7 @@ public class WalkEnemy : Enemy
         isJumping = true;
         animator.SetTrigger("Jump");
         yield return new WaitForEndOfFrame();
-        yield return new WaitForSeconds(animator.GetCurrentAnimatorStateInfo(0).length);
+        yield return new WaitForSeconds(1f);
         EndOfRunJump();
     }
 }

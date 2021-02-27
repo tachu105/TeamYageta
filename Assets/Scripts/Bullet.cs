@@ -47,7 +47,7 @@ public class　Bullet : MonoBehaviour
                 break;
             case "Bullet":
                 Bullet otherBullet = collision.gameObject.GetComponent<Bullet>();
-                if (!otherBullet.parent|| otherBullet.parent == this.parent) return;
+                if (!otherBullet.parent || otherBullet.parent == this.parent) return;
                 break;
             default:
                 //Debug.Log("Hit on " + collision.gameObject.name);
