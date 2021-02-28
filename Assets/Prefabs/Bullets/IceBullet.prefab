@@ -44,7 +44,7 @@ Light:
   m_Shape: 0
   m_Color: {r: 0.025418244, g: 0.28456497, b: 0.7924528, a: 1}
   m_Intensity: 2
-  m_Range: 5
+  m_Range: 3
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
   m_CookieSize: 10
@@ -107,7 +107,7 @@ GameObject:
   - component: {fileID: 606271169972257585}
   - component: {fileID: 7429264167341987176}
   m_Layer: 0
-  m_Name: EnemyBullet1
+  m_Name: IceBullet
   m_TagString: Bullet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -156,7 +156,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 32a76832b79e84347ad9df08b12709c3, type: 2}
+  - {fileID: 2100000, guid: 25ca87a830121fc48bd84ad98f98a4e6, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
