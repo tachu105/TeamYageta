@@ -78,7 +78,7 @@ public class BossEnemy : Enemy
         switch (attackNumber)
         {
             case 0:
-                barrage = Instantiate(barrages[0], transform.position + Vector3.up, Quaternion.identity).GetComponent<Barrage>();
+                barrage = Instantiate(barrages[0], transform.position + Vector3.up * 1.5f, Quaternion.identity).GetComponent<Barrage>();
                 barrage.transform.localScale = this.transform.localScale;
                 barrage.parent = this.gameObject;
                 animator.SetTrigger("Attack_1");

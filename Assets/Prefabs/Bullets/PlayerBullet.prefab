@@ -107,7 +107,7 @@ GameObject:
   - component: {fileID: 4572722843107073670}
   - component: {fileID: 5766427478927263967}
   m_Layer: 0
-  m_Name: BlueBullet
+  m_Name: PlayerBullet
   m_TagString: Bullet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -156,7 +156,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 32a76832b79e84347ad9df08b12709c3, type: 2}
+  - {fileID: 2100000, guid: 4fb966da45aaacb45a2ffb89a3c62902, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -208,7 +208,7 @@ MonoBehaviour:
   dir: {x: 0, y: 0, z: 0}
   range: 50
   throughTags:
-  - Enemy
+  - Player
   HitEffect: {fileID: 8159951742097746246, guid: 9da16012318b80240ab06a3fa1ce88b1, type: 3}
   breakEffect: {fileID: 5728165896972286338, guid: e9ccef8d4804858409af57f35922c3c0, type: 3}
   parent: {fileID: 0}

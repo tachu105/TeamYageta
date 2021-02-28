@@ -20,7 +20,7 @@ public class　Bullet : MonoBehaviour
     {
     }
     // Update is called once per frame
-    void Update()
+    protected virtual void Update()
     {
         if (dir == Vector3.zero) return;
         float moveVal = speed * Time.deltaTime;
@@ -30,31 +30,52 @@ public class　Bullet : MonoBehaviour
     }
 
     //着弾時処理
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider collider)
     {
-        if (throughTags.Contains<string>(collision.gameObject.tag)) return;
+        if (throughTags.Contains<string>(collider.gameObject.tag)) return;
 
-        switch (collision.gameObject.tag)
+        switch (collider.gameObject.tag)
         {
             case "Player":
+                HitPlayer(collider.gameObject);
                 break;
             case "Enemy":
-                HitArea hitArea = collision.gameObject.GetComponent<HitArea>();
-                Enemy enemy = hitArea.enemy;
-                enemy.Damage(this, hitArea);
-                Instantiate(HitEffect, this.transform.position, Quaternion.identity);
-                Destroy(this.gameObject);
+                HitEnemy(collider.gameObject);
                 break;
             case "Bullet":
-                Bullet otherBullet = collision.gameObject.GetComponent<Bullet>();
-                if (!otherBullet.parent || otherBullet.parent == this.parent) return;
+                HitBullet(collider.gameObject);
                 break;
             default:
-                //Debug.Log("Hit on " + collision.gameObject.name);
-                Instantiate(breakEffect, this.transform.position, Quaternion.identity);
-                Destroy(this.gameObject);
+                HitOther(collider.gameObject);
                 break;
         }
+    }
 
+    protected virtual void HitPlayer(GameObject obj)
+    {
+
+    }
+
+    protected virtual void HitEnemy(GameObject obj)
+    {
+        HitArea hitArea = obj.GetComponent<HitArea>();
+        if (!hitArea) return; 
+        Enemy enemy = hitArea.enemy;
+        enemy.Damage(this, hitArea);
+        Instantiate(HitEffect, this.transform.position, Quaternion.identity);
+        Destroy(this.gameObject);
+    }
+
+    protected virtual void HitBullet(GameObject obj)
+    {
+        Bullet otherBullet = obj.GetComponent<Bullet>();
+        if (!otherBullet.parent || otherBullet.parent == this.parent) return;
+    }
+
+    protected virtual void HitOther(GameObject obj)
+    {
+        //Debug.Log("Hit on " + collision.gameObject.name);
+        Instantiate(breakEffect, this.transform.position, Quaternion.identity);
+        Destroy(this.gameObject);
     }
 }

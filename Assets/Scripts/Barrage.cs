@@ -56,8 +56,7 @@ public class Barrage : MonoBehaviour
         {
             for (int i = 0; i < bullets.Count; i++)
             {
-                Debug.Log(i + ":" + times[i]);
-                if (times[i] > chargeTime) continue;
+                if (!bullets[i] || times[i] > chargeTime) continue;
                 if (times[i] > 0f) bullets[i].transform.localScale = defaultScale[i] * (times[i] / chargeTime);
                 times[i] += Time.deltaTime;
                 if(times[i] > chargeTime)

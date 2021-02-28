@@ -48,3 +48,4 @@ MonoBehaviour:
   bulletPrefab: {fileID: 5369282041676695547, guid: 5d156498aa1128e40a940d27580b5270, type: 3}
   bulletCount: 5
   distance: 3
+  targetShift: {x: 0, y: 2, z: 0}

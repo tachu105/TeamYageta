@@ -104,8 +104,8 @@ GameObject:
   - component: {fileID: 273374719497187792}
   - component: {fileID: 5523023986768702660}
   - component: {fileID: 928106923991797495}
-  - component: {fileID: 606271169972257585}
   - component: {fileID: 7429264167341987176}
+  - component: {fileID: 3675684102650612896}
   m_Layer: 0
   m_Name: DeadBullet
   m_TagString: Bullet
@@ -186,32 +186,11 @@ SphereCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7092534336731595077}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &606271169972257585
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7092534336731595077}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fdd82d99c354947429c5bd3ec38f65e8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  damage: 5
-  speed: 10
-  dir: {x: 0, y: 0, z: 0}
-  range: 50
-  throughTags:
-  - Enemy
-  HitEffect: {fileID: 8159951742097746246, guid: 9da16012318b80240ab06a3fa1ce88b1, type: 3}
-  breakEffect: {fileID: 5728165896972286338, guid: e9ccef8d4804858409af57f35922c3c0, type: 3}
-  parent: {fileID: 0}
 --- !u!54 &7429264167341987176
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -224,10 +203,32 @@ Rigidbody:
   m_Drag: 0
   m_AngularDrag: 0.05
   m_UseGravity: 0
-  m_IsKinematic: 1
+  m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &3675684102650612896
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7092534336731595077}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c1550333d3317044b98c21eace01538, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 5
+  speed: 10
+  dir: {x: 0, y: 0, z: 0}
+  range: 50
+  throughTags:
+  - Enemy
+  HitEffect: {fileID: 8159951742097746246, guid: 9da16012318b80240ab06a3fa1ce88b1, type: 3}
+  breakEffect: {fileID: 5728165896972286338, guid: e9ccef8d4804858409af57f35922c3c0, type: 3}
+  parent: {fileID: 0}
+  turnSpeed: 1
 --- !u!1001 &5564402077459664202
 PrefabInstance:
   m_ObjectHideFlags: 0
