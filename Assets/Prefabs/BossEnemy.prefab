@@ -26,7 +26,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 702774350527074296}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 2.22, z: 0.84}
   m_LocalScale: {x: 0.29999998, y: 0.29999998, z: 0.29999998}
   m_Children: []
   m_Father: {fileID: 3338775051490235858}
@@ -612,6 +612,11 @@ MonoBehaviour:
   shootCount: 10
   barrages:
   - {fileID: 9068149656827822701, guid: 9d1cc7b5c08a1d141970a0a64d85faa8, type: 3}
+  - {fileID: 8980258170816231445, guid: 84a1a98ec0f63b34996d8def6d13edee, type: 3}
+  - {fileID: 7414032969794082191, guid: 975c2ce6162b59346ae4b46859632b4f, type: 3}
+  - {fileID: 5051005303675622488, guid: f0767a3a782ef7c48b6d12720c3f584e, type: 3}
+  - {fileID: 1845479150779356576, guid: 43d2da25445f29941b2ca48209ccce05, type: 3}
+  - {fileID: 3662854033092536331, guid: 4b1ffb72b24736c4591b8b287eadb915, type: 3}
   destroyEffect: {fileID: 0}
   bulletPrefab: {fileID: 0}
   AudioExplosion: {fileID: 0}

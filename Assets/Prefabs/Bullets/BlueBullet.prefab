@@ -206,7 +206,7 @@ MonoBehaviour:
   damage: 10
   speed: 10
   dir: {x: 0, y: 0, z: 0}
-  range: 20
+  range: 50
   throughTags:
   - Player
   HitEffect: {fileID: 8159951742097746246, guid: 9da16012318b80240ab06a3fa1ce88b1, type: 3}
@@ -281,15 +281,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6724642184302949203, guid: 952867b745de2254ba265be74d511c41, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.3
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 6724642184302949203, guid: 952867b745de2254ba265be74d511c41, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.3
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 6724642184302949203, guid: 952867b745de2254ba265be74d511c41, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.3
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 6724642184302980979, guid: 952867b745de2254ba265be74d511c41, type: 3}
       propertyPath: m_Name

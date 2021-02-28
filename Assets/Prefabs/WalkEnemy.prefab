@@ -851,7 +851,7 @@ MonoBehaviour:
   - {fileID: 501641070224075958}
   - {fileID: 5930690758557933548}
   destroyEffect: {fileID: 5996993421067913070, guid: 12e96b4a327337f48b8dccd3abfa55dd, type: 3}
-  bulletPrefab: {fileID: 7092534336731595077, guid: ded2e2ee6ed5fa84190677425de52b31, type: 3}
+  bulletPrefab: {fileID: 6156919038729657586, guid: 23079aa27b460084590d12fef297b557, type: 3}
   jumpBarrage: {fileID: 9068149656827822701, guid: 9d1cc7b5c08a1d141970a0a64d85faa8, type: 3}
   AudioExplosion: {fileID: 8300000, guid: 20d577d2d6937a043a8091a46c926b88, type: 3}
 --- !u!114 &38343918657176299

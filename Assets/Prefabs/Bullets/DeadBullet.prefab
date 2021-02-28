@@ -204,9 +204,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 5
-  speed: 5
+  speed: 10
   dir: {x: 0, y: 0, z: 0}
-  range: 10
+  range: 50
   throughTags:
   - Enemy
   HitEffect: {fileID: 8159951742097746246, guid: 9da16012318b80240ab06a3fa1ce88b1, type: 3}

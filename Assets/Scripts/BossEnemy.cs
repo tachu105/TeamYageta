@@ -31,6 +31,7 @@ public class BossEnemy : Enemy
     void Start()
     {
         animator = GetComponent<Animator>();
+        animator.SetTrigger("Fight_Idle_1");
         ASource = GetComponent<AudioSource>();
         if (hp <= 0) hp = 5000;
         direction = this.transform.forward;
@@ -46,7 +47,7 @@ public class BossEnemy : Enemy
             if (!isActive)
             {
                 isActive = true;
-                animator.SetBool("isActive", true);
+                animator.SetTrigger("Intimidate_1");
                 Sleep(5f);
             }
             playerPos = searchArea.currentTartget.transform.position;
@@ -72,16 +73,28 @@ public class BossEnemy : Enemy
     public override void Action()
     {
         if (isAction || isSleeping) return;
-        switch (Random.Range(0, barrages.Length))
+        int attackNumber = Random.Range(0, barrages.Length);
+        Barrage barrage;
+        switch (attackNumber)
         {
             case 0:
-                Barrage barrage = Instantiate(barrages[0], transform.position + Vector3.up, Quaternion.identity).GetComponent<Barrage>();
+                barrage = Instantiate(barrages[0], transform.position + Vector3.up, Quaternion.identity).GetComponent<Barrage>();
                 barrage.transform.localScale = this.transform.localScale;
                 barrage.parent = this.gameObject;
+                animator.SetTrigger("Attack_1");
                 barrage.Shoot();
                 Sleep(5f);
                 break;
             case 1:
+            case 2:
+            case 3:
+            case 4:
+            case 5:
+                barrage = Instantiate(barrages[attackNumber], transform.position, Quaternion.identity).GetComponent<Barrage>();
+                barrage.parent = this.gameObject;
+                barrage.ShootRandom();
+                animator.SetTrigger("Attack_5");
+                Sleep(5f);
                 break;
         }
     }
