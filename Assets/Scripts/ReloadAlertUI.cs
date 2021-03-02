@@ -20,16 +20,14 @@ public class ReloadAlertUI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        bool isRemainBullets = scripts.isRemainBullets;
-        if(!isRemainBullets)
+        bool isReloading = scripts.isReloading;
+        if(isReloading)
         {
             reloadAlertUIText.text = "RELOADING";
         }
-        if (isRemainBullets)
+        if (!isReloading)
         {
             reloadAlertUIText.text = "";
         }
-
-
     }
 }
