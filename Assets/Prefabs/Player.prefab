@@ -311,7 +311,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isRemainBullets: 1
   remainBullets: 100
-  Bullet: {fileID: 6156919038729657586, guid: 23079aa27b460084590d12fef297b557, type: 3}
+  Bullet: {fileID: 6156919038729657586, guid: 14e8da25d69e96b47b86ab55de205dcd, type: 3}
   Muzzle: {fileID: 4543771510434827501}
   rechargeTime: 0.1
   reloadingTime: 3
