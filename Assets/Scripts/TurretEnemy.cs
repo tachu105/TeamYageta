@@ -28,7 +28,7 @@ public class TurretEnemy : Enemy
     {
         if (searchArea.IsDetected())
         {
-            LookAtTarget(searchArea.currentTartget.transform.position);
+            LookAtTarget(Camera.main.transform.position);
             Action();
         }
     }

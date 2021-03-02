@@ -82,7 +82,7 @@ public class Player : MonoBehaviour, InputInterface
         //ジャンプ回数制限//
         if(controller.isGrounded) jumpCounter = 0;
         isPressBBefore = isPressBNow;
-        isPressBNow = inputController.B;
+        isPressBNow = inputController.A;
         if (!isPressBBefore && isPressBNow) jumpCounter++;
 
         //スラーディング制限//
@@ -383,7 +383,7 @@ public class Player : MonoBehaviour, InputInterface
     /// </summary>
     public void PressA()
     {
-
+        if (!isPressBBefore && isPressBNow) StartCoroutine(Jump());     //ジャンプ
     }
 
     /// <summary>
@@ -391,7 +391,6 @@ public class Player : MonoBehaviour, InputInterface
     /// </summary>
     public void PressB()
     {
-        if (!isPressBBefore && isPressBNow) StartCoroutine(Jump());     //ジャンプ
     }
 
     /// <summary>

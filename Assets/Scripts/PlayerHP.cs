@@ -9,21 +9,20 @@ public class PlayerHP : MonoBehaviour
     private int currentHp;
     int damage=1;
     public Slider HPBar;
-
+    private Player player;
 
     // Start is called before the first frame update
     void Start()
     {
-        maxHp = GameObject.Find("Player").GetComponent<Player>().Hp * 100;
+        player = GameObject.Find("Player").GetComponent<Player>();
+        maxHp = player.Hp;
         HPBar.maxValue = maxHp;
-        currentHp = maxHp;
-        HPBar.value = currentHp;
+        HPBar.value = player.Hp;
     }
 
     // Update is called once per frame
     void Update()
     {
-        currentHp -= damage;
-        HPBar.value = currentHp;
+        HPBar.value = player.Hp;
     }
 }

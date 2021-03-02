@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4469579152122393804}
   - component: {fileID: 6267958269741863998}
   - component: {fileID: 5907560799811049624}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: SearchArea
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -26,7 +26,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 702774350527074296}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 2.22, z: 0.84}
+  m_LocalPosition: {x: 0, y: 3.01, z: 0.84}
   m_LocalScale: {x: 0.29999998, y: 0.29999998, z: 0.29999998}
   m_Children: []
   m_Father: {fileID: 3338775051490235858}

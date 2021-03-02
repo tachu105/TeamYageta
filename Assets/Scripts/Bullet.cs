@@ -53,7 +53,7 @@ public class　Bullet : MonoBehaviour
 
     protected virtual void HitPlayer(GameObject obj)
     {
-
+        obj.transform.parent.GetComponent<Player>().Hp -= (int)this.damage;
     }
 
     protected virtual void HitEnemy(GameObject obj)

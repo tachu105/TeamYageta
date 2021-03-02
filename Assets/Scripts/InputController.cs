@@ -142,13 +142,13 @@ public class InputController : MonoBehaviour
         if (L_H != 0) player.LstickHorizontal(L_H);
         
 
-        A = Input.GetButtonDown("A button");
+        A = Input.GetButton("A button");
         if (A) player.PressA();
-        B = Input.GetButtonDown("B button");
+        B = Input.GetButton("B button");
         if (B) player.PressB();
-        X = Input.GetButtonDown("X button");
+        X = Input.GetButton("X button");
         if (X) player.PressX();
-        Y = Input.GetButtonDown("Y button");
+        Y = Input.GetButton("Y button");
         if (Y) player.PressY();
 
         float trigger = Input.GetAxis("LT RT");
@@ -164,14 +164,14 @@ public class InputController : MonoBehaviour
         }
         else RT = LT = false;
 
-        RB = Input.GetButtonDown("RB");
+        RB = Input.GetButton("RB");
         if (RB) player.PressRB();
-        LB = Input.GetButtonDown("LB");
+        LB = Input.GetButton("LB");
         if (LB) player.PressLB();
 
-        R = Input.GetButtonDown("R button");
+        R = Input.GetButton("R button");
         if (R) player.PressR();
-        L = Input.GetButtonDown("L button");
+        L = Input.GetButton("L button");
         if (L) player.PressL();
     }
 
