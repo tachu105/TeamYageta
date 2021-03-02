@@ -95,3 +95,20 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
+<<<<<<< HEAD:Assets/Prefabs/Shield.prefab
+=======
+--- !u!114 &4572722843107073670
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6156919038729657586}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fdd82d99c354947429c5bd3ec38f65e8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 60
+  dir: {x: 0, y: 0, z: 0}
+>>>>>>> 9dff495ef0776060e3b64b1855e058e163f0dc13:Assets/Prefabs/Bullet.prefab
