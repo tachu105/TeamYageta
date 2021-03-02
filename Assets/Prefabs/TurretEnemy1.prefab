@@ -590,9 +590,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f04d82dad85caf542b8dbdf4d2bc57d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hp: 100
+  hp: 300
   searchArea: {fileID: 970811461209762028}
-  turnSpeed: 20
+  turnSpeed: 30
   port: {fileID: 4816166772124120397}
   gun: {fileID: 4594926866454563974}
   turretBase: {fileID: 4594926864623540626}
