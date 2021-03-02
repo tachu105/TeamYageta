@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class　Bullet : MonoBehaviour
 {
-    // 弾丸の速度
-    public float speed = 50;
+    public float speed = 60;        // 弾丸の速度
     public Vector3 dir;
 
 

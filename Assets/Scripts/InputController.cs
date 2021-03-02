@@ -85,7 +85,7 @@ public class InputController : MonoBehaviour
     public bool isUsePad = false;
     private InputInterface player;
 
-    float L_V;
+    public float L_V;
     public float L_H;
     public float R_V;
     public float R_H;
@@ -127,32 +127,15 @@ public class InputController : MonoBehaviour
     {
         if (isUsePad) checkPadInput();
         else checkKeybordInput();
-        
     }
 
-    /*
-    void LateUpdate()
-    {
-        if (isUsePad)
-        {
-            R_V = -Input.GetAxis("R Stick Vertical");
-            if (R_V != 0) player.RstickVertical(R_V);
-            R_H = Input.GetAxis("R Stick Horizontal");
-            if (R_H != 0) player.RstickHorizontal(R_H);
-        }
-        else
-        {
-            R_V = Input.GetAxis("Mouse Y");
-            if (R_V != 0) player.RstickVertical(R_V);
-            R_H = Input.GetAxis("Mouse X");
-            if (R_H != 0) player.RstickHorizontal(R_H);
-        }
-    }*/
-
-
+    
     void checkPadInput()
     {
-        
+        R_V = -Input.GetAxis("R Stick Vertical");
+        if (R_V != 0) player.RstickVertical(R_V);
+        R_H = Input.GetAxis("R Stick Horizontal");
+        if (R_H != 0) player.RstickHorizontal(R_H);
         L_V = Input.GetAxis("L Stick Vertical");
         if (L_V != 0) player.LstickVertical(L_V);
         L_H = Input.GetAxis("L Stick Horizontal");
@@ -194,8 +177,10 @@ public class InputController : MonoBehaviour
 
     void checkKeybordInput()
     {
-        
-
+        R_V = Input.GetAxis("Mouse Y");
+        if (R_V != 0) player.RstickVertical(R_V);
+        R_H = Input.GetAxis("Mouse X");
+        if (R_H != 0) player.RstickHorizontal(R_H);
         if (GetInput(keyUp) && GetInput(keyDown)) L_V = 0f;
         else if (GetInput(keyUp)) L_V = 1f;
         else if (GetInput(keyDown)) L_V = -1f;
@@ -230,9 +215,6 @@ public class InputController : MonoBehaviour
         if (R) player.PressR();
         L = GetInput(keyL);
         if (L) player.PressL();
-
-        
-
     }
 
     bool GetInput(string str)
