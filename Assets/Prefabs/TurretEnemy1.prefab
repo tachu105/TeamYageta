@@ -597,7 +597,7 @@ MonoBehaviour:
   gun: {fileID: 4594926866454563974}
   turretBase: {fileID: 4594926864623540626}
   destroyEffect: {fileID: 5996993421067913070, guid: 12e96b4a327337f48b8dccd3abfa55dd, type: 3}
-  bulletPrefab: {fileID: 7092534336731595077, guid: ded2e2ee6ed5fa84190677425de52b31, type: 3}
+  bulletPrefab: {fileID: 5756421503320797351, guid: 74c76cf311f64e341a92d614054304e2, type: 3}
 --- !u!1 &4594926866454563974
 GameObject:
   m_ObjectHideFlags: 0

@@ -9,17 +9,18 @@ public class　Bullet : MonoBehaviour
     public float damage = 10f;
     public float speed = 10f;
     public Vector3 dir = Vector3.zero;
-    [SerializeField] private float range = 20f;
-    [SerializeField] private string[] throughTags;
-    [SerializeField] private GameObject HitEffect;
-    [SerializeField] private GameObject breakEffect;
+    [SerializeField] protected float range = 20f;
+    [SerializeField] protected string[] throughTags;
+    [SerializeField] protected GameObject HitEffect;
+    [SerializeField] protected GameObject breakEffect;
     private float totalLength = 0f;
+    public GameObject parent;
 
     private void Start()
     {
     }
     // Update is called once per frame
-    void Update()
+    protected virtual void Update()
     {
         if (dir == Vector3.zero) return;
         float moveVal = speed * Time.deltaTime;
@@ -29,27 +30,52 @@ public class　Bullet : MonoBehaviour
     }
 
     //着弾時処理
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider collider)
     {
-        if (throughTags.Contains<string>(collision.gameObject.tag)) return;
+        if (throughTags.Contains<string>(collider.gameObject.tag)) return;
 
-        switch (collision.gameObject.tag)
+        switch (collider.gameObject.tag)
         {
             case "Player":
+                HitPlayer(collider.gameObject);
                 break;
             case "Enemy":
-                HitArea hitArea = collision.gameObject.GetComponent<HitArea>();
-                Enemy enemy = hitArea.enemy;
-                enemy.Damage(this, hitArea);
-                Instantiate(HitEffect, this.transform.position, Quaternion.identity);
-                Destroy(this.gameObject);
+                HitEnemy(collider.gameObject);
+                break;
+            case "Bullet":
+                HitBullet(collider.gameObject);
                 break;
             default:
-                //Debug.Log("Hit on " + collision.gameObject.name);
-                Instantiate(breakEffect, this.transform.position, Quaternion.identity);
-                Destroy(this.gameObject);
+                HitOther(collider.gameObject);
                 break;
         }
+    }
 
+    protected virtual void HitPlayer(GameObject obj)
+    {
+
+    }
+
+    protected virtual void HitEnemy(GameObject obj)
+    {
+        HitArea hitArea = obj.GetComponent<HitArea>();
+        if (!hitArea) return; 
+        Enemy enemy = hitArea.enemy;
+        enemy.Damage(this, hitArea);
+        Instantiate(HitEffect, this.transform.position, Quaternion.identity);
+        Destroy(this.gameObject);
+    }
+
+    protected virtual void HitBullet(GameObject obj)
+    {
+        Bullet otherBullet = obj.GetComponent<Bullet>();
+        if (!otherBullet.parent || otherBullet.parent == this.parent) return;
+    }
+
+    protected virtual void HitOther(GameObject obj)
+    {
+        //Debug.Log("Hit on " + collision.gameObject.name);
+        Instantiate(breakEffect, this.transform.position, Quaternion.identity);
+        Destroy(this.gameObject);
     }
 }

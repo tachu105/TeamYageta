@@ -76,7 +76,6 @@ public class TurretEnemy : Enemy
         if (Mathf.Abs(angle) > turnSpeed * Time.deltaTime)
         {
             angle = angle > 0f ? turnSpeed : -turnSpeed;
-            Debug.Log("move : " + angle * Time.deltaTime);
             gun.transform.localEulerAngles += Vector3.forward * angle * Time.deltaTime;
         }
         else gun.transform.localEulerAngles += Vector3.forward * angle;
@@ -86,6 +85,7 @@ public class TurretEnemy : Enemy
     {
         isAction = true;
         Bullet bullet = Instantiate(bulletPrefab, port.position, Quaternion.identity).GetComponent<Bullet>();
+        bullet.parent = this.gameObject;
         float time = 0f;
         while(time < BULLET_CHARGE_TIME)
         {
