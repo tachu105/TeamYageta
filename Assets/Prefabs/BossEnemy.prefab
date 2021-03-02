@@ -680,7 +680,7 @@ MonoBehaviour:
   - {fileID: 1845479150779356576, guid: 43d2da25445f29941b2ca48209ccce05, type: 3}
   - {fileID: 3662854033092536331, guid: 4b1ffb72b24736c4591b8b287eadb915, type: 3}
   - {fileID: 3113155997782140123, guid: 0b6204f18f21d3042a10c4333c8f61b3, type: 3}
-  shield: {fileID: 4156491539547281824, guid: e5b32d6544eab0247adea3d777b63632, type: 3}
+  shield: {fileID: 8973735193036714631, guid: 7900c3ea82421574996debda3d256a82, type: 3}
   deathBlow: {fileID: 7922059825244183557, guid: 7221d9f5db6fa77499c61c90e7088798, type: 3}
   destroyEffect: {fileID: 5996993421067913070, guid: 12e96b4a327337f48b8dccd3abfa55dd, type: 3}
   Eye: {fileID: 3341608949691079850}
