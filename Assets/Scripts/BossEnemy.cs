@@ -97,7 +97,7 @@ public class BossEnemy : Enemy
         {
             case 0:
             case 6:
-                barrage = Instantiate(barrages[0], transform.position + Vector3.up * 1.5f, this.transform.rotation).GetComponent<Barrage>();
+                barrage = Instantiate(barrages[attackNumber], transform.position + Vector3.up * 1.5f, this.transform.rotation).GetComponent<Barrage>();
                 barrage.transform.localScale = this.transform.localScale;
                 barrage.parent = this.gameObject;
                 animator.SetTrigger("Attack_1");

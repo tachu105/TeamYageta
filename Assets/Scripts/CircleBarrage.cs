@@ -11,7 +11,7 @@ public class CircleBarrage : Barrage
 
     private void Update()
     {
-        this.transform.eulerAngles += Vector3.up * spinSpeed;
+        this.transform.eulerAngles += Vector3.up * spinSpeed * Time.deltaTime;
         if (this.transform.childCount == 0) Destroy(this.gameObject);
     }
     protected override void SetUp()

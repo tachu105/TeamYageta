@@ -48,4 +48,4 @@ MonoBehaviour:
   bulletPrefab: {fileID: 624624853008977545, guid: 0eec4a177df919b419c505abf7592c74, type: 3}
   bulletCount: 6
   distance: 3
-  spinSpeed: 1
+  spinSpeed: 20
