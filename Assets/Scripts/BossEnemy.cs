@@ -5,24 +5,28 @@ using UnityEngine;
 public class BossEnemy : Enemy
 {
     [SerializeField] private float walkSpeed = 1; //歩行速度
-    [SerializeField] private float turnSpeed = 20;
+    [SerializeField] private float turnSpeed = 10;
     [SerializeField] private int shootCount = 10;
     [SerializeField] private GameObject[] barrages;
+    [SerializeField] private GameObject shield;
+    [SerializeField] private GameObject deathBlow;
     [SerializeField] private GameObject destroyEffect;
     private bool isAction = false;
+    private float originLife;
 
     [SerializeField] private GameObject bulletPrefab;
     private const float BULLET_CHARGE_TIME = 3f;
     private const float BULLET_SIZE = 0.5f;
     private const float JUMP_CHARGE_TIME = 3f;
+    private const float SHIELD_TIME = 6f;
+    private const float DEATH_BLOW_CHARGE_TIME = 15f;
 
     Animator animator;
     AudioSource ASource;
-
+    
     private bool isActive = false;
-    private bool isWalking = false;
-    private bool isRanning = false;
-    private bool isJumping = false;
+    private bool isTurn = false;
+    private bool isAngry = false;
     private Vector3 playerPos;
     private Vector3 direction;
 
@@ -35,11 +39,17 @@ public class BossEnemy : Enemy
         ASource = GetComponent<AudioSource>();
         if (hp <= 0) hp = 5000;
         direction = this.transform.forward;
+        originLife = hp;
     }
 
     // Update is called once per frame
     void Update()
     {
+        if(!isAngry && hp < originLife * 0.3f)
+        {
+            isAngry = true;
+            StartCoroutine(DeathBlowCoroutine());
+        }
         if (isSleeping) return;
 
         if (searchArea.IsDetected())
@@ -48,32 +58,35 @@ public class BossEnemy : Enemy
             {
                 isActive = true;
                 animator.SetTrigger("Intimidate_1");
-                Sleep(5f);
+                Sleep(3f);
             }
-            playerPos = searchArea.currentTartget.transform.position;
-            if(!isAction)LookAtTarget(playerPos);
-            float distance = (playerPos - transform.position).sqrMagnitude;
-            if (isJumping) Move(playerPos);
-            else if (distance > Mathf.Pow(10f, 2f))
+            if (!isAction)
             {
-                Move(playerPos);
+                playerPos = searchArea.currentTartget.transform.position;
+                LookAtTarget(playerPos);
             }
-            else
-            {
-                StopMove();
-            }
-            Action();
+            if(!isTurn) Action();
         }
         else
         {
-            StopMove();
+            animator.SetTrigger("Eat_Cycle_1");
         }
     }
 
     public override void Action()
     {
         if (isAction || isSleeping) return;
-        int attackNumber = Random.Range(0, barrages.Length);
+        isAction = true;
+        for (int i = 0; i < (isAngry? 2f : 1f ); i++)
+        {
+            ShootBarrage();
+        }
+        isAction = false;
+    }
+
+    private void ShootBarrage()
+    {
+        int attackNumber = Random.Range(0, barrages.Length + (isAngry ? 0 : 1));
         Barrage barrage;
         switch (attackNumber)
         {
@@ -83,7 +96,7 @@ public class BossEnemy : Enemy
                 barrage.parent = this.gameObject;
                 animator.SetTrigger("Attack_1");
                 barrage.Shoot();
-                Sleep(5f);
+                Sleep(isAngry ? 1f : 5f);
                 break;
             case 1:
             case 2:
@@ -94,7 +107,11 @@ public class BossEnemy : Enemy
                 barrage.parent = this.gameObject;
                 barrage.ShootRandom();
                 animator.SetTrigger("Attack_5");
-                Sleep(5f);
+                Sleep(isAngry ? 1f : 5f);
+                break;
+            case 6:
+                StartCoroutine(SheildCoroutine());
+                Sleep(1f);
                 break;
         }
     }
@@ -113,78 +130,29 @@ public class BossEnemy : Enemy
         ASource.Play();
     }
 
-    private void StartWalk()
-    {
-        isRanning = false;
-        animator.SetBool("isRunning", false);
-        isWalking = true;
-        animator.SetBool("isWalking", true);
-    }
-
-    private void StartRun()
-    {
-        isWalking = false;
-        animator.SetBool("isWalking", false);
-        isRanning = true;
-        animator.SetBool("isRunning", true);
-    }
-
-    private void StopMove()
-    {
-        isWalking = false;
-        animator.SetBool("isWalking", false);
-        isRanning = false;
-        animator.SetBool("isRunning", false);
-    }
-
-    private void Move(Vector3 targetPosition)
-    {
-        float speed;
-        if (isWalking) speed = walkSpeed;
-        else if (isRanning) speed = walkSpeed * 2f;
-        else if (isJumping) speed = walkSpeed * 4f;
-        else return;
-
-        //左右回転
-        Vector3 dir = targetPosition - this.transform.position;
-        float angle = Vector3.SignedAngle(this.transform.forward, dir, Vector3.up);
-        if (Mathf.Abs(angle) > turnSpeed)
-        {
-            angle = angle > 0f ? turnSpeed : -turnSpeed;
-            this.transform.localEulerAngles += Vector3.up * angle * Time.deltaTime;
-        }
-
-        transform.position += (transform.forward * speed * Time.deltaTime);
-    }
-
-    private void Jump()
-    {
-        isAction = true;
-        StartCoroutine(JumpCoroutine());
-    }
-
-    void EndOfRunJump()
-    {
-        isAction = false;
-        isJumping = false;
-        StopMove();
-        //Barrage barrage = Instantiate(jumpBarrage, this.transform.position + Vector3.up, Quaternion.identity).GetComponent<Barrage>();
-        //barrage.parent = this.gameObject;
-        //barrage.Shoot();
-        Sleep(5f);
-    }
-
     private void LookAtTarget(Vector3 targetPosition)
     {
         //左右回転
         Vector3 dir = targetPosition - this.transform.position;
         float angle = Vector3.SignedAngle(this.transform.forward, dir, Vector3.up);
-        if (Mathf.Abs(angle) > turnSpeed * Time.deltaTime)
+        if (Mathf.Abs(angle) > 45f)
         {
+            if (!isTurn)
+            {
+                animator.SetTrigger("Walk_Cycle_2");
+                isTurn = true;
+            }
             angle = angle > 0f ? turnSpeed : -turnSpeed;
             this.transform.localEulerAngles += Vector3.up * angle * Time.deltaTime;
         }
-        else this.transform.localEulerAngles += Vector3.up * angle;
+        else
+        {
+            if (isTurn)
+            {
+                animator.SetTrigger("Fight_Idle_1");
+                isTurn = false;
+            }
+        }
     }
 
     private IEnumerator ShootBullet()
@@ -231,21 +199,54 @@ public class BossEnemy : Enemy
         yield return null;
     }
 
-    private IEnumerator JumpCoroutine()
+    private IEnumerator DeathBlowCoroutine()
     {
-        /*float time = 0f;
-        Vector3 rot = body.transform.localEulerAngles;
-        while (time < JUMP_CHARGE_TIME)
+        isAction = true;
+        float time = 0f;
+        float beforeTime = 0f;
+        float attackInterval = 0.75f;
+        GameObject obj = Instantiate(deathBlow, this.transform.position, Quaternion.identity);
+        float baseScale = obj.transform.localScale.x;
+        while(time < DEATH_BLOW_CHARGE_TIME)
         {
-            float spinVal = Mathf.Lerp(0f, 360f * 3f, time / JUMP_CHARGE_TIME);
-            body.transform.localEulerAngles = rot + (Vector3.right * spinVal);
+            float scale = Mathf.Lerp(0f, baseScale, time / DEATH_BLOW_CHARGE_TIME);
+            obj.transform.localScale = Vector3.one* scale;
+            time += Time.deltaTime;
+            if(time > beforeTime + attackInterval)
+            {
+                ShootBarrage();
+                beforeTime = time;
+            }
+            yield return new WaitForEndOfFrame();
+        }
+        obj.GetComponent<Bullet>().dir = Vector3.down;
+        isAction = false;
+    }
+
+    private IEnumerator SheildCoroutine()
+    {
+        float time = 0;
+        GameObject obj = Instantiate(shield, this.transform.position, Quaternion.identity, this.transform);
+        float scale = obj.transform.localScale.x;
+        while(time < 1f)
+        {
+            obj.transform.localScale = Vector3.one * Mathf.Lerp(0f, scale, time);
             time += Time.deltaTime;
             yield return new WaitForEndOfFrame();
         }
-        isJumping = true;
-        animator.SetTrigger("Jump");*/
-        yield return new WaitForEndOfFrame();
-        yield return new WaitForSeconds(1f);
-        EndOfRunJump();
+        time = 0f;
+        while(time < SHIELD_TIME)
+        {
+            time += Time.deltaTime;
+            yield return new WaitForEndOfFrame();
+        }
+        time = 0f;
+        while (time < 1f)
+        {
+            obj.transform.localScale = Vector3.one * Mathf.Lerp(scale, 0f, time);
+            time += Time.deltaTime;
+            yield return new WaitForEndOfFrame();
+        }
+        Destroy(obj);
     }
 }

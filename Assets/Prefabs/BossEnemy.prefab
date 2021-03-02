@@ -60,7 +60,7 @@ MonoBehaviour:
   targetsTag:
   - Player
   isDetected: 0
-  searchAngle: 100
+  searchAngle: 360
   currentTartget: {fileID: 0}
   timeToMiss: 3
 --- !u!1 &3339701667025618972
@@ -608,7 +608,7 @@ MonoBehaviour:
   hp: 5000
   searchArea: {fileID: 5907560799811049624}
   walkSpeed: 1
-  turnSpeed: 20
+  turnSpeed: 15
   shootCount: 10
   barrages:
   - {fileID: 9068149656827822701, guid: 9d1cc7b5c08a1d141970a0a64d85faa8, type: 3}
@@ -617,6 +617,7 @@ MonoBehaviour:
   - {fileID: 5051005303675622488, guid: f0767a3a782ef7c48b6d12720c3f584e, type: 3}
   - {fileID: 1845479150779356576, guid: 43d2da25445f29941b2ca48209ccce05, type: 3}
   - {fileID: 3662854033092536331, guid: 4b1ffb72b24736c4591b8b287eadb915, type: 3}
+  shield: {fileID: 4156491539547281824, guid: e5b32d6544eab0247adea3d777b63632, type: 3}
   destroyEffect: {fileID: 0}
   bulletPrefab: {fileID: 0}
   AudioExplosion: {fileID: 0}

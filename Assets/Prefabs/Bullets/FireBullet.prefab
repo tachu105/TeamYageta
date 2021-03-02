@@ -225,6 +225,7 @@ MonoBehaviour:
   range: 50
   throughTags:
   - Enemy
+  - Shield
   HitEffect: {fileID: 8159951742097746246, guid: 9da16012318b80240ab06a3fa1ce88b1, type: 3}
   breakEffect: {fileID: 5728165896972286338, guid: e9ccef8d4804858409af57f35922c3c0, type: 3}
   parent: {fileID: 0}

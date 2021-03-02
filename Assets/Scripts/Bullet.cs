@@ -9,10 +9,10 @@ public class　Bullet : MonoBehaviour
     public float damage = 10f;
     public float speed = 10f;
     public Vector3 dir = Vector3.zero;
-    [SerializeField] private float range = 20f;
-    [SerializeField] private string[] throughTags;
-    [SerializeField] private GameObject HitEffect;
-    [SerializeField] private GameObject breakEffect;
+    [SerializeField] protected float range = 20f;
+    [SerializeField] protected string[] throughTags;
+    [SerializeField] protected GameObject HitEffect;
+    [SerializeField] protected GameObject breakEffect;
     private float totalLength = 0f;
     public GameObject parent;
 
