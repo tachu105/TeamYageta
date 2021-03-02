@@ -28,6 +28,7 @@ public class ExplosionBullet : Bullet
             time += Time.deltaTime;
             yield return new WaitForEndOfFrame();
         }
+        Instantiate(breakEffect, this.transform.position, Quaternion.identity);
         Destroy(this.gameObject);
     }
 }

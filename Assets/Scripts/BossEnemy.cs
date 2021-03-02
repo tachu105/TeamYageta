@@ -14,12 +14,12 @@ public class BossEnemy : Enemy
     private bool isAction = false;
     private float originLife;
 
-    [SerializeField] private GameObject bulletPrefab;
+    [SerializeField] private GameObject Eye;
     private const float BULLET_CHARGE_TIME = 3f;
     private const float BULLET_SIZE = 0.5f;
     private const float JUMP_CHARGE_TIME = 3f;
     private const float SHIELD_TIME = 6f;
-    private const float DEATH_BLOW_CHARGE_TIME = 15f;
+    private const float DEATH_BLOW_CHARGE_TIME = 10f;
 
     Animator animator;
     AudioSource ASource;
@@ -40,14 +40,19 @@ public class BossEnemy : Enemy
         if (hp <= 0) hp = 5000;
         direction = this.transform.forward;
         originLife = hp;
+        Eye.GetComponent<Renderer>().material.EnableKeyword("_EMISSION");
+        Eye.GetComponent<Renderer>().material.SetColor("_EmissionColor", Color.green);
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (hp < 0f) return;
+
         if(!isAngry && hp < originLife * 0.3f)
         {
             isAngry = true;
+            Eye.GetComponent<Renderer>().material.SetColor("_EmissionColor", Color.red);
             StartCoroutine(DeathBlowCoroutine());
         }
         if (isSleeping) return;
@@ -91,25 +96,37 @@ public class BossEnemy : Enemy
         switch (attackNumber)
         {
             case 0:
-                barrage = Instantiate(barrages[0], transform.position + Vector3.up * 1.5f, Quaternion.identity).GetComponent<Barrage>();
+            case 6:
+                barrage = Instantiate(barrages[0], transform.position + Vector3.up * 1.5f, this.transform.rotation).GetComponent<Barrage>();
                 barrage.transform.localScale = this.transform.localScale;
                 barrage.parent = this.gameObject;
                 animator.SetTrigger("Attack_1");
                 barrage.Shoot();
                 Sleep(isAngry ? 1f : 5f);
                 break;
-            case 1:
-            case 2:
-            case 3:
-            case 4:
-            case 5:
+            case 1: //Blue
+            case 2: //Dead
+            case 3: //Fire
+            case 4: //Ice
+            case 5: //Lightning
                 barrage = Instantiate(barrages[attackNumber], transform.position, Quaternion.identity).GetComponent<Barrage>();
                 barrage.parent = this.gameObject;
                 barrage.ShootRandom();
-                animator.SetTrigger("Attack_5");
+                switch (attackNumber)
+                {
+                    case 1: case 4: case 5:
+                        animator.SetTrigger("Attack_2");
+                        break;
+                    case 2:
+                        animator.SetTrigger("Attack_4");
+                        break;
+                    case 3:
+                        animator.SetTrigger("Attack_5");
+                        break;
+                }
                 Sleep(isAngry ? 1f : 5f);
                 break;
-            case 6:
+            case 7:
                 StartCoroutine(SheildCoroutine());
                 Sleep(1f);
                 break;
@@ -124,8 +141,9 @@ public class BossEnemy : Enemy
 
     public override void Dead()
     {
+        StopAllCoroutines();
         Instantiate(destroyEffect, transform.position, transform.rotation);
-        animator.SetTrigger("Hit");
+        animator.SetTrigger("Die");
         ASource.clip = AudioExplosion;
         ASource.Play();
     }
@@ -205,7 +223,7 @@ public class BossEnemy : Enemy
         float time = 0f;
         float beforeTime = 0f;
         float attackInterval = 0.75f;
-        GameObject obj = Instantiate(deathBlow, this.transform.position, Quaternion.identity);
+        GameObject obj = Instantiate(deathBlow, this.transform.position + Vector3.up * 20f + this.transform.forward, Quaternion.identity);
         float baseScale = obj.transform.localScale.x;
         while(time < DEATH_BLOW_CHARGE_TIME)
         {

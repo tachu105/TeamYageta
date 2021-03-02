@@ -7,6 +7,13 @@ public class CircleBarrage : Barrage
     [SerializeField] GameObject bulletPrefab;
     [SerializeField] int bulletCount = 8;
     [SerializeField] float distance = 3f;
+    [SerializeField] float spinSpeed = 0f;
+
+    private void Update()
+    {
+        this.transform.eulerAngles += Vector3.up * spinSpeed;
+        if (this.transform.childCount == 0) Destroy(this.gameObject);
+    }
     protected override void SetUp()
     {
         for(int i = 0; i < bulletCount; i++)

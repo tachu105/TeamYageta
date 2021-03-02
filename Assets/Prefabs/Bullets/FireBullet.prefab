@@ -227,9 +227,9 @@ MonoBehaviour:
   - Enemy
   - Shield
   HitEffect: {fileID: 8159951742097746246, guid: 9da16012318b80240ab06a3fa1ce88b1, type: 3}
-  breakEffect: {fileID: 5728165896972286338, guid: e9ccef8d4804858409af57f35922c3c0, type: 3}
+  breakEffect: {fileID: 100006, guid: 450dff828997cdd4c864f611df7d62d5, type: 3}
   parent: {fileID: 0}
-  explosionSize: 7
+  explosionSize: 5
   explosionTime: 2
 --- !u!1001 &7832349579444766566
 PrefabInstance:
@@ -284,15 +284,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6911270164430333008, guid: 504d8b82c24d50848b00f51b0c5a91fc, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.3
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 6911270164430333008, guid: 504d8b82c24d50848b00f51b0c5a91fc, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.3
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 6911270164430333008, guid: 504d8b82c24d50848b00f51b0c5a91fc, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.3
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 6911270164430829680, guid: 504d8b82c24d50848b00f51b0c5a91fc, type: 3}
       propertyPath: m_Name
