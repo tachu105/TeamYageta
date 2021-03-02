@@ -14133,6 +14133,18 @@ PrefabInstance:
       propertyPath: m_LocalPosition.y
       value: 1.691
       objectReference: {fileID: 0}
+    - target: {fileID: 5293510861159875101, guid: 5aae8c2ee50f7dc42bc775d67aeffc37, type: 3}
+      propertyPath: isUsePad
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5293510861159875101, guid: 5aae8c2ee50f7dc42bc775d67aeffc37, type: 3}
+      propertyPath: keyA
+      value: space
+      objectReference: {fileID: 0}
+    - target: {fileID: 5293510861159875101, guid: 5aae8c2ee50f7dc42bc775d67aeffc37, type: 3}
+      propertyPath: keyB
+      value: x
+      objectReference: {fileID: 0}
     - target: {fileID: 5293510861159875103, guid: 5aae8c2ee50f7dc42bc775d67aeffc37, type: 3}
       propertyPath: xAngleSpeed
       value: 4
@@ -14141,9 +14153,13 @@ PrefabInstance:
       propertyPath: yAngleSpeed
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 5293510861159875103, guid: 5aae8c2ee50f7dc42bc775d67aeffc37, type: 3}
+      propertyPath: Hp
+      value: 500
+      objectReference: {fileID: 0}
     - target: {fileID: 7939238248707020908, guid: 5aae8c2ee50f7dc42bc775d67aeffc37, type: 3}
       propertyPath: m_Name
-      value: Player 1
+      value: Player
       objectReference: {fileID: 0}
     - target: {fileID: 7939238248707507276, guid: 5aae8c2ee50f7dc42bc775d67aeffc37, type: 3}
       propertyPath: m_LocalPosition.x
@@ -16730,6 +16746,17 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d386f8832054e9c4ebb7feebef84fb0c, type: 3}
+--- !u!114 &869333873 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 303132099469001029, guid: 47d040b416a3b7c40bb1ddefe74e7f2a, type: 3}
+  m_PrefabInstance: {fileID: 1656432520}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &870686182
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -31932,6 +31959,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: 2DObjects
       objectReference: {fileID: 0}
+    - target: {fileID: 303132098247600054, guid: 47d040b416a3b7c40bb1ddefe74e7f2a, type: 3}
+      propertyPath: m_Value
+      value: 0.499
+      objectReference: {fileID: 0}
     - target: {fileID: 303132098805633129, guid: 47d040b416a3b7c40bb1ddefe74e7f2a, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -35474,6 +35505,10 @@ PrefabInstance:
       propertyPath: remainBulletsText
       value: 
       objectReference: {fileID: 1656432523}
+    - target: {fileID: 3261591482270399712, guid: 212fdbdabf43d2b45bb7eabddd4b0c8e, type: 3}
+      propertyPath: TargetScope
+      value: 
+      objectReference: {fileID: 869333873}
     - target: {fileID: 3261591483374336522, guid: 212fdbdabf43d2b45bb7eabddd4b0c8e, type: 3}
       propertyPath: HPBar
       value: 
