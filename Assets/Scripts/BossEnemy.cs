@@ -23,7 +23,8 @@ public class BossEnemy : Enemy
 
     Animator animator;
     AudioSource audioSource;
-    
+    BgmManager bgmManager;
+
     private bool isActive = false;
     private bool isTurn = false;
     private bool isAngry = false;
@@ -38,6 +39,7 @@ public class BossEnemy : Enemy
     [SerializeField] private AudioClip attackVoice2;
     void Start()
     {
+        bgmManager = FindObjectOfType<BgmManager>();
         animator = GetComponent<Animator>();
         animator.SetTrigger("Fight_Idle_1");
         audioSource = GetComponent<AudioSource>();
@@ -56,6 +58,8 @@ public class BossEnemy : Enemy
         if(!isAngry && hp < originLife * 0.3f)
         {
             isAngry = true;
+            bgmManager.Play(2);
+            bgmManager.volume *= 1.5f;
             Eye.GetComponent<Renderer>().material.SetColor("_EmissionColor", Color.red);
             audioSource.PlayOneShot(entryVoice);
             StartCoroutine(DeathBlowCoroutine());
@@ -66,6 +70,7 @@ public class BossEnemy : Enemy
         {
             if (!isActive)
             {
+                bgmManager.Play(1);
                 isActive = true;
                 animator.SetTrigger("Intimidate_1");
                 audioSource.PlayOneShot(entryVoice);
@@ -103,7 +108,7 @@ public class BossEnemy : Enemy
         {
             case 0:
             case 6:
-                audioSource.PlayOneShot(attackVoice2);
+                if (!isAngry) audioSource.PlayOneShot(attackVoice2);
                 barrage = Instantiate(barrages[attackNumber], transform.position + Vector3.up * 1.5f, this.transform.rotation).GetComponent<Barrage>();
                 barrage.transform.localScale = this.transform.localScale;
                 barrage.parent = this.gameObject;
@@ -116,7 +121,7 @@ public class BossEnemy : Enemy
             case 3: //Fire
             case 4: //Ice
             case 5: //Lightning
-                audioSource.PlayOneShot(attackVoice1);
+                if(!isAngry)audioSource.PlayOneShot(attackVoice1);
                 barrage = Instantiate(barrages[attackNumber], transform.position, Quaternion.identity).GetComponent<Barrage>();
                 barrage.parent = this.gameObject;
                 barrage.ShootRandom();
