@@ -62,6 +62,7 @@ public class Player : MonoBehaviour, InputInterface
 
     //Dead//
     [HideInInspector] public bool isDead = false;
+    [SerializeField] private GameObject deadObject;
 
 
     //物理演算//
@@ -72,9 +73,11 @@ public class Player : MonoBehaviour, InputInterface
     private InputController inputController;
     private Animator animator;
 
+    public static Player instance;
 
     void Start()
     {
+        instance = this;
         inputController = GetComponent<InputController>();
         controller = GetComponent<CharacterController>();
         animator = GetComponent<Animator>();
@@ -84,6 +87,8 @@ public class Player : MonoBehaviour, InputInterface
 
     void Update()
     {
+        if (isDead) return;
+        if (Hp < 0f) Dead();
         gravityDirection.y -= GRAVITY * Time.deltaTime;
         controller.Move(gravityDirection * Time.deltaTime);        //Playerの重力
 
@@ -165,6 +170,15 @@ public class Player : MonoBehaviour, InputInterface
         Camera.main.transform.rotation = Quaternion.Euler(cameraDirX,cameraDirY,0f);
     }
 
+
+    void Dead()
+    {
+        isDead = true;
+        GameObject obj = Instantiate(deadObject, Camera.main.transform.position, Quaternion.identity);
+        Camera.main.transform.parent = obj.transform;
+        obj.GetComponent<Rigidbody>().AddForce(-this.transform.forward, ForceMode.Impulse);
+        Destroy(this.gameObject);
+    }
 
     //連射間隔調整関数//
     IEnumerator ReCharge()

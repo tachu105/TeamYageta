@@ -22,7 +22,7 @@ public class BossEnemy : Enemy
     private const float DEATH_BLOW_CHARGE_TIME = 10f;
 
     Animator animator;
-    AudioSource ASource;
+    AudioSource audioSource;
     
     private bool isActive = false;
     private bool isTurn = false;
@@ -31,12 +31,16 @@ public class BossEnemy : Enemy
     private Vector3 direction;
 
     [SerializeField] private AudioClip AudioExplosion;
-
+    [SerializeField] private AudioClip chargeSound;
+    [SerializeField] private AudioClip shieldSound;
+    [SerializeField] private AudioClip entryVoice;
+    [SerializeField] private AudioClip attackVoice1;
+    [SerializeField] private AudioClip attackVoice2;
     void Start()
     {
         animator = GetComponent<Animator>();
         animator.SetTrigger("Fight_Idle_1");
-        ASource = GetComponent<AudioSource>();
+        audioSource = GetComponent<AudioSource>();
         if (hp <= 0) hp = 5000;
         direction = this.transform.forward;
         originLife = hp;
@@ -53,6 +57,7 @@ public class BossEnemy : Enemy
         {
             isAngry = true;
             Eye.GetComponent<Renderer>().material.SetColor("_EmissionColor", Color.red);
+            audioSource.PlayOneShot(entryVoice);
             StartCoroutine(DeathBlowCoroutine());
         }
         if (isSleeping) return;
@@ -63,6 +68,7 @@ public class BossEnemy : Enemy
             {
                 isActive = true;
                 animator.SetTrigger("Intimidate_1");
+                audioSource.PlayOneShot(entryVoice);
                 Sleep(3f);
             }
             if (!isAction)
@@ -97,6 +103,7 @@ public class BossEnemy : Enemy
         {
             case 0:
             case 6:
+                audioSource.PlayOneShot(attackVoice2);
                 barrage = Instantiate(barrages[attackNumber], transform.position + Vector3.up * 1.5f, this.transform.rotation).GetComponent<Barrage>();
                 barrage.transform.localScale = this.transform.localScale;
                 barrage.parent = this.gameObject;
@@ -109,6 +116,7 @@ public class BossEnemy : Enemy
             case 3: //Fire
             case 4: //Ice
             case 5: //Lightning
+                audioSource.PlayOneShot(attackVoice1);
                 barrage = Instantiate(barrages[attackNumber], transform.position, Quaternion.identity).GetComponent<Barrage>();
                 barrage.parent = this.gameObject;
                 barrage.ShootRandom();
@@ -144,8 +152,8 @@ public class BossEnemy : Enemy
         StopAllCoroutines();
         Instantiate(destroyEffect, transform.position, transform.rotation);
         animator.SetTrigger("Die");
-        ASource.clip = AudioExplosion;
-        ASource.Play();
+        audioSource.clip = AudioExplosion;
+        audioSource.Play();
     }
 
     private void LookAtTarget(Vector3 targetPosition)
@@ -173,56 +181,13 @@ public class BossEnemy : Enemy
         }
     }
 
-    private IEnumerator ShootBullet()
-    {
-        /*isAction = true;
-        int count = 0;
-
-        Bullet[] bullets = new Bullet[ports.Length];
-        float[] time = new float[ports.Length];
-        for (int i = 0; i < time.Length; i++) time[i] = i * (BULLET_CHARGE_TIME / ports.Length);
-
-        while (count < shootCount)
-        {
-            for (int i = 0; i < time.Length; i++)
-            {
-                if (time[i] == 0 && count + ports.Length <= shootCount)
-                {
-                    bullets[i] = Instantiate(bulletPrefab, ports[i].position, Quaternion.identity).GetComponent<Bullet>();
-                    bullets[i].parent = this.gameObject;
-                }
-                if (bullets[i])
-                {
-                    float scale = Mathf.Lerp(0f, BULLET_SIZE, time[i] / BULLET_CHARGE_TIME);
-                    bullets[i].transform.localScale = Vector3.one * scale;
-                    bullets[i].transform.position = ports[i].position;
-                }
-                time[i] += Time.deltaTime;
-                if (time[i] > BULLET_CHARGE_TIME)
-                {
-                    if (bullets[i])
-                    {
-                        bullets[i].dir = ports[i].forward;
-                        bullets[i] = null;
-                        count++;
-                    }
-                    time[i] = 0f;
-                }
-            }
-            yield return new WaitForEndOfFrame();
-        }
-        isAction = false;
-        StopMove();
-        Sleep(3f);*/
-        yield return null;
-    }
-
     private IEnumerator DeathBlowCoroutine()
     {
         isAction = true;
         float time = 0f;
         float beforeTime = 0f;
         float attackInterval = 0.75f;
+        audioSource.PlayOneShot(chargeSound);
         GameObject obj = Instantiate(deathBlow, this.transform.position + Vector3.up * 20f + this.transform.forward, Quaternion.identity);
         float baseScale = obj.transform.localScale.x;
         while(time < DEATH_BLOW_CHARGE_TIME)
@@ -244,6 +209,7 @@ public class BossEnemy : Enemy
     private IEnumerator SheildCoroutine()
     {
         float time = 0;
+        audioSource.PlayOneShot(shieldSound);
         GameObject obj = Instantiate(shield, this.transform.position, Quaternion.identity, this.transform);
         float scale = obj.transform.localScale.x;
         while(time < 1f)
