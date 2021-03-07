@@ -316,7 +316,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9c1550333d3317044b98c21eace01538, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 5
+  damage: 10
   speed: 10
   dir: {x: 0, y: 0, z: 0}
   range: 50

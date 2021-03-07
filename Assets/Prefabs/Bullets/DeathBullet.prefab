@@ -328,9 +328,9 @@ MonoBehaviour:
   - Bullet
   HitEffect: {fileID: 0}
   breakEffect: {fileID: 100006, guid: bf350f60afaca7e44b4533526bda51c2, type: 3}
-  shootSound: {fileID: 0}
+  shootSound: {fileID: 8300000, guid: 93b9078d0e2566842a7226b75817c40d, type: 3}
   hitSound: {fileID: 0}
-  destroySound: {fileID: 0}
+  destroySound: {fileID: 8300000, guid: 6b4dacdb404696041a3c6c24e768fd3d, type: 3}
   parent: {fileID: 0}
   childBarrage: {fileID: 2477567069512468905, guid: 2c7c53a13748eba40911d8fa30ca49e8, type: 3}
   childBarrageSub: {fileID: 2477567069512468905, guid: 4b54bd8c98edba144a21e7d8b5897917, type: 3}
