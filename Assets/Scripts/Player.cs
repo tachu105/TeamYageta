@@ -60,8 +60,12 @@ public class Player : MonoBehaviour, InputInterface
     public int Hp = 100;
 
 
+    //Dead//
+    [HideInInspector] public bool isDead = false;
+
+
     //物理演算//
-    private const float GRAVITY = 9.8f;
+    private const float GRAVITY = 13f;
     private const float RUBBING = 0.002f;     //摩擦
 
 
@@ -150,6 +154,9 @@ public class Player : MonoBehaviour, InputInterface
             animator.SetFloat("moveZ", 0);
             animator.SetBool("Run", false);
         }
+
+
+        
     }
 
    
@@ -351,8 +358,7 @@ public class Player : MonoBehaviour, InputInterface
     }
 
 
-
-
+    
 
 
 
@@ -405,6 +411,7 @@ public class Player : MonoBehaviour, InputInterface
     /// </summary>
     public void PressB()
     {
+    
     }
 
     /// <summary>
