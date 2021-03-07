@@ -24,9 +24,9 @@ public class Player : MonoBehaviour, InputInterface
     private Vector2 angle = Vector2.zero;            //コントローラー情報格納変数
     private const float xAngUpLimit = -75f;        //上振り向き限界角
     private const float xAngDownLimit = 47f;       //下振り向き限界角
-    [SerializeField] private float xAngleSpeed = 1.0f;        //縦振り向き感度
-    [SerializeField] private float yAngleSpeed = 1.0f;        //横振り向き感度
-    private int cameraReverse = -1;                 //上下カメラ操作反転
+    [SerializeField] public float xAngleSpeed = 1.0f;        //縦振り向き感度
+    [SerializeField] public float yAngleSpeed = 1.0f;        //横振り向き感度
+    public int cameraReverse = -1;                 //上下カメラ操作反転
     private bool isPressYBefore;
     private bool isPressYNow = false;
 
@@ -75,9 +75,17 @@ public class Player : MonoBehaviour, InputInterface
 
     public static Player instance;
 
+    void Awake()
+    {
+        if (instance) Destroy(this.gameObject);
+        instance = this;
+        Player.instance.xAngleSpeed = GameManager.instance.xSpeedSlider.value;
+        Player.instance.yAngleSpeed = GameManager.instance.ySpeedSlider.value;
+        Player.instance.cameraReverse = GameManager.instance.flipToggle.isOn ? 1 : -1;
+    }
+
     void Start()
     {
-        instance = this;
         inputController = GetComponent<InputController>();
         controller = GetComponent<CharacterController>();
         animator = GetComponent<Animator>();
