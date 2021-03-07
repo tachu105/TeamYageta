@@ -1,20 +1,18 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
-public class SetUp : MonoBehaviour
+public class SetUpButton : MonoBehaviour
 {
     GameObject main;
     // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
         main = GameObject.Find("GameObject");
     }
-
-    // Update is called once per frame
-    void Update()
+    public void OnClick()
     {
-        if(this.pressed)
-        main.transform.position = Vector3.forward * Mathf.Lerp(-365.6289f, 0f, Time.deltaTime);
+        main.transform.position = Vector3.forward * Mathf.Lerp(-365f, 0f, Time.deltaTime);
     }
 }
