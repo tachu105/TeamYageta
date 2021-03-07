@@ -2280,6 +2280,8 @@ MonoBehaviour:
   slideSpeed: 19
   slideTime: 0.4
   Hp: 100
+  isDead: 0
+  deadObject: {fileID: 29193474061205582, guid: 9e3ad57f72b84bc44bf5600f427d2c38, type: 3}
 --- !u!114 &5293510861159875101
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2292,7 +2294,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: efd030a20b0cfac4985ef9849536aeaf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isUsePad: 0
+  isUseXboxPad: 0
+  isUsePsPad: 0
   L_V: 0
   L_H: 0
   R_V: 0
