@@ -28,6 +28,7 @@ public class BossEnemy : Enemy
     private bool isActive = false;
     private bool isTurn = false;
     private bool isAngry = false;
+    private bool isDeathBlow = false;
     private Vector3 playerPos;
     private Vector3 direction;
 
@@ -55,6 +56,7 @@ public class BossEnemy : Enemy
     {
         if (hp < 0f) return;
 
+        audioSource.volume = GameManager.instance.SEVolume;
         if(!isAngry && hp < originLife * 0.3f)
         {
             isAngry = true;
@@ -64,7 +66,7 @@ public class BossEnemy : Enemy
             audioSource.PlayOneShot(entryVoice);
             StartCoroutine(DeathBlowCoroutine());
         }
-        if (isSleeping) return;
+        if (isSleeping || isDeathBlow) return;
 
         if (searchArea.IsDetected())
         {
@@ -114,7 +116,7 @@ public class BossEnemy : Enemy
                 barrage.parent = this.gameObject;
                 animator.SetTrigger("Attack_1");
                 barrage.Shoot();
-                Sleep(isAngry ? 1f : 5f);
+                if (!isDeathBlow) Sleep(isAngry ? 1f : 5f);
                 break;
             case 1: //Blue
             case 2: //Dead
@@ -137,11 +139,11 @@ public class BossEnemy : Enemy
                         animator.SetTrigger("Attack_5");
                         break;
                 }
-                Sleep(isAngry ? 1f : 5f);
+                if(!isDeathBlow)Sleep(isAngry ? 1f : 5f);
                 break;
             case 7:
                 StartCoroutine(SheildCoroutine());
-                Sleep(1f);
+                if (!isDeathBlow) Sleep(1f);
                 break;
         }
     }
@@ -188,10 +190,11 @@ public class BossEnemy : Enemy
 
     private IEnumerator DeathBlowCoroutine()
     {
+        isDeathBlow = true;
         isAction = true;
         float time = 0f;
         float beforeTime = 0f;
-        float attackInterval = 0.75f;
+        float attackInterval = 1f;
         audioSource.PlayOneShot(chargeSound);
         GameObject obj = Instantiate(deathBlow, this.transform.position + Vector3.up * 20f + this.transform.forward, Quaternion.identity);
         float baseScale = obj.transform.localScale.x;
@@ -208,6 +211,8 @@ public class BossEnemy : Enemy
             yield return new WaitForEndOfFrame();
         }
         obj.GetComponent<Bullet>().dir = Vector3.down;
+        Sleep(20f);
+        isDeathBlow = false;
         isAction = false;
     }
 

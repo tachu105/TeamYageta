@@ -24,6 +24,7 @@ public class　Bullet : MonoBehaviour
     private void Start()
     {
         audioSource = GetComponent<AudioSource>();
+        audioSource.volume = GameManager.instance.SEVolume;
     }
     // Update is called once per frame
     protected virtual void Update()
@@ -68,7 +69,7 @@ public class　Bullet : MonoBehaviour
     protected virtual void HitPlayer(GameObject obj)
     {
         Player.instance.Hp -= (int)this.damage;
-        Instantiate(HitEffect, this.transform.position, Quaternion.identity);
+        if(HitEffect)Instantiate(HitEffect, this.transform.position, Quaternion.identity);
         Destroy(this.gameObject);
     }
 
@@ -78,7 +79,7 @@ public class　Bullet : MonoBehaviour
         if (!hitArea) return; 
         Enemy enemy = hitArea.enemy;
         enemy.Damage(this, hitArea);
-        Instantiate(HitEffect, this.transform.position, Quaternion.identity);
+        if(HitEffect)Instantiate(HitEffect, this.transform.position, Quaternion.identity);
         Destroy(this.gameObject);
     }
 
@@ -90,8 +91,7 @@ public class　Bullet : MonoBehaviour
 
     protected virtual void HitOther(GameObject obj)
     {
-        //Debug.Log("Hit on " + collision.gameObject.name);
-        Instantiate(breakEffect, this.transform.position, Quaternion.identity);
+        if(breakEffect) Instantiate(breakEffect, this.transform.position, Quaternion.identity);
         Destroy(this.gameObject);
     }
 }

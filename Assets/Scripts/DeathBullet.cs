@@ -14,8 +14,18 @@ public class DeathBullet : Bullet
     protected override void HitOther(GameObject obj)
     {
         Instantiate(breakEffect, new Vector3(transform.position.x, 0f, transform.position.z), Quaternion.identity);
-        Barrage barrage = Instantiate(childBarrage, new Vector3(transform.position.x, 1f, transform.position.z), Quaternion.identity).GetComponent<Barrage>();
+        Barrage barrage = Instantiate(childBarrage, new Vector3(transform.position.x,Camera.main.transform.position.y, transform.position.z), Quaternion.identity).GetComponent<Barrage>();
         barrage.Shoot();
+        //障害物があるか
+        RaycastHit hit;
+        if (Physics.Raycast(transform.position, (Camera.main.transform.position - transform.position).normalized, out hit, Mathf.Infinity))
+        {
+            if (hit.collider.tag == "Player")
+            {
+
+                Player.instance.Hp -= (int)damage;
+            }
+        }
         Destroy(this.gameObject, 3f);
     }
 

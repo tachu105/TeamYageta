@@ -23,7 +23,7 @@ public class CircleBarrage : Barrage
             float posZ = Mathf.Cos(angle);
             GameObject bullet = Instantiate(bulletPrefab, this.transform);
             bullet.transform.localPosition = new Vector3(posX, 0f, posZ) * distance;
-            bullet.transform.forward = (bullet.transform.position - this.transform.position).normalized;
+            bullet.transform.LookAt(bullet.transform.position + (bullet.transform.position - this.transform.position), Vector3.up);
         }
     }
 }

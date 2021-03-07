@@ -48,6 +48,7 @@ public class WalkEnemy : Enemy
 
         if (isSleeping) return;
 
+        ASource.volume = GameManager.instance.SEVolume;
         if (searchArea.IsDetected())
         {
             if (!isActive)
