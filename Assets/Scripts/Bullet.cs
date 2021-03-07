@@ -15,6 +15,7 @@ public class　Bullet : MonoBehaviour
     [SerializeField] protected GameObject breakEffect;
     [SerializeField] protected AudioClip shootSound;
     [SerializeField] protected AudioClip hitSound;
+    [SerializeField] protected AudioClip destroySound;
     private bool isShoot = false;
     private float totalLength = 0f;
     private AudioSource audioSource;
@@ -44,20 +45,21 @@ public class　Bullet : MonoBehaviour
     {
         if (throughTags.Contains<string>(collider.gameObject.tag)) return;
 
-        audioSource.PlayOneShot(hitSound);
-
         switch (collider.gameObject.tag)
         {
             case "Player":
+                if(hitSound)audioSource.PlayOneShot(hitSound);
                 HitPlayer(collider.gameObject);
                 break;
             case "Enemy":
+                if (hitSound) audioSource.PlayOneShot(hitSound);
                 HitEnemy(collider.gameObject);
                 break;
             case "Bullet":
                 HitBullet(collider.gameObject);
                 break;
             default:
+                if (destroySound) audioSource.PlayOneShot(destroySound);
                 HitOther(collider.gameObject);
                 break;
         }

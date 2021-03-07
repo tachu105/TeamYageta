@@ -36,7 +36,7 @@ public class TargetScopeUI : MonoBehaviour
         {
             TargetScope.sprite = spriteNomal;
             TargetScope.rectTransform.sizeDelta = new Vector2(50f, 50f);
-            TargetScope.rectTransform.anchoredPosition = new Vector3(7f, -9f, 0f);
+            TargetScope.rectTransform.anchoredPosition = new Vector3(10f, -15f, 0f);
             Camera.main.fieldOfView = 60;
         }
     }

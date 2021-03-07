@@ -82,7 +82,8 @@ public interface InputInterface
 
 public class InputController : MonoBehaviour
 {
-    public bool isUsePad = false;
+    public bool isUseXboxPad = false;
+    public bool isUsePsPad = false;
     private InputInterface player;
 
     public float L_V;
@@ -125,12 +126,13 @@ public class InputController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (isUsePad) checkPadInput();
+        if (isUseXboxPad && !isUsePsPad) checkXboxPadInput();
+        else if (!isUseXboxPad && isUsePsPad) checkPSPadInput();
         else checkKeybordInput();
     }
 
     
-    void checkPadInput()
+    void checkXboxPadInput()
     {
         R_V = -Input.GetAxis("R Stick Vertical");
         if (R_V != 0) player.RstickVertical(R_V);
@@ -151,18 +153,20 @@ public class InputController : MonoBehaviour
         Y = Input.GetButton("Y button");
         if (Y) player.PressY();
 
-        float trigger = Input.GetAxis("LT RT");
-        if (trigger < 0f)
+        float triggerLT = Input.GetAxis("LT");
+        if (triggerLT > 0f)
         {
             LT = true;
             player.PressLT();
         }
-        else if (trigger > 0f)
+        else LT = false;
+        float triggerRT = Input.GetAxis("RT");
+        if (triggerRT > 0f)
         {
             RT = true;
             player.PressRT();
         }
-        else RT = LT = false;
+        else RT = false;
 
         RB = Input.GetButton("RB");
         if (RB) player.PressRB();
@@ -224,4 +228,44 @@ public class InputController : MonoBehaviour
         if (isNumber) return Input.GetMouseButton(n);
         else return Input.GetKey(str);
     }
+
+
+    void checkPSPadInput()
+    {
+        R_V = -Input.GetAxis("DS4 R Stick Vertical");
+        if (R_V != 0) player.RstickVertical(R_V);
+        R_H = Input.GetAxis("DS4 R Stick Horizontal");
+        if (R_H != 0) player.RstickHorizontal(R_H);
+        L_V = Input.GetAxis("DS4 L Stick Vertical");
+        if (L_V != 0) player.LstickVertical(L_V);
+        L_H = Input.GetAxis("DS4 L Stick Horizontal");
+        if (L_H != 0) player.LstickHorizontal(L_H);
+
+
+        A = Input.GetButton("DS4 X button");
+        if (A) player.PressA();
+        B = Input.GetButton("DS4 circle button");
+        if (B) player.PressB();
+        X = Input.GetButton("DS4 square button");
+        if (X) player.PressX();
+        Y = Input.GetButton("DS4 triangle button");
+        if (Y) player.PressY();
+
+        LT = Input.GetButton("DS4 L2");
+        if (LT) player.PressLT();
+        RT = Input.GetButton("DS4 R2");
+        if (RT) player.PressRT();
+        RB = Input.GetButton("DS4 R1");
+        if (RB) player.PressRB();
+        LB = Input.GetButton("DS4 L1");
+        if (LB) player.PressLB();
+
+        R = Input.GetButton("DS4 R button");
+        if (R) player.PressR();
+        L = Input.GetButton("DS4 L button");
+        if (L) player.PressL();
+    }
+
 }
+
+
