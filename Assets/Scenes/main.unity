@@ -14135,7 +14135,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5293510861159875101, guid: 5aae8c2ee50f7dc42bc775d67aeffc37, type: 3}
       propertyPath: isUsePad
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5293510861159875101, guid: 5aae8c2ee50f7dc42bc775d67aeffc37, type: 3}
       propertyPath: keyA
@@ -14144,6 +14144,14 @@ PrefabInstance:
     - target: {fileID: 5293510861159875101, guid: 5aae8c2ee50f7dc42bc775d67aeffc37, type: 3}
       propertyPath: keyB
       value: x
+      objectReference: {fileID: 0}
+    - target: {fileID: 5293510861159875101, guid: 5aae8c2ee50f7dc42bc775d67aeffc37, type: 3}
+      propertyPath: isUsePs4Controller
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5293510861159875101, guid: 5aae8c2ee50f7dc42bc775d67aeffc37, type: 3}
+      propertyPath: isUsePsPad
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5293510861159875103, guid: 5aae8c2ee50f7dc42bc775d67aeffc37, type: 3}
       propertyPath: xAngleSpeed
@@ -31971,6 +31979,30 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 303132099469001029, guid: 47d040b416a3b7c40bb1ddefe74e7f2a, type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 303132099469001029, guid: 47d040b416a3b7c40bb1ddefe74e7f2a, type: 3}
+      propertyPath: m_Color.g
+      value: 0.76066554
+      objectReference: {fileID: 0}
+    - target: {fileID: 303132099469001029, guid: 47d040b416a3b7c40bb1ddefe74e7f2a, type: 3}
+      propertyPath: m_Color.b
+      value: 0.4575472
+      objectReference: {fileID: 0}
+    - target: {fileID: 303132099469001029, guid: 47d040b416a3b7c40bb1ddefe74e7f2a, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 640e30c16672e2644b28d944edf049c2, type: 3}
+    - target: {fileID: 303132099950210644, guid: 47d040b416a3b7c40bb1ddefe74e7f2a, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 303132099950210644, guid: 47d040b416a3b7c40bb1ddefe74e7f2a, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -9
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 47d040b416a3b7c40bb1ddefe74e7f2a, type: 3}
 --- !u!114 &1656432521 stripped
@@ -35509,6 +35541,10 @@ PrefabInstance:
       propertyPath: TargetScope
       value: 
       objectReference: {fileID: 869333873}
+    - target: {fileID: 3261591482270399712, guid: 212fdbdabf43d2b45bb7eabddd4b0c8e, type: 3}
+      propertyPath: spriteNomal
+      value: 
+      objectReference: {fileID: 21300000, guid: 640e30c16672e2644b28d944edf049c2, type: 3}
     - target: {fileID: 3261591483374336522, guid: 212fdbdabf43d2b45bb7eabddd4b0c8e, type: 3}
       propertyPath: HPBar
       value: 
