@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
+
 
 public class GameManager : MonoBehaviour
 {
@@ -20,16 +22,13 @@ public class GameManager : MonoBehaviour
 
     void Awake()
     {
-        if (instance) Destroy(this.gameObject);
+        if (instance) Destroy(this.gameObject.transform.parent);
         instance = this;
-        DontDestroyOnLoad(instance);
+        DontDestroyOnLoad(this.transform.parent);
     }
 
     private void Start()
     {
-        xSpeedSlider.value = Player.instance.xAngleSpeed;
-        ySpeedSlider.value = Player.instance.yAngleSpeed;
-        flipToggle.isOn = (Player.instance.cameraReverse > 0);
         seSlider.value = this.SEVolume;
         bgmSlider.value = this.BgmVolume;
     }
@@ -40,7 +39,13 @@ public class GameManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Escape)) OpenConfig();
     }
 
-    void OpenConfig()
+    public void StartGame()
+    {
+        SceneManager.LoadScene("main");
+        Debug.Log("Start");
+    }
+
+    public void OpenConfig()
     {
         if (isPause) return;
         isPause = true;
