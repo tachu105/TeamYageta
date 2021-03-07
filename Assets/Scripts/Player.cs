@@ -27,6 +27,8 @@ public class Player : MonoBehaviour, InputInterface
     [SerializeField] private float xAngleSpeed = 1.0f;        //縦振り向き感度
     [SerializeField] private float yAngleSpeed = 1.0f;        //横振り向き感度
     private int cameraReverse = -1;                 //上下カメラ操作反転
+    private bool isPressYBefore;
+    private bool isPressYNow = false;
 
 
     //移動に使用するもの//
@@ -46,8 +48,10 @@ public class Player : MonoBehaviour, InputInterface
     private bool isSlide;
     private bool isSlidePer;
     private bool isSlideCountPer=true;
-    private bool isPressBBefore;
-    private bool isPressBNow = false;
+    private bool isPressABefore;
+    private bool isPressANow = false;
+    private bool isPressRBBefore;
+    private bool isPressRBNow = false;
     private bool isPressLBBefore;
     private bool isPressLBNow = false;
 
@@ -79,11 +83,21 @@ public class Player : MonoBehaviour, InputInterface
         gravityDirection.y -= GRAVITY * Time.deltaTime;
         controller.Move(gravityDirection * Time.deltaTime);        //Playerの重力
 
+        //カメラ上下反転判定//
+        isPressYBefore = isPressYNow;
+        isPressYNow = inputController.Y;
+
+        //自動リロード//
+        if (!isRemainBullets && jumpCounter == 0) SelfReload();
+
         //ジャンプ回数制限//
-        if(controller.isGrounded) jumpCounter = 0;
-        isPressBBefore = isPressBNow;
-        isPressBNow = inputController.A;
-        if (!isPressBBefore && isPressBNow) jumpCounter++;
+        if (controller.isGrounded) jumpCounter = 0;
+        isPressABefore = isPressANow;
+        isPressANow = inputController.A;
+        if (!isPressABefore && isPressANow) jumpCounter++;
+        isPressRBBefore = isPressRBNow;
+        isPressRBNow = inputController.RB;
+        if (!isPressRBBefore && isPressRBNow) jumpCounter++;
 
         //スラーディング制限//
         isPressLBBefore = isPressLBNow;
@@ -268,7 +282,7 @@ public class Player : MonoBehaviour, InputInterface
         isSlide = false;
 
         time = 0f;
-        while (time < 0.35f)
+        while (time < 0.2f)
         {
             time += Time.deltaTime;
             yield return new WaitForEndOfFrame();
@@ -308,8 +322,8 @@ public class Player : MonoBehaviour, InputInterface
     //射撃//
     void Shoot()
     {
-        if (!isRemainBullets&&jumpCounter==0) SelfReload();
-        else if(isRemainBullets)
+        
+        if(isRemainBullets)
         {
             if (!isFirePer) return;
 
@@ -383,7 +397,7 @@ public class Player : MonoBehaviour, InputInterface
     /// </summary>
     public void PressA()
     {
-        if (!isPressBBefore && isPressBNow) StartCoroutine(Jump());     //ジャンプ
+        if (!isPressABefore && isPressANow) StartCoroutine(Jump());     //ジャンプ
     }
 
     /// <summary>
@@ -406,7 +420,7 @@ public class Player : MonoBehaviour, InputInterface
     /// </summary>
     public void PressY()
     {
-        cameraReverse *= -1;        //上下カメラ反転　cameraReverse が　-1のとき順，1のとき逆
+        if(!isPressYBefore&&isPressYNow) cameraReverse *= -1;        //上下カメラ反転　cameraReverse が　-1のとき順，1のとき逆
     }
 
     /// <summary>
@@ -414,7 +428,7 @@ public class Player : MonoBehaviour, InputInterface
     /// </summary>
     public void PressRT()
     {
-        if(isSlideCountPer&&isReloadEnd) Shoot();       //射撃
+        if(isSlideCountPer&&isReloadEnd&&!isSlide) Shoot();       //射撃
     }
 
     /// <summary>
@@ -430,7 +444,7 @@ public class Player : MonoBehaviour, InputInterface
     /// </summary>
     public void PressRB()
     {
-
+        if (!isPressRBBefore && isPressRBNow) StartCoroutine(Jump());     //ジャンプ
     }
 
     /// <summary>
@@ -439,7 +453,7 @@ public class Player : MonoBehaviour, InputInterface
     public void PressLB()
     {
         if (!isPressLBBefore && isPressLBNow)
-            if(isSlidePer&&isSlideCountPer&&!isReloading)
+            if(isSlidePer&&!isSlide&&!isReloading)
                 StartCoroutine(SlideCoroutine());       //スライディング
     }
 
