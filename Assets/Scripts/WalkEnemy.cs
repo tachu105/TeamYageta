@@ -60,7 +60,7 @@ public class WalkEnemy : Enemy
             LookAtTarget(playerPos);
             float distance = (playerPos - transform.position).sqrMagnitude;
             if (isJumping) Move(playerPos);
-            else if (distance > Mathf.Pow(10f, 2f))
+            else if (distance > Mathf.Pow(10f, 2f) || totalAngle > ATTACK_ANGLE)
             {
                 if (totalAngle < ATTACK_ANGLE) StartRun();
                 else StartWalk();

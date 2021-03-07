@@ -2246,7 +2246,7 @@ CharacterController:
   m_Enabled: 1
   serializedVersion: 2
   m_Height: 1
-  m_Radius: 0
+  m_Radius: 0.5
   m_SlopeLimit: 45
   m_StepOffset: 0.3
   m_SkinWidth: 0.08
@@ -2279,7 +2279,7 @@ MonoBehaviour:
   runSpeed: 7
   slideSpeed: 19
   slideTime: 0.4
-  Hp: 100
+  Hp: 500
   isDead: 0
   deadObject: {fileID: 29193474061205582, guid: 9e3ad57f72b84bc44bf5600f427d2c38, type: 3}
 --- !u!114 &5293510861159875101
