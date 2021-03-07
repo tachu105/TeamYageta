@@ -670,7 +670,7 @@ MonoBehaviour:
   hp: 5000
   searchArea: {fileID: 5907560799811049624}
   walkSpeed: 1
-  turnSpeed: 15
+  turnSpeed: 20
   shootCount: 10
   barrages:
   - {fileID: 9068149656827822701, guid: 9d1cc7b5c08a1d141970a0a64d85faa8, type: 3}
@@ -684,7 +684,12 @@ MonoBehaviour:
   deathBlow: {fileID: 7922059825244183557, guid: 7221d9f5db6fa77499c61c90e7088798, type: 3}
   destroyEffect: {fileID: 5996993421067913070, guid: 12e96b4a327337f48b8dccd3abfa55dd, type: 3}
   Eye: {fileID: 3341608949691079850}
-  AudioExplosion: {fileID: 0}
+  AudioExplosion: {fileID: 8300000, guid: 6b4dacdb404696041a3c6c24e768fd3d, type: 3}
+  chargeSound: {fileID: 8300000, guid: d4dcbc75c515ff248a26f811c72bbab2, type: 3}
+  shieldSound: {fileID: 8300000, guid: 269da1a4f34f1594d9da12c514578bf0, type: 3}
+  entryVoice: {fileID: 8300000, guid: fdf7ace0e7871b440b8d99be67a698cf, type: 3}
+  attackVoice1: {fileID: 8300000, guid: e78689e754a5fed4380dc0afb121e9c7, type: 3}
+  attackVoice2: {fileID: 8300000, guid: 2c3230f40768c2649aae205b650f42fe, type: 3}
 --- !u!82 &970583326224691357
 AudioSource:
   m_ObjectHideFlags: 0
@@ -697,7 +702,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.3
   m_Pitch: 1
   Loop: 0
   Mute: 0

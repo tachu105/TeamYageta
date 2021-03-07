@@ -85,6 +85,7 @@ public class InputController : MonoBehaviour
     public bool isUseXboxPad = false;
     public bool isUsePsPad = false;
     private InputInterface player;
+    private Player mainScript;
 
     public float L_V;
     public float L_H;
@@ -121,6 +122,7 @@ public class InputController : MonoBehaviour
     void Start()
     {
         player = GetComponent<InputInterface>();
+        mainScript = GetComponent<Player>();
     }
 
     // Update is called once per frame
@@ -266,6 +268,7 @@ public class InputController : MonoBehaviour
         if (L) player.PressL();
     }
 
+    
 }
 
 
