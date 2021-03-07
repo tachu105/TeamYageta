@@ -670,7 +670,7 @@ MonoBehaviour:
   hp: 5000
   searchArea: {fileID: 5907560799811049624}
   walkSpeed: 1
-  turnSpeed: 15
+  turnSpeed: 20
   shootCount: 10
   barrages:
   - {fileID: 9068149656827822701, guid: 9d1cc7b5c08a1d141970a0a64d85faa8, type: 3}
@@ -702,7 +702,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.3
   m_Pitch: 1
   Loop: 0
   Mute: 0
