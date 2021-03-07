@@ -13,16 +13,26 @@ public class　Bullet : MonoBehaviour
     [SerializeField] protected string[] throughTags;
     [SerializeField] protected GameObject HitEffect;
     [SerializeField] protected GameObject breakEffect;
+    [SerializeField] protected AudioClip shootSound;
+    [SerializeField] protected AudioClip hitSound;
+    private bool isShoot = false;
     private float totalLength = 0f;
+    private AudioSource audioSource;
     public GameObject parent;
 
     private void Start()
     {
+        audioSource = GetComponent<AudioSource>();
     }
     // Update is called once per frame
     protected virtual void Update()
     {
         if (dir == Vector3.zero) return;
+        else if(!isShoot)
+        {
+            isShoot = true;
+            audioSource.PlayOneShot(shootSound);
+        }
         float moveVal = speed * Time.deltaTime;
         this.transform.Translate(dir * moveVal);
         totalLength += moveVal;
@@ -33,6 +43,8 @@ public class　Bullet : MonoBehaviour
     private void OnTriggerEnter(Collider collider)
     {
         if (throughTags.Contains<string>(collider.gameObject.tag)) return;
+
+        audioSource.PlayOneShot(hitSound);
 
         switch (collider.gameObject.tag)
         {
