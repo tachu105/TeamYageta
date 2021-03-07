@@ -73,9 +73,11 @@ public class Player : MonoBehaviour, InputInterface
     private InputController inputController;
     private Animator animator;
 
+    public static Player instance;
 
     void Start()
     {
+        instance = this;
         inputController = GetComponent<InputController>();
         controller = GetComponent<CharacterController>();
         animator = GetComponent<Animator>();

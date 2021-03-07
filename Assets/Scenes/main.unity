@@ -13655,6 +13655,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5293510861159875101, guid: 5aae8c2ee50f7dc42bc775d67aeffc37, type: 3}
       propertyPath: isUsePsPad
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5293510861159875101, guid: 5aae8c2ee50f7dc42bc775d67aeffc37, type: 3}
+      propertyPath: isUseXboxPad
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5293510861159875103, guid: 5aae8c2ee50f7dc42bc775d67aeffc37, type: 3}
@@ -13667,7 +13671,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5293510861159875103, guid: 5aae8c2ee50f7dc42bc775d67aeffc37, type: 3}
       propertyPath: Hp
-      value: 500
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7939238248707020908, guid: 5aae8c2ee50f7dc42bc775d67aeffc37, type: 3}
       propertyPath: m_Name

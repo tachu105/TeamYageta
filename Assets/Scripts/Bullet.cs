@@ -32,7 +32,8 @@ public class　Bullet : MonoBehaviour
         else if(!isShoot)
         {
             isShoot = true;
-            audioSource.PlayOneShot(shootSound);
+            if (!audioSource) audioSource = GetComponent<AudioSource>();
+            if(shootSound) audioSource.PlayOneShot(shootSound);
         }
         float moveVal = speed * Time.deltaTime;
         this.transform.Translate(dir * moveVal);
@@ -48,7 +49,6 @@ public class　Bullet : MonoBehaviour
         switch (collider.gameObject.tag)
         {
             case "Player":
-                if(hitSound)audioSource.PlayOneShot(hitSound);
                 HitPlayer(collider.gameObject);
                 break;
             case "Enemy":
@@ -67,7 +67,9 @@ public class　Bullet : MonoBehaviour
 
     protected virtual void HitPlayer(GameObject obj)
     {
-        obj.transform.parent.GetComponent<Player>().Hp -= (int)this.damage;
+        Player.instance.Hp -= (int)this.damage;
+        Instantiate(HitEffect, this.transform.position, Quaternion.identity);
+        Destroy(this.gameObject);
     }
 
     protected virtual void HitEnemy(GameObject obj)

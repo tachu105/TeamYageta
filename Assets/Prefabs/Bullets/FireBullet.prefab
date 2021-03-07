@@ -329,7 +329,7 @@ MonoBehaviour:
   hitSound: {fileID: 8300000, guid: 7cb0872fbb5f2cb42a0f311bd54be314, type: 3}
   destroySound: {fileID: 8300000, guid: 9d6c99768ebad5c48b46bcb9ccc1ac1f, type: 3}
   parent: {fileID: 0}
-  explosionSize: 5
+  explosionSize: 3
   explosionTime: 2
 --- !u!1001 &7832349579444766566
 PrefabInstance:
