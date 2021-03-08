@@ -40,6 +40,7 @@ public class BossEnemy : Enemy
     [SerializeField] private AudioClip attackVoice2;
 
     [SerializeField] private GameObject door;
+    [SerializeField] private GameObject capsule;
     void Start()
     {
         bgmManager = FindObjectOfType<BgmManager>();
@@ -76,6 +77,9 @@ public class BossEnemy : Enemy
             {
                 bgmManager.Play(1);
                 door.SetActive(true);
+                GameObject effect = Instantiate(destroyEffect, this.transform.position, Quaternion.identity);
+                effect.transform.localScale = Vector3.one * 10f;
+                Destroy(capsule.gameObject, 0.5f);
                 isActive = true;
                 animator.SetTrigger("Intimidate_1");
                 audioSource.PlayOneShot(entryVoice);
@@ -153,18 +157,22 @@ public class BossEnemy : Enemy
 
     public override void Damage(Bullet bullet, HitArea area)
     {
+        if (!isActive) return;
         hp -= (int)(bullet.damage * area.damageRate);
         if (hp <= 0) Dead();
     }
 
     public override void Dead()
     {
+        isActive = false;
         StopAllCoroutines();
         Instantiate(destroyEffect, transform.position, transform.rotation);
         animator.SetTrigger("Die");
         Eye.GetComponent<Renderer>().material.SetColor("_EmissionColor", Color.black);
         audioSource.clip = AudioExplosion;
         audioSource.Play();
+
+        GameManager.Score += (int)(Player.instance.Hp * Mathf.Pow(GameManager.instance.difficultyValue, 2f) * 100f);
     }
 
     private void LookAtTarget(Vector3 targetPosition)

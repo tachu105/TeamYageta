@@ -17,7 +17,7 @@ public class WalkEnemy : Enemy
     [SerializeField] private GameObject jumpBarrage;
     private float totalAngle = 360f;
     private const float ATTACK_ANGLE = 30f;
-    private const float BULLET_CHARGE_TIME = 2f;
+    private const float BULLET_CHARGE_TIME = 1f;
     private const float BULLET_SIZE = 0.5f;
     private const float JUMP_CHARGE_TIME = 2f;
 
