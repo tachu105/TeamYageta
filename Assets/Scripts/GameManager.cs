@@ -59,8 +59,7 @@ public class GameManager : MonoBehaviour
 
     public void EndGame()
     {
-        SceneManager.LoadScene("StartMenu");
-        Player.instance = null;
+        StartCoroutine(EndCoroutine());
     }
 
     public void OpenConfig()
@@ -93,5 +92,14 @@ public class GameManager : MonoBehaviour
         this.SEVolume = seSlider.value;
         this.BgmVolume = bgmSlider.value;
         if (difficultySlider) difficultyValue = (int)difficultySlider.value;
+    }
+
+    private IEnumerator EndCoroutine()
+    {
+        yield return new WaitForSeconds(5f);
+        Player.instance = null;
+        SceneManager.MoveGameObjectToScene(this.transform.parent.gameObject, SceneManager.GetActiveScene());
+        GameManager.instance = null;
+        SceneManager.LoadScene("StartMenu3D");
     }
 }

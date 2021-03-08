@@ -67,7 +67,7 @@ public class Player : MonoBehaviour, InputInterface
     //Dead//
     [HideInInspector] public bool isDead = false;
     [SerializeField] private GameObject deadObject;
-
+    [SerializeField] private GameObject gameOverWindow;
 
     //物理演算//
     private const float GRAVITY = 13f;
@@ -198,6 +198,8 @@ public class Player : MonoBehaviour, InputInterface
     void Dead()
     {
         isDead = true;
+        gameOverWindow.SetActive(true);
+        GameManager.instance.EndGame();
         GameObject obj = Instantiate(deadObject, Camera.main.transform.position, Quaternion.identity);
         Camera.main.transform.parent = obj.transform;
         obj.GetComponent<Rigidbody>().AddForce(-this.transform.forward, ForceMode.Impulse);
