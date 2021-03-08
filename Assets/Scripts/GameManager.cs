@@ -11,6 +11,7 @@ public class GameManager : MonoBehaviour
     public float SEVolume = 0.5f;
 
     [SerializeField] private GameObject configWindow;
+    [SerializeField] private GameObject helpWindow;
     [SerializeField] public Slider difficultySlider;
     [SerializeField] private bool isPause = false;
     [SerializeField] public Slider xSpeedSlider;
@@ -65,16 +66,33 @@ public class GameManager : MonoBehaviour
     public void OpenConfig()
     {
         if (isPause) return;
+        CloseHelp();
         isPause = true;
         Time.timeScale = 0f;
         configWindow.SetActive(true);
     }
-    
+
     public void CloseConfig()
     {
         isPause = false;
         Time.timeScale = 1f;
         configWindow.SetActive(false);
+    }
+
+    public void OpenHelp()
+    {
+        CloseConfig();
+        isPause = true;
+        Time.timeScale = 0f;
+        helpWindow.SetActive(true);
+    }
+
+    public void CloseHelp()
+    {
+        isPause = false;
+        Time.timeScale = 1f;
+        Debug.Log("Close");
+        helpWindow.SetActive(false);
     }
 
     public void UpdateValue()
