@@ -69,6 +69,9 @@ public class Player : MonoBehaviour, InputInterface
     [SerializeField] private GameObject deadObject;
     [SerializeField] private GameObject gameOverWindow;
 
+    [SerializeField] private AudioClip reloadSound;
+    [SerializeField] private AudioClip slideSound;
+
     //物理演算//
     private const float GRAVITY = 13f;
     private const float RUBBING = 0.002f;     //摩擦
@@ -76,6 +79,7 @@ public class Player : MonoBehaviour, InputInterface
 
     public InputController inputController;
     private Animator animator;
+    private AudioSource audioSource;
 
     public static Player instance;
 
@@ -92,8 +96,6 @@ public class Player : MonoBehaviour, InputInterface
         else if (difficulty == 2) Hp = normal;
         else if (difficulty == 3) Hp = hard;
         else Hp = normal;
-        Debug.Log(Hp);
-        Debug.Log("dif" + GameManager.instance.difficultyValue);
     }
 
     void Start()
@@ -101,16 +103,18 @@ public class Player : MonoBehaviour, InputInterface
         inputController = GetComponent<InputController>();
         controller = GetComponent<CharacterController>();
         animator = GetComponent<Animator>();
+        audioSource = GetComponent<AudioSource>();
         fullBullets = remainBullets;
         Player.instance.inputController.isUseKeyBoard = GameManager.instance.KeyboardToggle.isOn;
         Player.instance.inputController.isUseXboxPad = GameManager.instance.XboxToggle.isOn;
         Player.instance.inputController.isUsePsPad = GameManager.instance.PsToggle.isOn;
-
     }
 
 
     void Update()
     {
+        audioSource.volume = GameManager.instance.SEVolume;
+
         if (isDead) return;
         if (Hp < 0f) Dead();
         gravityDirection.y -= GRAVITY * Time.deltaTime;
@@ -227,6 +231,7 @@ public class Player : MonoBehaviour, InputInterface
     IEnumerator Reload()
     {
         if (isReloading) yield break;
+        audioSource.PlayOneShot(reloadSound);
         isReloading = true;
         float timerReload = 0f;
         float time = 0f;
@@ -294,7 +299,9 @@ public class Player : MonoBehaviour, InputInterface
         isSlide = true;
         isSlideCountPer = false;
         float time = 0f;
-        
+
+        audioSource.PlayOneShot(slideSound);
+
         slideValZ = inputController.L_V;
         slideValX = inputController.L_H;
         Vector3 slideVal = (slideValZ * Camera.main.transform.forward + slideValX * Camera.main.transform.right) * slideSpeed * Time.deltaTime;
