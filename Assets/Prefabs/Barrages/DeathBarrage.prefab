@@ -46,5 +46,6 @@ MonoBehaviour:
   chargeTime: 0.1
   parent: {fileID: 0}
   bulletPrefab: {fileID: 4095798391184639646, guid: d89a5411bcde93f4c9e34dd4b4c6c987, type: 3}
-  bulletCount: 100
+  bulletCount: 30
   distance: 3
+  spinSpeed: 0

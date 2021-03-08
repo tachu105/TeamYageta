@@ -43,8 +43,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a1fb7c19da64cff41a769681eae9cc55, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  chargeTime: 0.1
+  chargeTime: 1
   parent: {fileID: 0}
   bulletPrefab: {fileID: 4095798391184639646, guid: 0f91c124668fe7e4da35a720043a35fb, type: 3}
-  bulletCount: 100
+  bulletCount: 30
   distance: 3
+  spinSpeed: 0

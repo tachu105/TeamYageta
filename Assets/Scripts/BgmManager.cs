@@ -19,7 +19,7 @@ public class BgmManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        audioSource.volume = volume * GameManager.instance.BgmVolume;
     }
 
     public void Play(AudioClip clip)
@@ -40,7 +40,7 @@ public class BgmManager : MonoBehaviour
         {
             while(time < FEED_TIME)
             {
-                audioSource.volume = Mathf.Lerp(volume, 0f, time / FEED_TIME);
+                audioSource.volume = Mathf.Lerp(volume * GameManager.instance.BgmVolume , 0f, time / FEED_TIME);
                 time += Time.deltaTime;
                 yield return new WaitForEndOfFrame();
             }
@@ -54,7 +54,7 @@ public class BgmManager : MonoBehaviour
         time = 0f;
         while (time < FEED_TIME)
         {
-            audioSource.volume = Mathf.Lerp(0f, volume, time / FEED_TIME);
+            audioSource.volume = Mathf.Lerp(0f, volume * GameManager.instance.BgmVolume, time / FEED_TIME);
             time += Time.deltaTime;
             yield return new WaitForEndOfFrame();
         }

@@ -17,15 +17,20 @@ public class TurretEnemy : Enemy
     private const float BULLET_CHARGE_TIME = 3f;
     private const float BULLET_SIZE = 0.5f;
 
+    private AudioSource audioSource;
+
     // Start is called before the first frame update
     void Start()
     {
         if (hp <= 0) hp = 100;
+        audioSource = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
     void Update()
     {
+        audioSource.volume = GameManager.instance.SEVolume;
+
         if (searchArea.IsDetected())
         {
             LookAtTarget(Camera.main.transform.position);

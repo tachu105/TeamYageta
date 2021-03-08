@@ -39,7 +39,6 @@ public class Barrage : MonoBehaviour
     public void Shoot()
     {
         for (int i = 0; i < times.Length; i++) times[i] = 0f;
-        Debug.Log("Start" + bullets.Count);
         StartCoroutine(ShootCoroutine());
     }
 
