@@ -70,7 +70,7 @@ public class Player : MonoBehaviour, InputInterface
     private const float RUBBING = 0.002f;     //摩擦
 
 
-    private InputController inputController;
+    public InputController inputController;
     private Animator animator;
 
     public static Player instance;
