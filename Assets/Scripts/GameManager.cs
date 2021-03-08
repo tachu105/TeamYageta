@@ -11,20 +11,27 @@ public class GameManager : MonoBehaviour
     public float SEVolume = 0.5f;
 
     [SerializeField] private GameObject configWindow;
+    [SerializeField] public Slider difficultySlider;
     [SerializeField] private bool isPause = false;
     [SerializeField] public Slider xSpeedSlider;
     [SerializeField] public Slider ySpeedSlider;
     [SerializeField] public Toggle flipToggle;
+    [SerializeField] public Toggle KeyboardToggle;
+    [SerializeField] public Toggle XboxToggle;
+    [SerializeField] public Toggle PsToggle;
     [SerializeField] private Slider seSlider;
     [SerializeField] private Slider bgmSlider;
+    [SerializeField] private Button backButton;
+    [HideInInspector] public int difficultyValue=1;
 
     public static GameManager instance;
+    public static int Score = 0;
 
     void Awake()
     {
-        if (instance) Destroy(this.gameObject.transform.parent);
+        if (instance) Destroy(this.gameObject.transform.parent.gameObject);
         instance = this;
-        DontDestroyOnLoad(this.transform.parent);
+        DontDestroyOnLoad(this.transform.parent.gameObject);
     }
 
     private void Start()
@@ -36,13 +43,24 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape)) OpenConfig();
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            if (!isPause) OpenConfig();
+            else CloseConfig();
+        }
     }
 
     public void StartGame()
     {
+        Score = 0;
+        UpdateValue();
         SceneManager.LoadScene("main");
-        Debug.Log("Start");
+    }
+
+    public void EndGame()
+    {
+        SceneManager.LoadScene("StartMenu");
+        Player.instance = null;
     }
 
     public void OpenConfig()
@@ -62,14 +80,18 @@ public class GameManager : MonoBehaviour
 
     public void UpdateValue()
     {
-        if (!isPause) return;
         if (Player.instance)
         {
             Player.instance.xAngleSpeed = xSpeedSlider.value;
             Player.instance.yAngleSpeed = ySpeedSlider.value;
             Player.instance.cameraReverse = flipToggle.isOn ? 1 : -1;
+            Player.instance.inputController.isUseKeyBoard = KeyboardToggle.isOn;
+            Player.instance.inputController.isUseXboxPad = XboxToggle.isOn;
+            Player.instance.inputController.isUsePsPad = PsToggle.isOn;
+            
         }
         this.SEVolume = seSlider.value;
         this.BgmVolume = bgmSlider.value;
+        if (difficultySlider) difficultyValue = (int)difficultySlider.value;
     }
 }

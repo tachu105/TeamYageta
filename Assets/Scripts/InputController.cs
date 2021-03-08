@@ -82,6 +82,7 @@ public interface InputInterface
 
 public class InputController : MonoBehaviour
 {
+    public bool isUseKeyBoard = false;
     public bool isUseXboxPad = false;
     public bool isUsePsPad = false;
     private InputInterface player;
@@ -128,8 +129,9 @@ public class InputController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (isUseXboxPad && !isUsePsPad) checkXboxPadInput();
-        else if (!isUseXboxPad && isUsePsPad) checkPSPadInput();
+        if (isUseXboxPad && !isUsePsPad && !isUseKeyBoard) checkXboxPadInput();
+        else if (!isUseXboxPad && isUsePsPad && !isUseKeyBoard) checkPSPadInput();
+        else if (!isUseXboxPad && !isUsePsPad && isUseKeyBoard) checkKeybordInput();
         else checkKeybordInput();
     }
 

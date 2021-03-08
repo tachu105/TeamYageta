@@ -14,7 +14,8 @@ public class TurretEnemy : Enemy
     [SerializeField] private GameObject bulletPrefab;
     private float totalAngle = 360f;
     private const float ATTACK_ANGLE = 90f;
-    private const float BULLET_CHARGE_TIME = 3f;
+    [SerializeField] private float chageTime = 3f;
+    [SerializeField] private float sleepTime = 3f;
     private const float BULLET_SIZE = 0.5f;
 
     private AudioSource audioSource;
@@ -56,7 +57,7 @@ public class TurretEnemy : Enemy
     public override void Dead()
     {
         Instantiate(destroyEffect, transform.position, transform.rotation);
-        Destroy(this.gameObject);
+        Destroy(this.gameObject, 0.5f);
     }
 
     private void LookAtTarget(Vector3 targetPosition)
@@ -92,9 +93,14 @@ public class TurretEnemy : Enemy
         Bullet bullet = Instantiate(bulletPrefab, port.position, Quaternion.identity).GetComponent<Bullet>();
         bullet.parent = this.gameObject;
         float time = 0f;
-        while(time < BULLET_CHARGE_TIME)
+        while(time < chageTime)
         {
-            float scale = Mathf.Lerp(0f, BULLET_SIZE, time / BULLET_CHARGE_TIME);
+            if(hp < 0)
+            {
+                Destroy(bullet.gameObject);
+                yield break;
+            }
+            float scale = Mathf.Lerp(0f, BULLET_SIZE, time / chageTime);
             bullet.transform.localScale = Vector3.one * scale;
             bullet.transform.position = port.position;
             time += Time.deltaTime;
@@ -102,7 +108,7 @@ public class TurretEnemy : Enemy
         }
         bullet.dir = port.forward;
         isAction = false;
-        Sleep(5f);
+        Sleep(sleepTime);
     }
 
 }

@@ -311,6 +311,7 @@ MonoBehaviour:
   shootSound: {fileID: 8300000, guid: cf72e23d1fffd744e8f83ee3a4963dc2, type: 3}
   hitSound: {fileID: 8300000, guid: 7cb0872fbb5f2cb42a0f311bd54be314, type: 3}
   destroySound: {fileID: 8300000, guid: 501cb01ebc4d94a4585f124821102154, type: 3}
+  damageText: {fileID: 1042054791182227058, guid: 2b38611d4f434dc40ba8015a45a199f5, type: 3}
   parent: {fileID: 0}
 --- !u!54 &5766427478927263967
 Rigidbody:
