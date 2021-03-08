@@ -16,6 +16,7 @@ public class　Bullet : MonoBehaviour
     [SerializeField] protected AudioClip shootSound;
     [SerializeField] protected AudioClip hitSound;
     [SerializeField] protected AudioClip destroySound;
+    [SerializeField] private GameObject damageText;
     private bool isShoot = false;
     private float totalLength = 0f;
     private AudioSource audioSource;
@@ -79,6 +80,8 @@ public class　Bullet : MonoBehaviour
         if (!hitArea) return; 
         Enemy enemy = hitArea.enemy;
         enemy.Damage(this, hitArea);
+        DamageText text = Instantiate(damageText, this.transform.position - Camera.main.transform.forward * 0.5f, Quaternion.identity).GetComponent<DamageText>();
+        text.ShowDamage(this.damage, hitArea);
         if(HitEffect)Instantiate(HitEffect, this.transform.position, Quaternion.identity);
         Destroy(this.gameObject);
     }
