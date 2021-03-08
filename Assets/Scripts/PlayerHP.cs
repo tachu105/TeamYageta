@@ -23,6 +23,6 @@ public class PlayerHP : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        HPBar.value = player.Hp;
+        HPBar.value = Player.instance.Hp;
     }
 }
