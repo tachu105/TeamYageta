@@ -42,7 +42,11 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape)) OpenConfig();
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            if (!isPause) OpenConfig();
+            else CloseConfig();
+        }
     }
 
     public void StartGame()
@@ -82,6 +86,5 @@ public class GameManager : MonoBehaviour
         this.SEVolume = seSlider.value;
         this.BgmVolume = bgmSlider.value;
         if (difficultySlider) difficultyValue = (int)difficultySlider.value;
-        Debug.Log("gamemane " + difficultyValue);
     }
 }

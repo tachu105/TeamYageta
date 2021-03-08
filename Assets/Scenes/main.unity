@@ -1556,7 +1556,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8595611988610011033, guid: 48564eec615e2994aba6179ee17a6675, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8595611988886514272, guid: 48564eec615e2994aba6179ee17a6675, type: 3}
       propertyPath: m_IsActive
@@ -1834,6 +1834,10 @@ PrefabInstance:
       propertyPath: door
       value: 
       objectReference: {fileID: 1421827472}
+    - target: {fileID: 6267958269741863998, guid: 72092c78d6c3e7e448a74fee98192ec0, type: 3}
+      propertyPath: m_Radius
+      value: 30
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 72092c78d6c3e7e448a74fee98192ec0, type: 3}
 --- !u!1001 &1107646460
