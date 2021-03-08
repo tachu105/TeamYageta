@@ -15,8 +15,12 @@ public class GameManager : MonoBehaviour
     [SerializeField] public Slider xSpeedSlider;
     [SerializeField] public Slider ySpeedSlider;
     [SerializeField] public Toggle flipToggle;
+    [SerializeField] public Toggle KeyboardToggle;
+    [SerializeField] public Toggle XboxToggle;
+    [SerializeField] public Toggle PsToggle;
     [SerializeField] private Slider seSlider;
     [SerializeField] private Slider bgmSlider;
+    [SerializeField] private Button backButton;
 
     public static GameManager instance;
 
@@ -68,6 +72,9 @@ public class GameManager : MonoBehaviour
             Player.instance.xAngleSpeed = xSpeedSlider.value;
             Player.instance.yAngleSpeed = ySpeedSlider.value;
             Player.instance.cameraReverse = flipToggle.isOn ? 1 : -1;
+            Player.instance.inputController.isUseKeyBoard = KeyboardToggle.isOn;
+            Player.instance.inputController.isUseXboxPad = XboxToggle.isOn;
+            Player.instance.inputController.isUsePsPad = PsToggle.isOn;
         }
         this.SEVolume = seSlider.value;
         this.BgmVolume = bgmSlider.value;
