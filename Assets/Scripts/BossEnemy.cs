@@ -40,6 +40,7 @@ public class BossEnemy : Enemy
     [SerializeField] private AudioClip attackVoice2;
 
     [SerializeField] private GameObject door;
+    [SerializeField] private GameObject capsule;
     void Start()
     {
         bgmManager = FindObjectOfType<BgmManager>();
@@ -76,6 +77,9 @@ public class BossEnemy : Enemy
             {
                 bgmManager.Play(1);
                 door.SetActive(true);
+                GameObject effect = Instantiate(destroyEffect, this.transform.position, Quaternion.identity);
+                effect.transform.localScale = Vector3.one * 10f;
+                Destroy(capsule.gameObject, 0.5f);
                 isActive = true;
                 animator.SetTrigger("Intimidate_1");
                 audioSource.PlayOneShot(entryVoice);

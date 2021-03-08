@@ -60,6 +60,9 @@ public class　Bullet : MonoBehaviour
             case "Bullet":
                 HitBullet(collider.gameObject);
                 break;
+            case "Barrier":
+                HitBarrier(collider.gameObject);
+                break;
             default:
                 if (destroySound) audioSource.PlayOneShot(destroySound);
                 HitOther(collider.gameObject);
@@ -91,6 +94,14 @@ public class　Bullet : MonoBehaviour
     {
         Bullet otherBullet = obj.GetComponent<Bullet>();
         if (!otherBullet.parent || otherBullet.parent == this.parent) return;
+    }
+
+    protected virtual void HitBarrier(GameObject obj)
+    {
+        BarrierObject barrier = obj.GetComponent<BarrierObject>();
+        barrier.Damage(this.damage);
+        if (HitEffect) Instantiate(HitEffect, this.transform.position, Quaternion.identity);
+        Destroy(this.gameObject);
     }
 
     protected virtual void HitOther(GameObject obj)
