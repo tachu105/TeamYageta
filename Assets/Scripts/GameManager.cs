@@ -25,6 +25,7 @@ public class GameManager : MonoBehaviour
     [HideInInspector] public int difficultyValue=1;
 
     public static GameManager instance;
+    public static int Score = 0;
 
     void Awake()
     {
@@ -51,9 +52,15 @@ public class GameManager : MonoBehaviour
 
     public void StartGame()
     {
+        Score = 0;
         UpdateValue();
         SceneManager.LoadScene("main");
-        Debug.Log("Start");
+    }
+
+    public void EndGame()
+    {
+        SceneManager.LoadScene("StartMenu");
+        Player.instance = null;
     }
 
     public void OpenConfig()

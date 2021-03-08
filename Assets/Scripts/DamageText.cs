@@ -34,16 +34,22 @@ public class DamageText : MonoBehaviour
     public void ShowDamage(float damage, HitArea hitArea)
     {
         text.text = ((int)(damage * hitArea.damageRate)).ToString();
-        if (hitArea.damageRate > 1f) text.color = criticalColor;
+        if (hitArea.damageRate > 1f)
+        {
+            text.color = criticalColor;
+            GameManager.Score += 300;
+        }
         else if (hitArea.damageRate < 1f)
         {
             text.color = badColor;
             this.transform.localScale *= 0.8f;
+            GameManager.Score += 150;
         }
         else
         {
             text.color = normalColor;
             this.transform.localScale *= 0.5f;
+            GameManager.Score += 50;
         }
     }
 }

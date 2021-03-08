@@ -79,6 +79,7 @@ public class　Bullet : MonoBehaviour
         HitArea hitArea = obj.GetComponent<HitArea>();
         if (!hitArea) return; 
         Enemy enemy = hitArea.enemy;
+        if (enemy.GetHP() < 0f) return;
         enemy.Damage(this, hitArea);
         DamageText text = Instantiate(damageText, this.transform.position - Camera.main.transform.forward , Quaternion.identity).GetComponent<DamageText>();
         text.ShowDamage(this.damage, hitArea);

@@ -101,8 +101,6 @@ public class Player : MonoBehaviour, InputInterface
         controller = GetComponent<CharacterController>();
         animator = GetComponent<Animator>();
         fullBullets = remainBullets;
-        
-        
     }
 
 
