@@ -30,6 +30,8 @@ public class TurretEnemy : Enemy
     // Update is called once per frame
     void Update()
     {
+        if (hp < 0) return;
+
         audioSource.volume = GameManager.instance.SEVolume;
 
         if (searchArea.IsDetected())

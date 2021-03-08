@@ -555,8 +555,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4596431256562557586}
-  - component: {fileID: 1843991689475536945}
   - component: {fileID: 1858853253086535073}
+  - component: {fileID: 1843991689475536945}
   m_Layer: 0
   m_Name: TurretEnemy1
   m_TagString: Enemy
@@ -579,28 +579,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1843991689475536945
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4594926865190599096}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f04d82dad85caf542b8dbdf4d2bc57d6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  hp: 300
-  searchArea: {fileID: 970811461209762028}
-  turnSpeed: 30
-  port: {fileID: 4816166772124120397}
-  gun: {fileID: 4594926866454563974}
-  turretBase: {fileID: 4594926864623540626}
-  destroyEffect: {fileID: 5996993421067913070, guid: 12e96b4a327337f48b8dccd3abfa55dd, type: 3}
-  bulletPrefab: {fileID: 5756421503320797351, guid: 74c76cf311f64e341a92d614054304e2, type: 3}
-  chageTime: 3
-  sleepTime: 3
 --- !u!82 &1858853253086535073
 AudioSource:
   m_ObjectHideFlags: 0
@@ -697,6 +675,28 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &1843991689475536945
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4594926865190599096}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f04d82dad85caf542b8dbdf4d2bc57d6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hp: 300
+  searchArea: {fileID: 970811461209762028}
+  turnSpeed: 30
+  port: {fileID: 4816166772124120397}
+  gun: {fileID: 4594926866454563974}
+  turretBase: {fileID: 4594926864623540626}
+  destroyEffect: {fileID: 5996993421067913070, guid: 12e96b4a327337f48b8dccd3abfa55dd, type: 3}
+  bulletPrefab: {fileID: 5756421503320797351, guid: 74c76cf311f64e341a92d614054304e2, type: 3}
+  chageTime: 3
+  sleepTime: 3
 --- !u!1 &4594926866454563974
 GameObject:
   m_ObjectHideFlags: 0
