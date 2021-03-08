@@ -18,9 +18,15 @@ public class DamageText : MonoBehaviour
         text = GetComponentInChildren<Text>();
     }
 
+    private void Start()
+    {
+        Destroy(this.gameObject, remainTime);
+    }
+
     // Update is called once per frame
     void Update()
     {
+        this.transform.rotation = Camera.main.transform.rotation;
         this.transform.position += Vector3.up * moveSpeed * Time.deltaTime;
         text.color = Color.Lerp(text.color, new Color(1f, 0f, 0f, 0f), remainTime * Time.deltaTime);
     }
@@ -29,7 +35,15 @@ public class DamageText : MonoBehaviour
     {
         text.text = ((int)(damage * hitArea.damageRate)).ToString();
         if (hitArea.damageRate > 1f) text.color = criticalColor;
-        else if (hitArea.damageRate < 1f) text.color = badColor;
-        else text.color = normalColor;
+        else if (hitArea.damageRate < 1f)
+        {
+            text.color = badColor;
+            this.transform.localScale *= 0.8f;
+        }
+        else
+        {
+            text.color = normalColor;
+            this.transform.localScale *= 0.5f;
+        }
     }
 }

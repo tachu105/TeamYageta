@@ -80,7 +80,7 @@ public class　Bullet : MonoBehaviour
         if (!hitArea) return; 
         Enemy enemy = hitArea.enemy;
         enemy.Damage(this, hitArea);
-        DamageText text = Instantiate(damageText, this.transform.position - Camera.main.transform.forward * 0.5f, Quaternion.identity).GetComponent<DamageText>();
+        DamageText text = Instantiate(damageText, this.transform.position - Camera.main.transform.forward , Quaternion.identity).GetComponent<DamageText>();
         text.ShowDamage(this.damage, hitArea);
         if(HitEffect)Instantiate(HitEffect, this.transform.position, Quaternion.identity);
         Destroy(this.gameObject);
