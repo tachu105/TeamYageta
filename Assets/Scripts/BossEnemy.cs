@@ -38,6 +38,8 @@ public class BossEnemy : Enemy
     [SerializeField] private AudioClip entryVoice;
     [SerializeField] private AudioClip attackVoice1;
     [SerializeField] private AudioClip attackVoice2;
+
+    [SerializeField] private GameObject door;
     void Start()
     {
         bgmManager = FindObjectOfType<BgmManager>();
@@ -73,6 +75,7 @@ public class BossEnemy : Enemy
             if (!isActive)
             {
                 bgmManager.Play(1);
+                door.SetActive(true);
                 isActive = true;
                 animator.SetTrigger("Intimidate_1");
                 audioSource.PlayOneShot(entryVoice);
@@ -159,6 +162,7 @@ public class BossEnemy : Enemy
         StopAllCoroutines();
         Instantiate(destroyEffect, transform.position, transform.rotation);
         animator.SetTrigger("Die");
+        Eye.GetComponent<Renderer>().material.SetColor("_EmissionColor", Color.black);
         audioSource.clip = AudioExplosion;
         audioSource.Play();
     }

@@ -838,7 +838,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c53a358111418a42807724fc3a2fa5c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hp: 800
+  hp: 1000
   searchArea: {fileID: 38343918119374553}
   walkSpeed: 1
   turnSpeed: 30

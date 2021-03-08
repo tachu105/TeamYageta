@@ -237,7 +237,7 @@ public class WalkEnemy : Enemy
         }
         isAction = false;
         StopMove();
-        Sleep(3f);
+        Sleep(2f);
         yield return null;
     }
 
