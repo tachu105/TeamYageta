@@ -16,6 +16,6 @@ public class BarrierObject : MonoBehaviour
     private void Break()
     {
         Instantiate(DestroyEffect, this.transform.position, Quaternion.identity);
-        Destroy(this.gameObject, 1f);
+        Destroy(this.gameObject, 3f);
     }
 }

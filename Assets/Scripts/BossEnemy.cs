@@ -41,6 +41,8 @@ public class BossEnemy : Enemy
 
     [SerializeField] private GameObject door;
     [SerializeField] private GameObject capsule;
+
+    [SerializeField] private GameObject clearWindow;
     void Start()
     {
         bgmManager = FindObjectOfType<BgmManager>();
@@ -165,6 +167,8 @@ public class BossEnemy : Enemy
     public override void Dead()
     {
         isActive = false;
+        clearWindow.SetActive(true);
+        GameManager.instance.EndGame();
         StopAllCoroutines();
         Instantiate(destroyEffect, transform.position, transform.rotation);
         animator.SetTrigger("Die");
