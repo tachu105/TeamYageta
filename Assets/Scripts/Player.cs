@@ -86,6 +86,7 @@ public class Player : MonoBehaviour, InputInterface
         Player.instance.xAngleSpeed = GameManager.instance.xSpeedSlider.value;
         Player.instance.yAngleSpeed = GameManager.instance.ySpeedSlider.value;
         Player.instance.cameraReverse = GameManager.instance.flipToggle.isOn ? 1 : -1;
+        
         difficulty = GameManager.instance.difficultyValue;
         if (difficulty == 1) Hp = easy;
         else if (difficulty == 2) Hp = normal;
@@ -101,6 +102,10 @@ public class Player : MonoBehaviour, InputInterface
         controller = GetComponent<CharacterController>();
         animator = GetComponent<Animator>();
         fullBullets = remainBullets;
+        Player.instance.inputController.isUseKeyBoard = GameManager.instance.KeyboardToggle.isOn;
+        Player.instance.inputController.isUseXboxPad = GameManager.instance.XboxToggle.isOn;
+        Player.instance.inputController.isUsePsPad = GameManager.instance.PsToggle.isOn;
+
     }
 
 
