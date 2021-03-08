@@ -11,6 +11,7 @@ public class GameManager : MonoBehaviour
     public float SEVolume = 0.5f;
 
     [SerializeField] private GameObject configWindow;
+    [SerializeField] public Slider difficultySlider;
     [SerializeField] private bool isPause = false;
     [SerializeField] public Slider xSpeedSlider;
     [SerializeField] public Slider ySpeedSlider;
@@ -21,14 +22,15 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Slider seSlider;
     [SerializeField] private Slider bgmSlider;
     [SerializeField] private Button backButton;
+    [HideInInspector] public int difficultyValue=1;
 
     public static GameManager instance;
 
     void Awake()
     {
-        if (instance) Destroy(this.gameObject.transform.parent);
+        if (instance) Destroy(this.gameObject.transform.parent.gameObject);
         instance = this;
-        DontDestroyOnLoad(this.transform.parent);
+        DontDestroyOnLoad(this.transform.parent.gameObject);
     }
 
     private void Start()
@@ -45,6 +47,7 @@ public class GameManager : MonoBehaviour
 
     public void StartGame()
     {
+        UpdateValue();
         SceneManager.LoadScene("main");
         Debug.Log("Start");
     }
@@ -66,7 +69,6 @@ public class GameManager : MonoBehaviour
 
     public void UpdateValue()
     {
-        if (!isPause) return;
         if (Player.instance)
         {
             Player.instance.xAngleSpeed = xSpeedSlider.value;
@@ -75,8 +77,11 @@ public class GameManager : MonoBehaviour
             Player.instance.inputController.isUseKeyBoard = KeyboardToggle.isOn;
             Player.instance.inputController.isUseXboxPad = XboxToggle.isOn;
             Player.instance.inputController.isUsePsPad = PsToggle.isOn;
+            
         }
         this.SEVolume = seSlider.value;
         this.BgmVolume = bgmSlider.value;
+        if (difficultySlider) difficultyValue = (int)difficultySlider.value;
+        Debug.Log("gamemane " + difficultyValue);
     }
 }
