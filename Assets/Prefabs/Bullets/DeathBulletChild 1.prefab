@@ -193,7 +193,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.5
+  m_Radius: 0.1
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!54 &4440690985919156915
 Rigidbody:
@@ -236,6 +236,7 @@ MonoBehaviour:
   shootSound: {fileID: 0}
   hitSound: {fileID: 0}
   destroySound: {fileID: 0}
+  damageText: {fileID: 0}
   parent: {fileID: 0}
 --- !u!1 &6868200270615023230
 GameObject:

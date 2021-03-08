@@ -211,7 +211,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 5000
-  speed: 50
+  speed: 30
   dir: {x: 0, y: 0, z: 0}
   range: 100
   throughTags:
@@ -223,6 +223,7 @@ MonoBehaviour:
   shootSound: {fileID: 0}
   hitSound: {fileID: 0}
   destroySound: {fileID: 0}
+  damageText: {fileID: 0}
   parent: {fileID: 0}
 --- !u!65 &2294840441933747131
 BoxCollider:
@@ -235,7 +236,7 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
+  m_Size: {x: 0.1, y: 0.1, z: 0.1}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &1693976592241740433
 PrefabInstance:

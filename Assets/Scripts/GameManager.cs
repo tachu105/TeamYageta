@@ -114,7 +114,7 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator EndCoroutine()
     {
-        yield return new WaitForSeconds(5f);
+        yield return new WaitForSeconds(10f);
         Player.instance = null;
         SceneManager.MoveGameObjectToScene(this.transform.parent.gameObject, SceneManager.GetActiveScene());
         GameManager.instance = null;
