@@ -1248,6 +1248,10 @@ PrefabInstance:
       propertyPath: reloadSound
       value: 
       objectReference: {fileID: 8300000, guid: e795c40210048f745a0fc85cedba9250, type: 3}
+    - target: {fileID: 5293510861159875103, guid: 5aae8c2ee50f7dc42bc775d67aeffc37, type: 3}
+      propertyPath: runSpeed
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 7939238248707020908, guid: 5aae8c2ee50f7dc42bc775d67aeffc37, type: 3}
       propertyPath: m_Name
       value: Player
@@ -2662,7 +2666,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3944621446723139501, guid: 72092c78d6c3e7e448a74fee98192ec0, type: 3}
       propertyPath: turnSpeed
-      value: 25
+      value: 40
       objectReference: {fileID: 0}
     - target: {fileID: 3944621446723139501, guid: 72092c78d6c3e7e448a74fee98192ec0, type: 3}
       propertyPath: door

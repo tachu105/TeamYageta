@@ -670,7 +670,7 @@ MonoBehaviour:
   hp: 5000
   searchArea: {fileID: 5907560799811049624}
   walkSpeed: 1
-  turnSpeed: 20
+  turnSpeed: 40
   shootCount: 10
   barrages:
   - {fileID: 9068149656827822701, guid: 9d1cc7b5c08a1d141970a0a64d85faa8, type: 3}
@@ -690,6 +690,9 @@ MonoBehaviour:
   entryVoice: {fileID: 8300000, guid: fdf7ace0e7871b440b8d99be67a698cf, type: 3}
   attackVoice1: {fileID: 8300000, guid: e78689e754a5fed4380dc0afb121e9c7, type: 3}
   attackVoice2: {fileID: 8300000, guid: 2c3230f40768c2649aae205b650f42fe, type: 3}
+  door: {fileID: 0}
+  capsule: {fileID: 0}
+  clearWindow: {fileID: 0}
 --- !u!82 &970583326224691357
 AudioSource:
   m_ObjectHideFlags: 0
