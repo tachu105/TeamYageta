@@ -48,6 +48,7 @@ public class Player : MonoBehaviour, InputInterface
     private bool isSlide;
     private bool isSlidePer;
     private bool isSlideCountPer=true;
+    private bool isSlideJump = false;
     private bool isPressABefore;
     private bool isPressANow = false;
     private bool isPressRBBefore;
@@ -128,7 +129,11 @@ public class Player : MonoBehaviour, InputInterface
         if (!isRemainBullets && jumpCounter == 0) SelfReload();
 
         //ジャンプ回数制限//
-        if (controller.isGrounded) jumpCounter = 0;
+        if (controller.isGrounded)
+        {
+            jumpCounter = 0;
+            isSlideJump = false;
+        }
         isPressABefore = isPressANow;
         isPressANow = inputController.A;
         if (!isPressABefore && isPressANow) jumpCounter++;
@@ -262,9 +267,9 @@ public class Player : MonoBehaviour, InputInterface
     void MoveX(float dirX, bool isRun)
     {
         if (isSlide) return;
-        moveValX = dirX;
-        if (inputController.RT || !isRun || inputController.LT || isReloading) moveValX *= walkSpeed;
-        else if (isRun) moveValX *= runSpeed;
+        if (inputController.RT || !isRun || inputController.LT || isReloading) moveValX = dirX * walkSpeed;
+        if (isRun) moveValX = dirX * runSpeed;
+        if (isSlideJump) moveValX = dirX * slideSpeed;
         if (inputController.L_V != 0) moveValX /= Mathf.Sqrt(2);
         controller.Move(moveValX * Camera.main.transform.right * Time.deltaTime); //Playerを動かす処理
     }
@@ -274,9 +279,9 @@ public class Player : MonoBehaviour, InputInterface
     void MoveZ(float dirY, bool isRun)
     {
         if (isSlide) return;
-        moveValZ = dirY;
-        if (inputController.RT || !isRun || inputController.LT || isReloading) moveValZ *= walkSpeed;
-        else if (isRun) moveValZ *= runSpeed;
+        if (inputController.RT || !isRun || inputController.LT || isReloading) moveValZ = dirY * walkSpeed;
+        if (isRun) moveValZ = dirY * runSpeed;
+        if (isSlideJump) moveValZ = dirY * slideSpeed;
         if (inputController.L_H != 0) moveValZ /= Mathf.Sqrt(2);
         controller.Move(moveValZ * Camera.main.transform.forward * Time.deltaTime); //Playerを動かす処理
     }
@@ -286,6 +291,11 @@ public class Player : MonoBehaviour, InputInterface
     IEnumerator Jump()
     {
         if (jumpCounter > jumpCount) yield break;
+        if (isSlide)
+        {
+            isSlideJump = true;
+            isSlide = false;
+        }
         gravityDirection.y = jumpPower;
         yield return new WaitForEndOfFrame();
     }
@@ -316,6 +326,7 @@ public class Player : MonoBehaviour, InputInterface
         time = 0f;
         while (time < slideTime&&((slideVal.x>0.01f||slideVal.x<-0.01f)||(slideVal.z>0.01f||slideVal.z<-0.01f)))
         {
+            if (isSlideJump) break;
             controller.Move(slideVal); 
             if (slideVal.x > 0.01f) slideVal.x -= RUBBING;
             else if (slideVal.x < -0.01f) slideVal.x += RUBBING;
