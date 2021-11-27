@@ -87,7 +87,7 @@ MonoBehaviour:
   isRandomDelay: 0
   delayTime: 3
   fallSpeed: 1
-  maxFallLength: 3
+  maxFallLength: 10
   effect: {fileID: 100010, guid: 4b4e9a6ea45ad7d4990c2c21530e8d4b, type: 3}
   effectPosition: {fileID: 3707886482723818333}
 --- !u!1001 &2639166243825833241

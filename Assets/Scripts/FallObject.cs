@@ -39,6 +39,7 @@ public class FallObject : MonoBehaviour
         while(fallLength < maxFallLength)
         {
             float moveVal = fallSpeed * Time.deltaTime;
+            fallLength += moveVal;
             this.transform.position += Vector3.down * moveVal;
             yield return new WaitForEndOfFrame();
         }

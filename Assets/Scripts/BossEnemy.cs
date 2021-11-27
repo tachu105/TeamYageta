@@ -272,7 +272,9 @@ public class BossEnemy : Enemy
         {
             if (isAngry && fallFloorList.Count > 0)
             {
-                fallFloorList[Random.Range(0, fallFloorList.Count)].StartFall();
+                int index = Random.Range(0, fallFloorList.Count);
+                fallFloorList[index].StartFall();
+                fallFloorList.RemoveAt(index);
             }
             else
             {

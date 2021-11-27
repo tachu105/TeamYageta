@@ -118,7 +118,7 @@ public class Player : MonoBehaviour, InputInterface
 
         if (isDead) return;
         if (Hp < 0f) Dead();
-        gravityDirection.y -= GRAVITY * Time.deltaTime;
+        if(!controller.isGrounded) gravityDirection.y -= GRAVITY * Time.deltaTime;
         controller.Move(gravityDirection * Time.deltaTime);        //Playerの重力
 
         //カメラ上下反転判定//
@@ -132,6 +132,7 @@ public class Player : MonoBehaviour, InputInterface
         if (controller.isGrounded)
         {
             jumpCounter = 0;
+            gravityDirection.y = 0f;
             isSlideJump = false;
         }
         isPressABefore = isPressANow;
@@ -271,7 +272,9 @@ public class Player : MonoBehaviour, InputInterface
         if (isRun) moveValX = dirX * runSpeed;
         if (isSlideJump) moveValX = dirX * slideSpeed;
         if (inputController.L_V != 0) moveValX /= Mathf.Sqrt(2);
-        controller.Move(moveValX * Camera.main.transform.right * Time.deltaTime); //Playerを動かす処理
+        Vector3 dir = Camera.main.transform.right;
+        dir.y = 0f;
+        controller.Move(moveValX * dir  * Time.deltaTime); //Playerを動かす処理
     }
 
 
@@ -283,7 +286,9 @@ public class Player : MonoBehaviour, InputInterface
         if (isRun) moveValZ = dirY * runSpeed;
         if (isSlideJump) moveValZ = dirY * slideSpeed;
         if (inputController.L_H != 0) moveValZ /= Mathf.Sqrt(2);
-        controller.Move(moveValZ * Camera.main.transform.forward * Time.deltaTime); //Playerを動かす処理
+        Vector3 dir = Camera.main.transform.forward;
+        dir.y = 0f;
+        controller.Move(moveValZ * dir * Time.deltaTime); //Playerを動かす処理
     }
 
 
@@ -517,9 +522,10 @@ public class Player : MonoBehaviour, InputInterface
     /// </summary>
     public void PressLB()
     {
-        if (!isPressLBBefore && isPressLBNow)
-            if(isSlidePer&&!isSlide&&!isReloading)
-                StartCoroutine(SlideCoroutine());       //スライディング
+        if(jumpCounter == 0)
+            if (!isPressLBBefore && isPressLBNow)
+                if(isSlidePer&&!isSlide&&!isReloading)
+                    StartCoroutine(SlideCoroutine());       //スライディング
     }
 
     /// <summary>
