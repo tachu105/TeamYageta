@@ -43,6 +43,10 @@ public class BossEnemy : Enemy
     [SerializeField] private GameObject capsule;
 
     [SerializeField] private GameObject clearWindow;
+
+
+    [SerializeField] private float fallInterval = 3f;
+    [SerializeField] private List<FallObject> fallFloorList = new List<FallObject>();
     void Start()
     {
         bgmManager = FindObjectOfType<BgmManager>();
@@ -230,6 +234,8 @@ public class BossEnemy : Enemy
         Sleep(20f);
         isDeathBlow = false;
         isAction = false;
+        yield return new WaitForSeconds(10f);
+        StartCoroutine(FallCoroutine());
     }
 
     private IEnumerator SheildCoroutine()
@@ -258,5 +264,21 @@ public class BossEnemy : Enemy
             yield return new WaitForEndOfFrame();
         }
         Destroy(obj);
+    }
+
+    private IEnumerator FallCoroutine()
+    {
+        while (true)
+        {
+            if (isAngry && fallFloorList.Count > 0)
+            {
+                fallFloorList[Random.Range(0, fallFloorList.Count)].StartFall();
+            }
+            else
+            {
+                yield break;
+            }
+            yield return new WaitForSeconds(fallInterval);
+        }
     }
 }

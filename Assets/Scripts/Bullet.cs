@@ -92,8 +92,6 @@ public class　Bullet : MonoBehaviour
 
     protected virtual void HitBullet(GameObject obj)
     {
-        Bullet otherBullet = obj.GetComponent<Bullet>();
-        if (!otherBullet.parent || otherBullet.parent == this.parent) return;
     }
 
     protected virtual void HitBarrier(GameObject obj)

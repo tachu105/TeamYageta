@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 6222779365798971692}
   - component: {fileID: 4440690985919156915}
   - component: {fileID: 6787695209316687204}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: DeathBulletChild 1
   m_TagString: Bullet
   m_Icon: {fileID: 0}
@@ -248,7 +248,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4985147268168804248}
   - component: {fileID: 4709130735026619008}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Point Light
   m_TagString: Untagged
   m_Icon: {fileID: 0}

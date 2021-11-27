@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3610502836544311713}
   - component: {fileID: 3922610263275386041}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Point Light
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -107,7 +107,7 @@ GameObject:
   - component: {fileID: 2408890241825013525}
   - component: {fileID: 2731077858792256211}
   - component: {fileID: 5374299419167155338}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: LightningBullet
   m_TagString: Bullet
   m_Icon: {fileID: 0}
@@ -312,6 +312,7 @@ MonoBehaviour:
   shootSound: {fileID: 8300000, guid: cf72e23d1fffd744e8f83ee3a4963dc2, type: 3}
   hitSound: {fileID: 8300000, guid: 7cb0872fbb5f2cb42a0f311bd54be314, type: 3}
   destroySound: {fileID: 8300000, guid: 501cb01ebc4d94a4585f124821102154, type: 3}
+  damageText: {fileID: 0}
   parent: {fileID: 0}
 --- !u!54 &5374299419167155338
 Rigidbody:
@@ -336,9 +337,29 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 7079965614661242679}
     m_Modifications:
+    - target: {fileID: 543353883284693056, guid: 28233c1370b5328438cd75d81eee0ff6, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 543353883284693058, guid: 28233c1370b5328438cd75d81eee0ff6, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 543353883284693060, guid: 28233c1370b5328438cd75d81eee0ff6, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 543353883284693066, guid: 28233c1370b5328438cd75d81eee0ff6, type: 3}
       propertyPath: m_Name
       value: LightningBall
+      objectReference: {fileID: 0}
+    - target: {fileID: 543353883284693066, guid: 28233c1370b5328438cd75d81eee0ff6, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 543353883284798570, guid: 28233c1370b5328438cd75d81eee0ff6, type: 3}
+      propertyPath: m_RootOrder
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 543353883284798570, guid: 28233c1370b5328438cd75d81eee0ff6, type: 3}
       propertyPath: m_LocalPosition.x
@@ -353,6 +374,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 543353883284798570, guid: 28233c1370b5328438cd75d81eee0ff6, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 543353883284798570, guid: 28233c1370b5328438cd75d81eee0ff6, type: 3}
       propertyPath: m_LocalRotation.x
       value: 0
       objectReference: {fileID: 0}
@@ -363,14 +388,6 @@ PrefabInstance:
     - target: {fileID: 543353883284798570, guid: 28233c1370b5328438cd75d81eee0ff6, type: 3}
       propertyPath: m_LocalRotation.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 543353883284798570, guid: 28233c1370b5328438cd75d81eee0ff6, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 543353883284798570, guid: 28233c1370b5328438cd75d81eee0ff6, type: 3}
-      propertyPath: m_RootOrder
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 543353883284798570, guid: 28233c1370b5328438cd75d81eee0ff6, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
