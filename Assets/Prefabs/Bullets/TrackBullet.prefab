@@ -106,7 +106,8 @@ GameObject:
   - component: {fileID: -2066816712948018252}
   - component: {fileID: 928106923991797495}
   - component: {fileID: 7429264167341987176}
-  - component: {fileID: 3675684102650612896}
+  - component: {fileID: 968126806937497959}
+  - component: {fileID: 1808534901814127646}
   m_Layer: 8
   m_Name: TrackBullet
   m_TagString: Bullet
@@ -304,7 +305,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &3675684102650612896
+--- !u!114 &968126806937497959
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -313,7 +314,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 7092534336731595077}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9c1550333d3317044b98c21eace01538, type: 3}
+  m_Script: {fileID: 11500000, guid: fdd82d99c354947429c5bd3ec38f65e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 10
@@ -329,7 +330,19 @@ MonoBehaviour:
   destroySound: {fileID: 8300000, guid: 501cb01ebc4d94a4585f124821102154, type: 3}
   damageText: {fileID: 0}
   parent: {fileID: 0}
-  turnSpeed: 1
+--- !u!114 &1808534901814127646
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7092534336731595077}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e052fd399712e4c44b13f22e0f597e45, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  turnSpeed: 45
 --- !u!1001 &5564402077459664202
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3113155997782140101}
   - component: {fileID: 3113155997782140100}
+  - component: {fileID: -6866427284307387258}
   m_Layer: 0
   m_Name: SpinBarrage
   m_TagString: Untagged
@@ -49,3 +50,16 @@ MonoBehaviour:
   bulletCount: 6
   distance: 3
   spinSpeed: 20
+--- !u!114 &-6866427284307387258
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3113155997782140123}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 794902a36326d954bbae4d58f2371796, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rotateValue: {x: 0, y: 20, z: 0}

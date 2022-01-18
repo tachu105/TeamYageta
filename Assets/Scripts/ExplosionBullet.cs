@@ -6,15 +6,26 @@ public class ExplosionBullet : Bullet
 {
     [SerializeField] private float explosionSize = 3f;
     [SerializeField] private float explosionTime = 1f;
+
+    private FallObject fallObject;
+
+    private void Start()
+    {
+        fallObject = GetComponent<FallObject>();
+    }
     protected override void Update()
     {
-        if (dir != Vector3.zero) this.transform.forward = Vector3.RotateTowards(this.transform.forward, Vector3.down, 0.1f * Time.deltaTime, 0f);
+        if (dir != Vector3.zero)
+        {
+            if (fallObject) fallObject.StartFall();
+        }
         base.Update();
     }
 
     protected override void HitOther(GameObject obj)
     {
         this.dir = Vector3.zero;
+        if (fallObject) fallObject.StopFall();
         StartCoroutine(ExplosionCoroutine());
     }
 
