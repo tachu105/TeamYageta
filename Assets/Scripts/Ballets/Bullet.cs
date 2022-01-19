@@ -8,7 +8,6 @@ public class　Bullet : MonoBehaviour
     // 弾丸の速度
     public float damage = 10f;
     public float speed = 10f;
-    public Vector3 dir = Vector3.zero;
     [SerializeField] protected float range = 20f;
     [SerializeField] protected string[] throughTags;
     [SerializeField] protected GameObject HitEffect;
@@ -25,22 +24,38 @@ public class　Bullet : MonoBehaviour
     private void Start()
     {
         audioSource = GetComponent<AudioSource>();
-        audioSource.volume = GameManager.instance.SEVolume;
+        audioSource.volume *= GameManager.instance.SEVolume;
     }
     // Update is called once per frame
     protected virtual void Update()
     {
-        if (dir == Vector3.zero) return;
-        else if(!isShoot)
-        {
-            isShoot = true;
-            if (!audioSource) audioSource = GetComponent<AudioSource>();
-            if(shootSound) audioSource.PlayOneShot(shootSound);
-        }
+        if (!isShoot) return;
         float moveVal = speed * Time.deltaTime;
-        this.transform.Translate(dir * moveVal);
+        this.transform.position += (this.transform.forward * moveVal);
         totalLength += moveVal;
         if (totalLength > range) Destroy(this.gameObject);
+    }
+
+    public void Shoot()
+    {
+        Shoot(this.transform.forward);
+    }
+
+    public virtual void Shoot(Vector3 dir)
+    {
+        if (isShoot) return;
+        isShoot = true;
+            
+        if (!audioSource) audioSource = GetComponent<AudioSource>();
+        if (shootSound) audioSource.PlayOneShot(shootSound);
+
+        this.transform.forward = dir;
+    }
+
+    public virtual void Stop()
+    {
+        if (!isShoot) return;
+        isShoot = false;
     }
 
     //着弾時処理

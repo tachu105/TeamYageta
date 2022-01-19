@@ -191,7 +191,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 0.1
   m_Pitch: 1
   Loop: 0
@@ -319,7 +319,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damage: 10
   speed: 10
-  dir: {x: 0, y: 0, z: 0}
   range: 50
   throughTags:
   - Enemy
@@ -342,7 +341,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e052fd399712e4c44b13f22e0f597e45, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  turnSpeed: 45
+  turnSpeed: 60
 --- !u!1001 &5564402077459664202
 PrefabInstance:
   m_ObjectHideFlags: 0

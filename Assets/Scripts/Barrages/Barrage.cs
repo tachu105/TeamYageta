@@ -60,7 +60,7 @@ public class Barrage : MonoBehaviour
                 times[i] += Time.deltaTime;
                 if(times[i] > chargeTime)
                 {
-                    bullets[i].dir = Vector3.forward;
+                    bullets[i].Shoot();
                     count++;
                 }
             }

@@ -108,7 +108,7 @@ public class TurretEnemy : Enemy
             time += Time.deltaTime;
             yield return new WaitForEndOfFrame();
         }
-        bullet.dir = port.forward;
+        bullet.Shoot(port.forward);
         isAction = false;
         Sleep(sleepTime);
     }

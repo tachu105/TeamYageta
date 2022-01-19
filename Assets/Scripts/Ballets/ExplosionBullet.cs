@@ -15,16 +15,18 @@ public class ExplosionBullet : Bullet
     }
     protected override void Update()
     {
-        if (dir != Vector3.zero)
-        {
-            if (fallObject) fallObject.StartFall();
-        }
         base.Update();
+    }
+
+    public override void Shoot(Vector3 dir)
+    {
+        base.Shoot(dir);
+        if (fallObject) fallObject.StartFall();
     }
 
     protected override void HitOther(GameObject obj)
     {
-        this.dir = Vector3.zero;
+        Stop();
         if (fallObject) fallObject.StopFall();
         StartCoroutine(ExplosionCoroutine());
     }

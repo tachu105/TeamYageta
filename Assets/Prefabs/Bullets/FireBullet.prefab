@@ -191,7 +191,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 0.1
   m_Pitch: 1
   Loop: 0
@@ -319,7 +319,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damage: 50
   speed: 5
-  dir: {x: 0, y: 0, z: 0}
   range: 50
   throughTags:
   - Enemy
@@ -348,8 +347,8 @@ MonoBehaviour:
   isRandomDelay: 0
   delayTime: 0
   fallSpeed: 0
-  gravity: 5
-  maxFallSpeed: 5
+  gravity: 1
+  maxFallSpeed: 3
   maxFallLength: 0
   effect: {fileID: 0}
   effectPosition: {fileID: 0}

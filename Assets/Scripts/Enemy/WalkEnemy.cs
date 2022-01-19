@@ -226,7 +226,7 @@ public class WalkEnemy : Enemy
                 {
                     if (bullets[i])
                     {
-                        bullets[i].dir = ports[i].forward;
+                        bullets[i].Shoot(ports[i].forward);
                         bullets[i] = null;
                         count++;
                     }

@@ -680,6 +680,8 @@ MonoBehaviour:
   - {fileID: 1845479150779356576, guid: 43d2da25445f29941b2ca48209ccce05, type: 3}
   - {fileID: 3662854033092536331, guid: 4b1ffb72b24736c4591b8b287eadb915, type: 3}
   - {fileID: 3113155997782140123, guid: 0b6204f18f21d3042a10c4333c8f61b3, type: 3}
+  - {fileID: 8980258170816231445, guid: 2d751b04338c1c342b1d00a150db48ed, type: 3}
+  - {fileID: 3113155997782140123, guid: 94a58b32de3253f468ac59f957137b9b, type: 3}
   shield: {fileID: 8973735193036714631, guid: 7900c3ea82421574996debda3d256a82, type: 3}
   deathBlow: {fileID: 7922059825244183557, guid: 7221d9f5db6fa77499c61c90e7088798, type: 3}
   destroyEffect: {fileID: 5996993421067913070, guid: 12e96b4a327337f48b8dccd3abfa55dd, type: 3}
@@ -693,6 +695,8 @@ MonoBehaviour:
   door: {fileID: 0}
   capsule: {fileID: 0}
   clearWindow: {fileID: 0}
+  fallInterval: 3
+  fallFloorList: []
 --- !u!82 &970583326224691357
 AudioSource:
   m_ObjectHideFlags: 0
@@ -705,7 +709,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
-  m_Volume: 0.3
+  m_Volume: 0.2
   m_Pitch: 1
   Loop: 0
   Mute: 0

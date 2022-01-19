@@ -190,8 +190,8 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 1
-  m_Volume: 0.02
+  m_PlayOnAwake: 0
+  m_Volume: 0.1
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -302,7 +302,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damage: 10
   speed: 50
-  dir: {x: 0, y: 0, z: 0}
   range: 50
   throughTags:
   - Player

@@ -300,8 +300,9 @@ public class Player : MonoBehaviour, InputInterface
         {
             isSlideJump = true;
             isSlide = false;
+            gravityDirection.y = jumpPower * 1.5f;
         }
-        gravityDirection.y = jumpPower;
+        else gravityDirection.y = jumpPower;
         yield return new WaitForEndOfFrame();
     }
 
@@ -319,7 +320,11 @@ public class Player : MonoBehaviour, InputInterface
 
         slideValZ = inputController.L_V;
         slideValX = inputController.L_H;
-        Vector3 slideVal = (slideValZ * Camera.main.transform.forward + slideValX * Camera.main.transform.right) * slideSpeed * Time.deltaTime;
+        Vector3 dirZ = Camera.main.transform.forward;
+        dirZ.y = 0;
+        Vector3 dirX = Camera.main.transform.right;
+        dirX.y = 0;
+        Vector3 slideVal = (slideValZ * dirZ.normalized + slideValX * dirX.normalized).normalized * slideSpeed;
 
         while (time < 0.1f)
         {
@@ -332,7 +337,7 @@ public class Player : MonoBehaviour, InputInterface
         while (time < slideTime&&((slideVal.x>0.01f||slideVal.x<-0.01f)||(slideVal.z>0.01f||slideVal.z<-0.01f)))
         {
             if (isSlideJump) break;
-            controller.Move(slideVal); 
+            controller.Move(slideVal * Time.deltaTime); 
             if (slideVal.x > 0.01f) slideVal.x -= RUBBING;
             else if (slideVal.x < -0.01f) slideVal.x += RUBBING;
             if (slideVal.z > 0.01f) slideVal.z -= RUBBING;
@@ -401,7 +406,7 @@ public class Player : MonoBehaviour, InputInterface
             bullet.parent = this.gameObject;
             // 弾丸の位置を調整
             bullet.transform.position = Muzzle;
-            bullet.dir = Camera.main.transform.forward;
+            bullet.Shoot(Camera.main.transform.forward);
 
             remainBullets--;
 

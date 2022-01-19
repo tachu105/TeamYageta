@@ -121,8 +121,9 @@ public class BossEnemy : Enemy
         Barrage barrage;
         switch (attackNumber)
         {
-            case 0:
-            case 6:
+            case 0: //Circle
+            case 6: //Spin
+            case 8: //SpinPortal
                 if (!isAngry) audioSource.PlayOneShot(attackVoice2);
                 barrage = Instantiate(barrages[attackNumber], transform.position + Vector3.up * 1.5f, this.transform.rotation).GetComponent<Barrage>();
                 barrage.transform.localScale = this.transform.localScale;
@@ -136,6 +137,7 @@ public class BossEnemy : Enemy
             case 3: //Fire
             case 4: //Ice
             case 5: //Lightning
+            case 7: //BluePortal
                 if(!isAngry)audioSource.PlayOneShot(attackVoice1);
                 barrage = Instantiate(barrages[attackNumber], transform.position, Quaternion.identity).GetComponent<Barrage>();
                 barrage.parent = this.gameObject;
@@ -154,7 +156,7 @@ public class BossEnemy : Enemy
                 }
                 if(!isDeathBlow)Sleep(isAngry ? 1f : 5f);
                 break;
-            case 7:
+            case 9:
                 StartCoroutine(SheildCoroutine());
                 if (!isDeathBlow) Sleep(1f);
                 break;
@@ -230,7 +232,7 @@ public class BossEnemy : Enemy
             }
             yield return new WaitForEndOfFrame();
         }
-        obj.GetComponent<Bullet>().dir = Vector3.down;
+        obj.GetComponent<Bullet>().Shoot(Vector3.down);
         Sleep(20f);
         isDeathBlow = false;
         isAction = false;
